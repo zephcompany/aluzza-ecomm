@@ -1,0 +1,64 @@
+{%- liquid
+  assign ajuda = pages.ajuda.url | default: '/pages/ajuda'
+  assign sobre = pages.sobre.url | default: '/pages/sobre'
+  assign contato = pages.contato.url | default: '/pages/contato'
+-%}
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        {% render 'icon', name: 'logo' %}
+        <p>{{ section.settings.about }}</p>
+        <div class="footer__social">
+          {% if section.settings.instagram != blank %}<a href="{{ section.settings.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>{% endif %}
+          {% if section.settings.facebook != blank %}<a href="{{ section.settings.facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>{% endif %}
+          {% if section.settings.tiktok != blank %}<a href="{{ section.settings.tiktok }}" target="_blank" rel="noopener" aria-label="TikTok">{% render 'icon', name: 'tiktok' %}</a>{% endif %}
+        </div>
+      </div>
+      <div><h4>Comprar</h4><ul>
+        <li><a href="{% render 'coll-url', handle: 'novidades', tag: 'novo' %}">Novidades</a></li>
+        <li><a href="{% render 'coll-url', handle: 'saltos' %}">Saltos</a></li>
+        <li><a href="{% render 'coll-url', handle: 'tamancos' %}">Tamancos</a></li>
+        <li><a href="{% render 'coll-url', handle: 'anabelas' %}">Anabelas</a></li>
+        <li><a href="{% render 'coll-url', handle: 'sapatilhas' %}">Sapatilhas</a></li>
+        <li><a href="{% render 'coll-url', handle: 'rasteiras-papetes', tag: 'rasteiras' %}">Rasteiras & Papetes</a></li>
+        <li><a href="{% render 'coll-url', handle: 'tenis' %}">Tênis</a></li>
+        <li><a href="{% render 'coll-url', handle: 'promocao' %}">Promoção</a></li>
+        <li><a href="{{ routes.all_products_collection_url }}">Todos os modelos</a></li>
+      </ul></div>
+      <div><h4>Ajuda</h4><ul>
+        <li><a href="{{ ajuda }}#trocas">Trocas e devoluções</a></li><li><a href="{{ ajuda }}#frete">Frete e prazos</a></li><li><a href="{{ ajuda }}#pagamento">Formas de pagamento</a></li><li><a href="{{ ajuda }}#tamanhos">Guia de tamanhos</a></li><li><a href="{{ ajuda }}#rastreio">Rastrear pedido</a></li><li><a href="{{ ajuda }}#confiavel">A Aluzza é confiável?</a></li>
+      </ul></div>
+      <div><h4>A Aluzza</h4><ul>
+        <li><a href="{{ sobre }}">Nossa história</a></li><li><a href="{{ sobre }}#fabricacao">Fabricação própria</a></li><li><a href="{{ routes.account_url }}">Minha conta</a></li><li><a href="{{ contato }}">Atacado e revenda</a></li><li><a href="{{ contato }}">Fale com a gente</a></li><li><a href="{{ shop.privacy_policy.url | default: ajuda }}">Privacidade e termos</a></li>
+      </ul></div>
+      <div><h4>Atendimento</h4><ul class="footer__contact">
+        <li>{% render 'icon', name: 'whats' %}<span>{{ section.settings.phone }}<br>WhatsApp e telefone</span></li>
+        <li>{% render 'icon', name: 'clock' %}<span>{{ section.settings.hours }}</span></li>
+        <li>{% render 'icon', name: 'pin' %}<span>{{ section.settings.address }}</span></li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <div>© {{ 'now' | date: '%Y' }} {{ shop.name }} · {{ section.settings.legal }}</div>
+      <div class="credit small">Site desenvolvido por <a href="https://zeph.com.br" target="_blank" rel="noopener">Zeph</a></div>
+      <div class="footer__pay"><span>PIX</span><span>VISA</span><span>MASTER</span><span>ELO</span><span>AMEX</span><span>HIPER</span><span>BOLETO</span></div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Rodapé",
+  "tag": "div",
+  "settings": [
+    { "type": "textarea", "id": "about", "label": "Texto da marca", "default": "Calçados femininos com modelagem exclusiva, feitos pela Aluzza em Goiânia desde 2011. Beleza e conforto para a sua rotina." },
+    { "type": "url", "id": "instagram", "label": "Instagram", "default": "https://www.instagram.com/aluzzacalcados" },
+    { "type": "url", "id": "facebook", "label": "Facebook", "default": "https://www.facebook.com/aluzzacalcados" },
+    { "type": "url", "id": "tiktok", "label": "TikTok", "default": "https://www.tiktok.com/@aluzzacalcados" },
+    { "type": "text", "id": "phone", "label": "Telefone / WhatsApp", "default": "(62) 99230-6476" },
+    { "type": "richtext", "id": "hours", "label": "Horário", "default": "<p>Seg. a sex., 8h às 18h<br>Sáb., 8h às 12h</p>" },
+    { "type": "richtext", "id": "address", "label": "Endereço", "default": "<p>Rua José Pedro Costa, Qd. 33A, Lt. 6<br>Setor Centro Oeste, Goiânia – GO<br>CEP 74560-465</p>" },
+    { "type": "text", "id": "legal", "label": "Razão social", "default": "Leticia Guedes Comércio Atacadista Ltda. · Goiânia, GO" }
+  ]
+}
+{% endschema %}

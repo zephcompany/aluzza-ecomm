@@ -1,0 +1,26 @@
+<section class="trust"><div class="container"><ul class="trust__list">
+  {%- for b in section.blocks -%}
+  <li class="trust__item" {{ b.shopify_attributes }}>{% render 'icon', name: b.settings.icon %}<div><b>{{ b.settings.title }}</b><span>{{ b.settings.text }}</span></div></li>
+  {%- endfor -%}
+</ul></div></section>
+
+{% schema %}
+{
+  "name": "Selos de confiança",
+  "tag": "div",
+  "max_blocks": 4,
+  "blocks": [
+    { "type": "item", "name": "Selo", "settings": [
+      { "type": "select", "id": "icon", "label": "Ícone", "options": [ { "value": "truck", "label": "Caminhão" }, { "value": "swap", "label": "Troca" }, { "value": "card", "label": "Cartão" }, { "value": "hand", "label": "Mão (feito à mão)" }, { "value": "shield", "label": "Escudo" }, { "value": "foot", "label": "Numeração" } ], "default": "truck" },
+      { "type": "text", "id": "title", "label": "Título", "default": "Frete grátis a partir de R$ 299" },
+      { "type": "text", "id": "text", "label": "Texto", "default": "Para todo o Brasil. Em Goiânia, chega amanhã." }
+    ] }
+  ],
+  "presets": [ { "name": "Selos de confiança", "blocks": [
+    { "type": "item", "settings": { "icon": "truck", "title": "Frete grátis a partir de R$ 299", "text": "Para todo o Brasil. Em Goiânia, chega amanhã." } },
+    { "type": "item", "settings": { "icon": "swap", "title": "Troca grátis em 30 dias", "text": "Não serviu? A primeira troca é por nossa conta." } },
+    { "type": "item", "settings": { "icon": "card", "title": "Até 6x sem juros", "text": "Ou 5% de desconto pagando no Pix." } },
+    { "type": "item", "settings": { "icon": "hand", "title": "Fabricação própria", "text": "Modelagem exclusiva, feita em Goiânia desde 2011." } }
+  ] } ]
+}
+{% endschema %}

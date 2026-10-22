@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": { "type": "main-product", "settings": {} },
+    "rails": { "type": "product-rails", "settings": { "title": "Quem viu, também comprou", "text": "Peças que combinam com este modelo." } },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "r1": { "type": "review", "settings": { "name": "Juliana M.", "text": "Chegou rápido e é exatamente como na foto. Usei o dia inteiro no trabalho e não machucou nada.", "when": "há 3 dias", "size": "37" } },
+        "r2": { "type": "review", "settings": { "name": "Carla S.", "text": "Comprei a {cor} e já quero em outra cor. O acabamento é lindo e a palmilha é bem macia.", "when": "há 1 semana", "size": "36" } },
+        "r3": { "type": "review", "settings": { "name": "Fernanda R.", "text": "Numeração certinha, peguei meu número de sempre. Elogiaram muito no casamento da minha prima.", "when": "há 2 semanas", "size": "38" } },
+        "r4": { "type": "review", "settings": { "name": "Patrícia L.", "text": "Terceiro par da Aluzza. Qualidade sempre igual, e o atendimento no WhatsApp é ótimo.", "when": "há 1 mês", "size": "35" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4"],
+      "settings": {}
+    },
+    "recent": { "type": "recent", "settings": {} }
+  },
+  "order": ["main", "rails", "reviews", "recent"]
+}

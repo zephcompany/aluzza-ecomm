@@ -1,0 +1,19 @@
+[
+  { "name": "theme_info", "theme_name": "Aluzza", "theme_version": "1.0.0", "theme_author": "Zeph Company", "theme_documentation_url": "https://zeph.com.br", "theme_support_url": "https://zeph.com.br" },
+  { "name": "Vendas", "settings": [
+    { "type": "number", "id": "free_ship", "label": "Frete grátis a partir de (R$)", "default": 299 },
+    { "type": "range", "id": "installments", "label": "Parcelas sem juros", "min": 1, "max": 12, "step": 1, "default": 6 },
+    { "type": "range", "id": "pix_off", "label": "Desconto no Pix (%)", "min": 0, "max": 20, "step": 1, "default": 5 },
+    { "type": "text", "id": "first_coupon", "label": "Cupom de primeira compra", "default": "BEMVINDA10", "info": "Crie o código em Descontos no admin." }
+  ] },
+  { "name": "Atendimento (WhatsApp)", "settings": [
+    { "type": "text", "id": "whats", "label": "Número do WhatsApp (só dígitos, com DDI)", "default": "5562992306476" },
+    { "type": "text", "id": "agent_name", "label": "Nome da atendente no mini-chat", "default": "Lívia" }
+  ] },
+  { "name": "Popup de cupom", "settings": [
+    { "type": "checkbox", "id": "popup_enabled", "label": "Exibir popup (14 s após abrir, 1x por sessão)", "default": true },
+    { "type": "product", "id": "popup_product", "label": "Produto da foto do popup" },
+    { "type": "text", "id": "popup_title", "label": "Título", "default": "Ganhe 10% off na sua primeira compra" },
+    { "type": "textarea", "id": "popup_text", "label": "Texto", "default": "Deixe seu e-mail e receba o cupom na hora. Lançamentos e ofertas da Aluzza antes de todo mundo, sem spam." }
+  ] }
+]

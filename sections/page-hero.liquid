@@ -1,0 +1,10 @@
+<section class="hero-page"><img src="{% if section.settings.img != blank %}{{ section.settings.img | image_url: width: 2000 }}{% else %}{{ section.settings.image | append: '.webp' | asset_url }}{% endif %}" alt=""><div class="container"><span class="eyebrow">{{ section.settings.eyebrow }}</span><h1>{{ section.settings.title | default: page.title }}</h1><p class="lead">{{ section.settings.text }}</p></div></section>
+{% schema %}
+{ "name": "Topo da página (imagem)", "tag": "div", "settings": [
+  { "type": "text", "id": "eyebrow", "label": "Chamada" },
+  { "type": "text", "id": "title", "label": "Título" },
+  { "type": "textarea", "id": "text", "label": "Texto" },
+  { "type": "image_picker", "id": "img", "label": "Imagem" },
+  { "type": "select", "id": "image", "label": "Banner do tema (se não escolher imagem)", "options": [ { "value": "hero-flatlay", "label": "Flat lay" }, { "value": "hero-editorial", "label": "Editorial" }, { "value": "hero-rasteiras", "label": "Rasteiras" }, { "value": "atelie", "label": "Ateliê" } ], "default": "hero-flatlay" }
+], "presets": [ { "name": "Topo da página (imagem)" } ] }
+{% endschema %}

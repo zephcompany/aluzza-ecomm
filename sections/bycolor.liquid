@@ -1,0 +1,52 @@
+{%- liquid
+  assign first = all_products[section.settings.p1]
+-%}
+{%- if first != blank -%}
+<section class="band band--off section"><div class="container">
+  <div class="bycolor">
+    <div class="bycolor__text rv">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 style="margin-top:10px">{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+      <div class="bycolor__swatches" id="bycolor-swatches">
+        {%- for i in (1..4) -%}
+          {%- assign key = 'p' | append: i -%}{%- assign pr = all_products[section.settings[key]] -%}
+          {%- if pr != blank -%}
+            {%- assign col = pr.title | split: ' – ' | last -%}
+            {%- assign hexkey = 'hex' | append: i -%}
+            <button type="button" class="{% if forloop.first %}is-on{% endif %}" data-n="{{ forloop.index0 }}" data-color="{{ col | escape }}" data-url="{{ pr.url }}" data-price="{{ pr.price | money }}" aria-label="{{ col | escape }}"><i style="background:{{ section.settings[hexkey] | default: '#999' }}"></i></button>
+          {%- endif -%}
+        {%- endfor -%}
+        <span id="bycolor-name">{{ first.title | split: ' – ' | last }}</span>
+      </div>
+      <div class="bycolor__ctas"><a class="btn" href="{{ first.url }}">Ver o {{ first.title | split: ' – ' | first }}</a><a class="btn btn--ghost" href="{% render 'coll-url', handle: section.settings.all_handle %}">{{ section.settings.all_text }}</a></div>
+    </div>
+    <div class="bycolor__media rv" id="bycolor-media">
+      {%- for i in (1..4) -%}
+        {%- assign key = 'p' | append: i -%}{%- assign pr = all_products[section.settings[key]] -%}
+        {%- if pr != blank -%}<img src="{{ pr.featured_image | image_url: width: 900, height: 1200, crop: 'center' }}" alt="{{ pr.title | escape }}" class="{% if forloop.first %}is-on{% endif %}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">{%- endif -%}
+      {%- endfor -%}
+      <a class="bycolor__tag" id="bycolor-tag" href="{{ first.url }}"><b>{{ first.title | split: ' – ' | first }}</b> · <span id="bycolor-tag-color">{{ first.title | split: ' – ' | last }}</span> · <span id="bycolor-tag-price">{{ first.price | money }}</span> {% render 'icon', name: 'arrR' %}</a>
+    </div>
+  </div>
+</div></section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Compre por cor",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Chamada", "default": "Compre por cor" },
+    { "type": "text", "id": "title", "label": "Título", "default": "O modelo que você ama, em todas as cores." },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Quem compra o Tamanco Marina volta para buscar a segunda cor. Mesma forma, mesma palmilha, mesmo conforto: só muda o look. Leve dois pares e ganhe 15% off com o cupom ALUZZA15." },
+    { "type": "product", "id": "p1", "label": "Cor 1" }, { "type": "color", "id": "hex1", "label": "Bolinha 1", "default": "#1a1a1a" },
+    { "type": "product", "id": "p2", "label": "Cor 2" }, { "type": "color", "id": "hex2", "label": "Bolinha 2", "default": "#f1ece3" },
+    { "type": "product", "id": "p3", "label": "Cor 3" }, { "type": "color", "id": "hex3", "label": "Bolinha 3", "default": "#b3261e" },
+    { "type": "product", "id": "p4", "label": "Cor 4" }, { "type": "color", "id": "hex4", "label": "Bolinha 4", "default": "#e9c349" },
+    { "type": "text", "id": "all_handle", "label": "Coleção do 2º botão (handle)", "default": "tamancos" },
+    { "type": "text", "id": "all_text", "label": "Texto do 2º botão", "default": "Todos os tamancos" }
+  ],
+  "presets": [ { "name": "Compre por cor", "settings": { "p1": "tamanco-marina-preto", "p2": "tamanco-marina-off", "p3": "tamanco-marina-vermelho-20385", "p4": "tamanco-marina-amarelo" } } ]
+}
+{% endschema %}

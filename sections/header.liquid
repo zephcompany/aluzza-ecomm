@@ -1,0 +1,131 @@
+{%- liquid
+  assign ajuda = pages.ajuda.url | default: '/pages/ajuda'
+  assign sobre = pages.sobre.url | default: '/pages/sobre'
+  assign contato = pages.contato.url | default: '/pages/contato'
+  assign fav = pages.favoritos.url | default: '/pages/favoritos'
+  assign cur = collection.handle | default: ''
+  assign tag1 = current_tags | first
+-%}
+<header class="header" id="header">
+  <div class="container header__row">
+    <button class="icon-btn header__burger" id="open-menu" aria-label="Abrir menu">{% render 'icon', name: 'menu' %}</button>
+    <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}, página inicial">{% render 'icon', name: 'logo' %}</a>
+    <nav aria-label="Principal"><ul class="nav">
+      <li><a class="nav__link{% if cur == 'novidades' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'novidades', tag: 'novo' %}">Novidades</a></li>
+      <li><a class="nav__link{% if cur == 'saltos' or tag1 == 'saltos' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'saltos' %}">Saltos {% render 'icon', name: 'chevD' %}</a>
+        <div class="mega">
+          <div><h4>Por modelo</h4><ul>
+            {%- for b in section.blocks -%}{%- if b.type == 'modelo' -%}
+              {%- assign im = all_products[b.settings.product] -%}
+              <li {{ b.shopify_attributes }}><a href="{% render 'coll-url', handle: b.settings.handle %}" data-img="{{ im.images[1] | default: im.featured_image | image_url: width: 640 }}" data-cap="{{ b.settings.caption | escape }}">{{ b.settings.title }}</a></li>
+            {%- endif -%}{%- endfor -%}
+            <li><a href="{% render 'coll-url', handle: 'saltos' %}">Ver todos os saltos</a></li>
+          </ul></div>
+          <div><h4>Por altura</h4><ul>
+            {%- for b in section.blocks -%}{%- if b.type == 'altura' -%}
+              {%- assign im = all_products[b.settings.product] -%}
+              <li {{ b.shopify_attributes }}><a href="{{ routes.all_products_collection_url }}/{{ b.settings.tag }}" data-img="{{ im.images[1] | default: im.featured_image | image_url: width: 640 }}" data-cap="{{ b.settings.caption | escape }}">{{ b.settings.title }}</a></li>
+            {%- endif -%}{%- endfor -%}
+          </ul></div>
+          {%- assign mp = all_products[section.settings.mega_product] -%}
+          <a class="mega__img" href="{{ mp.url }}" id="mega-img" data-def="{{ mp.images[1] | default: mp.featured_image | image_url: width: 640 }}" data-defcap="{{ section.settings.mega_caption | escape }}"><img src="{{ mp.images[1] | default: mp.featured_image | image_url: width: 640 }}" alt=""><span>{{ section.settings.mega_caption }}</span></a>
+        </div>
+      </li>
+      <li><a class="nav__link{% if cur == 'sapatilhas' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'sapatilhas' %}">Sapatilhas</a></li>
+      <li><a class="nav__link{% if cur == 'rasteiras-papetes' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'rasteiras-papetes', tag: 'rasteiras' %}">Rasteiras & Papetes</a></li>
+      <li><a class="nav__link{% if cur == 'tenis' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'tenis' %}">Tênis</a></li>
+      <li><a class="nav__link nav__link--promo{% if cur == 'promocao' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'promocao' %}">Promoção</a></li>
+    </ul></nav>
+    <div class="header__actions">
+      <button class="header__search" id="open-search" aria-label="Buscar">{% render 'icon', name: 'search' %}<span>Buscar por modelo, cor ou tamanho</span><kbd>/</kbd></button>
+      <a class="icon-btn icon-btn--account" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="{% if customer %}Minha conta{% else %}Entrar{% endif %}" title="{% if customer %}Olá, {{ customer.first_name }}{% else %}Entrar ou criar conta{% endif %}">{% render 'icon', name: 'user' %}</a>
+      <a class="icon-btn" href="{{ fav }}" aria-label="Favoritos">{% render 'icon', name: 'heart' %}<span class="count" id="wish-count">0</span></a>
+      <button class="icon-btn" id="open-cart" aria-label="Abrir sacola">{% render 'icon', name: 'bag' %}<span class="count{% if cart.item_count > 0 %} is-on{% endif %}" id="cart-count">{{ cart.item_count }}</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="search-panel" id="search-panel">
+  <div class="container search-panel__inner">
+    <form class="search-form" id="search-form" role="search" action="{{ routes.search_url }}" method="get">
+      {% render 'icon', name: 'search' %}
+      <input type="search" name="q" id="search-input" placeholder="O que você procura hoje?" autocomplete="off" aria-label="Buscar produtos">
+      <input type="hidden" name="type" value="product">
+      <button type="button" class="icon-btn" data-close-drawer aria-label="Fechar busca">{% render 'icon', name: 'close' %}</button>
+    </form>
+    <div class="search-hints"><span>Buscas populares</span>{% for h in section.settings.hints %}<button type="button" class="chip" data-hint="{{ h | strip | escape }}">{{ h | strip }}</button>{% endfor %}</div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
+
+<div class="drawer-layer">
+  <aside class="drawer drawer--left" id="menu-drawer" aria-label="Menu">
+    <div class="drawer__head"><a class="header__logo" href="{{ routes.root_url }}" style="margin:0;position:static;transform:none">{% render 'icon', name: 'logo' %}</a><button class="icon-btn" data-close-drawer aria-label="Fechar">{% render 'icon', name: 'close' %}</button></div>
+    <div class="drawer__body">
+      <ul class="mnav">
+        <li><a href="{% render 'coll-url', handle: 'novidades', tag: 'novo' %}">Novidades {% render 'icon', name: 'arrR' %}</a></li>
+        <li><button type="button" data-sub>Saltos {% render 'icon', name: 'chevD' %}</button><div class="mnav__sub">
+          {%- for b in section.blocks -%}{%- if b.type == 'modelo' -%}<a href="{% render 'coll-url', handle: b.settings.handle %}">{{ b.settings.title }}</a>{%- endif -%}{%- endfor -%}
+          <a href="{% render 'coll-url', handle: 'saltos' %}">Ver todos</a></div></li>
+        <li><a href="{% render 'coll-url', handle: 'sapatilhas' %}">Sapatilhas {% render 'icon', name: 'arrR' %}</a></li>
+        <li><a href="{% render 'coll-url', handle: 'rasteiras-papetes', tag: 'rasteiras' %}">Rasteiras & Papetes {% render 'icon', name: 'arrR' %}</a></li>
+        <li><a href="{% render 'coll-url', handle: 'tenis' %}">Tênis {% render 'icon', name: 'arrR' %}</a></li>
+        <li><a class="is-promo" href="{% render 'coll-url', handle: 'promocao' %}">Promoção {% render 'icon', name: 'arrR' %}</a></li>
+      </ul>
+      <div class="mnav__extra">
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{% render 'icon', name: 'user' %} {% if customer %}Minha conta{% else %}Entrar ou criar conta{% endif %}</a>
+        <a href="{{ fav }}">{% render 'icon', name: 'heart' %} Favoritos</a>
+        <a href="{{ ajuda }}#rastreio">{% render 'icon', name: 'box' %} Rastrear pedido</a>
+        <a href="{{ ajuda }}">{% render 'icon', name: 'info' %} Trocas, frete e ajuda</a>
+        <a href="{{ sobre }}">{% render 'icon', name: 'spark' %} Sobre a Aluzza</a>
+      </div>
+    </div>
+    <div class="drawer__foot small muted">{{ section.settings.hours }}</div>
+  </aside>
+  <aside class="drawer drawer--right" id="cart-drawer" aria-label="Sacola">
+    <div class="drawer__head"><h3>Sua sacola <span class="muted" id="cart-drawer-count"></span></h3><button class="icon-btn" data-close-drawer aria-label="Fechar">{% render 'icon', name: 'close' %}</button></div>
+    <div class="drawer__body" id="mini-cart"></div>
+    <div class="drawer__foot" id="mini-cart-foot"></div>
+  </aside>
+</div>
+
+{% schema %}
+{
+  "name": "Cabeçalho",
+  "tag": "div",
+  "class": "header-wrap",
+  "settings": [
+    { "type": "product", "id": "mega_product", "label": "Produto em destaque no mega menu" },
+    { "type": "text", "id": "mega_caption", "label": "Legenda do destaque", "default": "Novo: Anabela Elisa" },
+    { "type": "text", "id": "hints", "label": "Buscas populares (separe por vírgula)", "default": "Tamanco, Rasteira, Sapatilha, Salto baixo, Preto, Caramelo, Tamanho 38" },
+    { "type": "text", "id": "hours", "label": "Horário de atendimento", "default": "Atendimento seg. a sex., 8h às 18h · sáb., 8h às 12h" }
+  ],
+  "blocks": [
+    { "type": "modelo", "name": "Saltos › por modelo", "settings": [
+      { "type": "text", "id": "title", "label": "Nome", "default": "Tamancos" },
+      { "type": "text", "id": "handle", "label": "Handle da coleção (ou tag)", "default": "tamancos" },
+      { "type": "product", "id": "product", "label": "Produto da imagem (hover)" },
+      { "type": "text", "id": "caption", "label": "Legenda", "default": "Tamanco Marina" }
+    ] },
+    { "type": "altura", "name": "Saltos › por altura", "settings": [
+      { "type": "text", "id": "title", "label": "Nome", "default": "Salto baixo (até 5 cm)" },
+      { "type": "text", "id": "tag", "label": "Tag", "default": "altura-baixo" },
+      { "type": "product", "id": "product", "label": "Produto da imagem (hover)" },
+      { "type": "text", "id": "caption", "label": "Legenda", "default": "Salto baixo · Tamanco Dulce" }
+    ] }
+  ],
+  "default": {
+    "settings": { "mega_product": "anabela-elisa-cafe", "mega_caption": "Novo: Anabela Elisa" },
+    "blocks": [
+      { "type": "modelo", "settings": { "title": "Scarpins", "handle": "scarpins", "product": "scarpin-paola-cafe", "caption": "Scarpin Paola" } },
+      { "type": "modelo", "settings": { "title": "Sandálias", "handle": "sandalias", "product": "sandalia-lauren-off", "caption": "Sandália Lauren" } },
+      { "type": "modelo", "settings": { "title": "Anabelas", "handle": "anabelas", "product": "anabela-elisa-cafe", "caption": "Anabela Elisa" } },
+      { "type": "modelo", "settings": { "title": "Tamancos", "handle": "tamancos", "product": "tamanco-marina-preto", "caption": "Tamanco Marina" } },
+      { "type": "altura", "settings": { "title": "Salto baixo (até 5 cm)", "tag": "altura-baixo", "product": "tamanco-dulce-preto", "caption": "Salto baixo · Tamanco Dulce" } },
+      { "type": "altura", "settings": { "title": "Salto médio (6 a 8 cm)", "tag": "altura-medio", "product": "tamanco-aline-preto", "caption": "Salto médio · Tamanco Aline" } },
+      { "type": "altura", "settings": { "title": "Salto alto (9 cm ou mais)", "tag": "altura-alto", "product": "tamanco-zara-preto-salto-medio", "caption": "Salto alto · Tamanco Zara" } },
+      { "type": "altura", "settings": { "title": "Plataforma e anabela", "tag": "altura-plataforma", "product": "anabela-elisa-cafe", "caption": "Plataforma · Anabela Elisa" } }
+    ]
+  }
+}
+{% endschema %}

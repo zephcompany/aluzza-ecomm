@@ -1,0 +1,14 @@
+{% render 'auth-wrap-open' %}
+    <h1>Criar conta</h1><p>Acompanhe pedidos, salve favoritos e ganhe 10% off na primeira compra.</p>
+    <div class="tabs"><a class="btn-tab" href="{{ routes.account_login_url }}" style="display:inline-flex">Entrar</a><button type="button" class="is-on">Criar conta</button></div>
+    {%- form 'create_customer', class: 'auth__form', id: 'form-cad' -%}
+      {%- if form.errors -%}<div class="small" style="color:var(--erro)">{{ form.errors | default_errors }}</div>{%- endif -%}
+      <div class="field"><label for="c-nome-cad">Nome</label><input id="c-nome-cad" name="customer[first_name]" required autocomplete="given-name"></div>
+      <div class="field"><label for="c-sobrenome-cad">Sobrenome</label><input id="c-sobrenome-cad" name="customer[last_name]" required autocomplete="family-name"></div>
+      <div class="field"><label for="c-email-cad">E-mail</label><input id="c-email-cad" name="customer[email]" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="c-pass-cad">Crie uma senha</label><input id="c-pass-cad" name="customer[password]" type="password" required autocomplete="new-password" minlength="6"><small>Mínimo de 6 caracteres.</small></div>
+      <label class="check"><input type="checkbox" name="customer[accepts_marketing]" value="true" checked> Quero receber lançamentos e ofertas por e-mail</label>
+      <button class="btn btn--block btn--lg" type="submit">Criar conta e ganhar 10% off</button>
+      <p class="small muted text-center">Ao criar a conta você concorda com os <a class="link" href="{{ shop.privacy_policy.url | default: '/pages/ajuda#privacidade' }}">termos e a política de privacidade</a>.</p>
+    {%- endform -%}
+{% render 'auth-wrap-close' %}

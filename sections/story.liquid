@@ -1,0 +1,55 @@
+<section class="band band--oliva section" id="fabricacao"><div class="container">
+  <div class="story">
+    <div class="story__media rv">
+      <div class="atelier">
+        <img class="atelier__main" src="{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 960 }}{% else %}{{ 'atelie.webp' | asset_url }}{% endif %}" alt="Artesã montando uma sandália de couro no ateliê da Aluzza" loading="lazy" width="960" height="1200">
+        <img class="atelier__second" src="{% if section.settings.image2 != blank %}{{ section.settings.image2 | image_url: width: 800 }}{% else %}{{ 'atelie-2.webp' | asset_url }}{% endif %}" alt="" loading="lazy" width="800" height="800">
+        <div class="atelier__stamp" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><defs><path id="stamp-circ-{{ section.id }}" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#stamp-circ-{{ section.id }}">{{ section.settings.stamp_text }} </textPath></text></svg>
+          <b>{{ section.settings.stamp_big }}</b><small>{{ section.settings.stamp_small }}</small>
+        </div>
+        <div class="atelier__process" aria-label="Etapas de fabricação">
+          <small>Como a gente faz <b id="atelier-step">01/05</b></small>
+          <ol id="atelier-steps">
+            {%- assign steps = section.settings.steps | split: ',' -%}
+            {%- for s in steps -%}<li class="{% if forloop.first %}is-on{% endif %}"><i>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</i><span>{{ s | strip }}</span></li>{%- endfor -%}
+          </ol>
+          <div class="atelier__bar"><i id="atelier-bar"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="rv">
+      <h2>{{ section.settings.title }}</h2>
+      <p class="lead">{{ section.settings.text }}</p>
+      <ul class="story__points">
+        {%- for b in section.blocks -%}<li {{ b.shopify_attributes }}>{% render 'icon', name: 'check' %}<span>{{ b.settings.text }}</span></li>{%- endfor -%}
+      </ul>
+      <a class="btn btn--light" href="{{ section.settings.url | default: pages.sobre.url | default: '/pages/sobre' }}">{{ section.settings.cta }}</a>
+    </div>
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Feito aqui (ateliê)",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Feito aqui, do primeiro risco ao último ponto." },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "A Aluzza desenha e produz os próprios modelos. Isso significa forma pensada para o pé brasileiro, palmilha macia de verdade e um preço justo, sem intermediário." },
+    { "type": "image_picker", "id": "image", "label": "Foto principal (ateliê)" },
+    { "type": "image_picker", "id": "image2", "label": "Foto secundária (flat lay)" },
+    { "type": "text", "id": "stamp_text", "label": "Texto do selo giratório", "default": "fabricação própria · goiânia ·" },
+    { "type": "text", "id": "stamp_big", "label": "Selo: número", "default": "15" },
+    { "type": "text", "id": "stamp_small", "label": "Selo: legenda", "default": "anos" },
+    { "type": "text", "id": "steps", "label": "Etapas (separe por vírgula)", "default": "Desenho, Modelagem, Corte do couro, Costura, Acabamento à mão" },
+    { "type": "text", "id": "cta", "label": "Botão", "default": "Conheça a Aluzza" },
+    { "type": "url", "id": "url", "label": "Link do botão" }
+  ],
+  "blocks": [ { "type": "point", "name": "Diferencial", "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Modelagem exclusiva, testada em quem usa salto o dia inteiro" } ] } ],
+  "presets": [ { "name": "Feito aqui (ateliê)", "blocks": [
+    { "type": "point", "settings": { "text": "Modelagem exclusiva, testada em quem usa salto o dia inteiro" } },
+    { "type": "point", "settings": { "text": "Coleções novas toda semana, em pequenas quantidades" } },
+    { "type": "point", "settings": { "text": "Loja física em Goiânia e envio para todo o Brasil" } }
+  ] } ]
+}
+{% endschema %}

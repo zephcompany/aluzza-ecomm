@@ -1,0 +1,13 @@
+<div class="wchat" id="wchat">
+  <div class="wchat__box" id="wchat-box" role="dialog" aria-label="Conversa com o atendimento">
+    <div class="wchat__head">
+      <span class="wchat__avatar"><img src="{{ 'atendente.webp' | asset_url }}" alt=""><i></i></span>
+      <div class="wchat__who"><b>{{ settings.agent_name | default: 'Lívia' }} · Atendimento {{ shop.name }}</b><span id="wchat-status">online agora</span></div>
+      <button type="button" class="icon-btn" id="wchat-close" aria-label="Fechar conversa">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="wchat__body" id="wchat-body"><div class="wchat__day">Hoje</div></div>
+    <div class="wchat__quick" id="wchat-quick"></div>
+    <form class="wchat__form" id="wchat-form"><input type="text" id="wchat-input" placeholder="Escreva sua mensagem" autocomplete="off" aria-label="Mensagem"><button type="submit" aria-label="Enviar">{% render 'icon', name: 'arrR' %}</button></form>
+  </div>
+  <button type="button" class="wchat__btn" id="wchat-toggle" aria-label="Falar com o atendimento no WhatsApp">{% render 'icon', name: 'whats' %}<span class="wchat__label">Ajuda no WhatsApp</span><span class="wchat__badge" id="wchat-badge" hidden>1</span></button>
+</div>

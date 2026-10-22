@@ -1,0 +1,11 @@
+<section class="container">
+  <div class="page-title"><h1>Coleções</h1><p>Escolha por tipo de modelo.</p></div>
+  <div class="cat-rail rv-stagger" style="margin-bottom:60px">
+    {%- for c in collections -%}{%- if c.handle == 'all' or c.products_count == 0 %}{% continue %}{% endif -%}
+      <a class="cat-tile" href="{{ c.url }}">{% if c.image %}<img src="{{ c.image | image_url: width: 600 }}" alt="" loading="lazy">{% elsif c.products.first %}<img src="{{ c.products.first.featured_image | image_url: width: 600, height: 800, crop: 'center' }}" alt="" loading="lazy">{% endif %}<span class="cat-tile__label">{{ c.title }} {% render 'icon', name: 'arrR' %}</span></a>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Lista de coleções", "tag": "div", "settings": [] }
+{% endschema %}

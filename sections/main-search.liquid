@@ -1,0 +1,16 @@
+<section class="container">
+  <div class="page-title"><h1>{% if search.performed %}Resultados para “{{ search.terms | escape }}”{% else %}Buscar{% endif %}</h1>{% if search.performed %}<p>{{ search.results_count }} {% if search.results_count == 1 %}modelo encontrado{% else %}modelos encontrados{% endif %}</p>{% endif %}</div>
+  <form class="search-form" action="{{ routes.search_url }}" method="get" style="max-width:640px;margin-bottom:32px">{% render 'icon', name: 'search' %}<input type="search" name="q" value="{{ search.terms | escape }}" placeholder="O que você procura hoje?" aria-label="Buscar"><input type="hidden" name="type" value="product"><button class="btn btn--sm" type="submit">Buscar</button></form>
+  {%- paginate search.results by 24 -%}
+  <div class="grid grid--4" style="--gap:28px 20px">
+    {%- for item in search.results -%}{%- if item.object_type == 'product' -%}{%- render 'product-card', product: item -%}{%- endif -%}{%- endfor -%}
+    {%- if search.performed and search.results_count == 0 -%}
+      <div class="plp-empty plp-soon" style="grid-column:1/-1">{% render 'icon', name: 'spark' %}<h3>Nada encontrado para “{{ search.terms | escape }}”</h3><p>Tente “tamanco”, “scarpin preto”, uma cor ou um tamanho.</p><div class="plp-soon__actions"><a class="btn btn--primary btn--sm" href="{{ routes.all_products_collection_url }}">Ver todos os modelos</a></div></div>
+    {%- endif -%}
+  </div>
+  {%- if paginate.pages > 1 -%}<div class="load-more"><span>Página {{ paginate.current_page }} de {{ paginate.pages }}</span><div class="flex" style="justify-content:center;margin-top:12px">{% if paginate.previous %}<a class="btn btn--ghost btn--sm" href="{{ paginate.previous.url }}">Anterior</a>{% endif %}{% if paginate.next %}<a class="btn btn--ghost btn--sm" href="{{ paginate.next.url }}">Próxima</a>{% endif %}</div></div>{%- endif -%}
+  {%- endpaginate -%}
+</section>
+{% schema %}
+{ "name": "Busca", "tag": "div", "settings": [] }
+{% endschema %}

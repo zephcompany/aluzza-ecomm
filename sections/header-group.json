@@ -1,0 +1,9 @@
+{
+  "type": "header",
+  "name": "Cabeçalho",
+  "sections": {
+    "announce": { "type": "announce", "settings": {} },
+    "header": { "type": "header", "settings": {} }
+  },
+  "order": ["announce", "header"]
+}

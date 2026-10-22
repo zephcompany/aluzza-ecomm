@@ -1,0 +1,38 @@
+<div class="announce" id="announce">
+  <div class="container">
+    <div class="announce__track" id="announce-track">
+      {%- for block in section.blocks -%}
+        <div class="announce__item{% if forloop.first %} is-on{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+      {%- endfor -%}
+      {%- if section.blocks.size == 0 -%}
+        <div class="announce__item is-on">Frete grátis a partir de R$ {{ settings.free_ship | default: 299 }} para todo o Brasil</div>
+      {%- endif -%}
+    </div>
+    <div class="announce__side">
+      <a href="{{ pages.ajuda.url | default: '/pages/ajuda' }}#rastreio">Rastrear pedido</a>
+      <a href="{{ pages.ajuda.url | default: '/pages/ajuda' }}">Ajuda</a>
+      <a href="{{ pages.contato.url | default: '/pages/contato' }}">Lojas e contato</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Faixa de avisos",
+  "tag": "div",
+  "class": "announce-wrap",
+  "max_blocks": 6,
+  "blocks": [
+    { "type": "msg", "name": "Mensagem", "settings": [ { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Frete grátis a partir de R$ 299 para todo o Brasil</p>" } ] }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "msg", "settings": { "text": "<p>Frete grátis a partir de R$ 299 para todo o Brasil</p>" } },
+      { "type": "msg", "settings": { "text": "<p>Primeira compra com 10% off <b>BEMVINDA10</b></p>" } },
+      { "type": "msg", "settings": { "text": "<p>Até 6x sem juros no cartão · 5% off no Pix</p>" } },
+      { "type": "msg", "settings": { "text": "<p>Troca grátis em até 30 dias</p>" } },
+      { "type": "msg", "settings": { "text": "<p>Fabricação própria em Goiânia há 15 anos</p>" } }
+    ]
+  }
+}
+{% endschema %}

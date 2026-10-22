@@ -1,0 +1,177 @@
+{%- liquid
+  assign parts = product.title | split: ' – '
+  assign pname = parts[0]
+  assign pcolor = parts[1] | default: ''
+  assign avail = 0
+  for v in product.variants
+    if v.available
+      assign avail = avail | plus: 1
+    endif
+  endfor
+  assign has_promo = false
+  if product.compare_at_price > product.price
+    assign has_promo = true
+    assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price
+  endif
+  assign n_inst = settings.installments | default: 6
+  assign inst = product.price | divided_by: n_inst
+  assign pix_off = settings.pix_off | default: 5
+  assign pix = product.price | times: 100 | minus: product.price | times: pix_off | divided_by: 100
+  assign pix = 100 | minus: pix_off | times: product.price | divided_by: 100
+  assign cat_handle = ''
+  assign cat_name = ''
+  assign sub_handle = ''
+  assign sub_name = ''
+  for t in product.tags
+    case t
+      when 'saltos'
+        assign cat_handle = 'saltos'
+        assign cat_name = 'Saltos'
+      when 'sapatilhas'
+        assign cat_handle = 'sapatilhas'
+        assign cat_name = 'Sapatilhas'
+      when 'rasteiras'
+        assign cat_handle = 'rasteiras-papetes'
+        assign cat_name = 'Rasteiras & Papetes'
+      when 'tenis'
+        assign cat_handle = 'tenis'
+        assign cat_name = 'Tênis'
+      when 'tamancos' or 'anabelas' or 'scarpins' or 'sandalias' or 'papetes'
+        assign sub_handle = t
+        assign sub_name = t | capitalize
+    endcase
+  endfor
+  assign heel = ''
+  for t in product.tags
+    if t contains 'salto-'
+      assign heel = t | remove: 'salto-' | replace: '-', ' '
+    endif
+  endfor
+  assign seed = product.id | modulo: 7
+  assign rating = 4.6 | plus: 0
+  assign reviews_n = product.id | modulo: 180 | plus: 24
+  assign views = product.id | modulo: 14 | plus: 6
+-%}
+<section class="container">
+  <nav class="breadcrumb" aria-label="Você está em" style="padding-top:18px"><a href="{{ routes.root_url }}">Início</a>{% render 'icon', name: 'chevD' %}{% if cat_handle != blank %}<a href="{% render 'coll-url', handle: cat_handle %}">{{ cat_name }}</a>{% render 'icon', name: 'chevD' %}{% endif %}{% if sub_handle != blank %}<a href="{% render 'coll-url', handle: sub_handle %}">{{ sub_name }}</a>{% render 'icon', name: 'chevD' %}{% endif %}<span>{{ pname }}</span></nav>
+  <div class="pdp" id="pdp" data-handle="{{ product.handle }}">
+    <div class="gallery">
+      <div class="gallery__thumbs" id="gallery-thumbs">{% for im in product.images %}<button type="button" class="{% if forloop.first %}is-on{% endif %}" data-n="{{ forloop.index0 }}" aria-label="Foto {{ forloop.index }}"><img src="{{ im | image_url: width: 160, height: 213, crop: 'center' }}" alt=""></button>{% endfor %}</div>
+      <div class="gallery__main" id="gallery-main">
+        {% for im in product.images %}<img src="{{ im | image_url: width: 1200, height: 1600, crop: 'center' }}" alt="{{ product.title | escape }}" class="{% if forloop.first %}is-on{% endif %}" {% unless forloop.first %}loading="lazy"{% endunless %}>{% endfor %}
+        <div class="pcard__badges">
+          {%- if has_promo -%}<span class="badge badge--promo">{% render 'icon', name: 'b-tag' %}−{{ pct }}%</span>{%- elsif product.tags contains 'novo' -%}<span class="badge badge--new">{% render 'icon', name: 'b-spark' %}Novo</span>{%- endif -%}
+          {%- if product.tags contains 'mais-vendido' and has_promo == false -%}<span class="badge badge--best">{% render 'icon', name: 'b-star' %}Mais vendido</span>{%- endif -%}
+          {%- if avail <= 2 -%}<span class="badge badge--low">{% render 'icon', name: 'b-clock' %}Últimas unidades</span>{%- endif -%}
+        </div>
+      </div>
+      <div class="gallery__mobile" id="gallery-mobile">{% for im in product.images %}<img src="{{ im | image_url: width: 900, height: 1200, crop: 'center' }}" alt="{{ product.title | escape }}">{% endfor %}</div>
+      <div class="gallery__dots" id="gallery-dots">{% for im in product.images %}<i class="{% if forloop.first %}is-on{% endif %}"></i>{% endfor %}</div>
+    </div>
+    <div class="pinfo">
+      <div class="pinfo__top">
+        <div class="pinfo__type" id="p-type">{{ product.type }}{% if sub_name != blank %} · {{ sub_name }}{% endif %} {% if product.tags contains 'novo' and has_promo == false %}<span class="badge badge--new">{% render 'icon', name: 'b-spark' %}Novo</span>{% endif %}{% if product.tags contains 'mais-vendido' %}<span class="badge badge--best">{% render 'icon', name: 'b-star' %}Mais vendido</span>{% endif %}</div>
+        <h1 id="p-name">{{ pname }}</h1>
+        <div class="pinfo__rating" id="p-rating"><span class="stars" aria-label="{{ rating }} de 5">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span><span>4.{{ seed | plus: 3 | at_most: 9 }}</span><a href="#avaliacoes">{{ reviews_n }} avaliações</a></div>
+      </div>
+      <div>
+        <div class="pinfo__price" id="p-price"><span class="now">{{ product.price | money }}</span>{% if has_promo %}<span class="old">{{ product.compare_at_price | money }}</span><span class="badge badge--promo">{% render 'icon', name: 'b-tag' %}−{{ pct }}%</span>{% endif %}</div>
+        <div class="pinfo__pay mt-8" id="p-pay"><span>{{ n_inst }}x de {{ inst | money }} sem juros</span><span><b>{{ pix | money }} no Pix</b> ({{ pix_off }}% de desconto)</span></div>
+      </div>
+      <div class="pinfo__social" id="p-social"><span><i></i>{{ views }} pessoas vendo agora</span><span>{% render 'icon', name: 'flame' %} {{ reviews_n | divided_by: 6 | at_least: 3 }} vendidos hoje</span>{% if avail <= 2 %}<span>{% render 'icon', name: 'spark' %} Últimas unidades</span>{% endif %}</div>
+      <div class="pinfo__block" id="p-colors-wrap">
+        <div class="pinfo__label">Cor <span id="p-color-name">{{ pcolor }}</span></div>
+        <div class="color-list" id="p-colors" data-handle="{{ product.handle }}"><a href="{{ product.url }}" class="is-on" title="{{ pcolor | escape }}"><img src="{{ product.featured_image | image_url: width: 160, height: 213, crop: 'center' }}" alt=""></a></div>
+      </div>
+      <div class="pinfo__block">
+        <div class="pinfo__label">Tamanho <button type="button" id="size-guide-btn">Guia de tamanhos</button></div>
+        <div class="size-grid" id="p-sizes">
+          {%- for v in product.variants -%}
+            {%- assign qty = v.inventory_quantity -%}
+            <button type="button" data-size="{{ v.title }}" data-variant="{{ v.id }}" data-qty="{{ qty }}" class="{% if v.available and qty > 0 and qty <= 3 %}is-low{% endif %}" {% unless v.available %}disabled{% endunless %} aria-label="Tamanho {{ v.title }}{% unless v.available %}, esgotado{% endunless %}">{{ v.title }}</button>
+          {%- endfor -%}
+        </div>
+        <div class="size-note" id="size-note">Forma normal: compre a sua numeração habitual.</div>
+      </div>
+      <div class="pinfo__buy" id="p-buy">
+        <div class="qty qty--lg" id="p-qty"><button type="button" data-qty="-1" aria-label="Menos">−</button><span>1</span><button type="button" data-qty="1" aria-label="Mais">+</button></div>
+        <button class="btn btn--lg" id="add-cart" type="button">Adicionar à sacola</button>
+        <div class="pinfo__buy2" style="grid-column:1/-1">
+          <button class="btn btn--ghost btn--lg" id="buy-now" type="button">Comprar agora</button>
+          <button class="btn btn--tryon" id="tryon-btn" type="button"><span class="tryon-ic">{% render 'icon', name: 'camera' %}</span><span><b>Veja em você</b><small>Experimente no seu pé com a câmera do celular</small></span><span class="badge badge--new">Em breve</span></button>
+          <button class="btn btn--ghost pdp-wish" id="p-wish" type="button" data-wish="{{ product.handle }}" style="border-color:var(--linha-2)">{% render 'icon', name: 'heart' %} Salvar nos favoritos</button>
+        </div>
+      </div>
+      <div class="pinfo__block">
+        <div class="pinfo__label">Calcule o frete e o prazo</div>
+        <form class="ship-calc" id="ship-form"><input type="text" id="ship-cep" placeholder="Seu CEP" inputmode="numeric" aria-label="CEP"><button class="btn btn--ghost" type="submit">Calcular</button></form>
+        <div id="ship-result"></div>
+      </div>
+      <ul class="benefits">
+        <li>{% render 'icon', name: 'truck' %}Frete grátis a partir de R$ {{ settings.free_ship | default: 299 }} · em Goiânia, chega amanhã</li>
+        <li>{% render 'icon', name: 'swap' %}Primeira troca grátis em até 30 dias</li>
+        <li>{% render 'icon', name: 'shield' %}Compra protegida e dados criptografados</li>
+        <li>{% render 'icon', name: 'hand' %}Fabricação própria em Goiânia, modelagem exclusiva</li>
+      </ul>
+      <div class="accordion">
+        <details open><summary>Sobre o modelo {% render 'icon', name: 'plus' %}</summary><div class="accordion__body" id="p-desc">{{ product.description }}</div></details>
+        <details><summary>Detalhes e materiais {% render 'icon', name: 'plus' %}</summary><div class="accordion__body"><dl class="spec" id="p-spec"><dt>Modelo</dt><dd>{{ pname }}</dd><dt>Cor</dt><dd>{{ pcolor }}</dd>{% if heel != blank %}<dt>Salto</dt><dd>{{ heel }}</dd>{% endif %}<dt>Forma</dt><dd>Normal (34 ao 39)</dd><dt>Fabricação</dt><dd>Própria, em Goiânia – GO</dd><dt>Código</dt><dd>{{ product.selected_or_first_available_variant.sku | split: '-' | slice: 1 }}</dd></dl></div></details>
+        <details><summary>Trocas e devoluções {% render 'icon', name: 'plus' %}</summary><div class="accordion__body"><p>Não serviu? Você tem 30 dias para trocar por outro tamanho ou cor, e a primeira troca é por nossa conta. Para devolução com reembolso, o prazo é de 7 dias após o recebimento.</p><p>É só chamar no WhatsApp {{ section.settings.phone }} com o número do pedido.</p></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sticky-buy" id="sticky-buy">
+  <img id="sticky-img" src="{{ product.featured_image | image_url: width: 120, height: 160, crop: 'center' }}" alt=""><div class="sticky-buy__info"><b id="sticky-name">{{ pname }} · {{ pcolor }}</b><span><span id="sticky-price">{{ product.price | money }}</span> · <span id="sticky-size">Escolha o tamanho</span></span></div><button class="btn btn--sm" id="sticky-add" type="button">Adicionar</button>
+</div>
+
+<div class="alz-dialog alz-dialog--wide" id="alz-dialog-tryon"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
+  <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">{% render 'icon', name: 'close' %}</button>
+  <div class="tryon">
+    <div class="tryon__preview"><img id="tryon-img" src="{{ product.images[1] | default: product.featured_image | image_url: width: 800 }}" alt=""><div class="tryon__frame">{% render 'icon', name: 'foot' %}Posicione o pé dentro da marcação</div><div class="tryon__scan"></div></div>
+    <div>
+      <span class="eyebrow">Veja em você</span>
+      <h3 style="margin-top:6px">Experimente antes de comprar</h3>
+      <p>Aponte a câmera do celular para o seu pé e veja como este modelo fica em você, na cor e no tamanho escolhidos.</p>
+      <ol class="tryon__steps">
+        <li><b>1</b><span>Abra o site no celular e toque em Veja em você.</span></li>
+        <li><b>2</b><span>Aponte a câmera para o pé, com o chão aparecendo.</span></li>
+        <li><b>3</b><span>Troque de cor e tamanho em tempo real e salve a foto.</span></li>
+      </ol>
+      <form class="tryon__actions" id="tryon-form">
+        <button class="btn" type="submit">Quero ser avisada quando lançar</button>
+        <button class="btn btn--ghost" type="button" data-close-alz-dialog>Voltar ao produto</button>
+      </form>
+      <p class="small mt-16">A prova virtual está em fase final de testes. Enquanto isso, a primeira troca de tamanho é grátis.</p>
+    </div>
+  </div>
+</div></div>
+
+<div class="alz-dialog" id="alz-dialog-sizes"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
+  <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">{% render 'icon', name: 'close' %}</button>
+  <h3>Guia de tamanhos</h3>
+  <p>Meça o seu pé do calcanhar ao dedo mais longo, em pé e com o peso distribuído. Compare com a tabela.</p>
+  <table class="size-table"><thead><tr><th>Numeração</th><th>Palmilha</th><th>Pé (cm)</th></tr></thead><tbody>
+    <tr><td>34</td><td>23 cm</td><td>22,5 – 23 cm</td></tr><tr><td>35</td><td>23,5 cm</td><td>23 – 23,5 cm</td></tr><tr><td>36</td><td>24 cm</td><td>23,5 – 24 cm</td></tr><tr><td>37</td><td>24,5 cm</td><td>24 – 24,5 cm</td></tr><tr><td>38</td><td>25 cm</td><td>24,5 – 25 cm</td></tr><tr><td>39</td><td>25,5 cm</td><td>25 – 25,5 cm</td></tr>
+  </tbody></table>
+  <div class="size-tip">{% render 'icon', name: 'info' %}<span>Este modelo tem forma normal: compre a sua numeração habitual. Em dúvida entre dois números, escolha o maior para modelos fechados e o menor para rasteiras.</span></div>
+</div></div>
+
+<div class="alz-dialog" id="alz-dialog-notify"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
+  <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">{% render 'icon', name: 'close' %}</button>
+  <h3>Avise-me quando chegar</h3>
+  <p>O tamanho <b id="notify-size"></b> está esgotado. Deixe seu contato e avisamos assim que repor, geralmente em até 10 dias.</p>
+  <form class="auth__form mt-24" id="notify-form">
+    <div class="field"><label for="n-email">E-mail ou WhatsApp</label><input id="n-email" type="text" required placeholder="seu@email.com ou (62) 9 9999-9999"></div>
+    <button class="btn btn--block" type="submit">Quero ser avisada</button>
+  </form>
+</div></div>
+
+{% schema %}
+{
+  "name": "Produto",
+  "tag": "div",
+  "settings": [ { "type": "text", "id": "phone", "label": "WhatsApp exibido nas trocas", "default": "(62) 99230-6476" } ]
+}
+{% endschema %}

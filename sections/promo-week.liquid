@@ -1,0 +1,37 @@
+<section class="band band--marrom section"><div class="container">
+  <div class="promo-week">
+    <div class="promo-week__text rv">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.text }}</p>
+      <div class="countdown" id="countdown" data-end="{{ section.settings.end | escape }}" aria-label="Tempo restante">
+        <div class="countdown__cell"><b>00</b><span>horas</span></div>
+        <div class="countdown__cell"><b>00</b><span>min</span></div>
+        <div class="countdown__cell"><b>00</b><span>seg</span></div>
+      </div>
+      <div class="flex mt-32"><a class="btn btn--light" href="{{ section.settings.url | default: routes.all_products_collection_url }}">{{ section.settings.cta }}</a><a class="link" href="{{ pages.ajuda.url | default: '/pages/ajuda' }}#cupons">Como usar o cupom</a></div>
+    </div>
+    <div class="promo-week__media rv">
+      {%- if section.settings.image != blank -%}<img src="{{ section.settings.image | image_url: width: 1200 }}" alt="" loading="lazy">{%- else -%}<img src="{{ 'hero-flatlay.webp' | asset_url }}" alt="Sandálias Aluzza em várias cores sobre tecido bege" loading="lazy">{%- endif -%}
+      <div class="promo-week__coupon"><small>cupom</small><b>{{ section.settings.coupon }}</b></div>
+    </div>
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Semana Aluzza (promo + contador)",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Chamada", "default": "Semana Aluzza · só até domingo" },
+    { "type": "text", "id": "title", "label": "Título", "default": "20% off em compras acima de R$ 300" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Vale para toda a loja, inclusive lançamentos. Use o cupom no carrinho e aproveite para completar o par que faltava." },
+    { "type": "text", "id": "coupon", "label": "Cupom", "default": "SEMANA20" },
+    { "type": "text", "id": "end", "label": "Fim da promoção (AAAA-MM-DD HH:MM). Vazio = contador de 48h renovável", "default": "" },
+    { "type": "text", "id": "cta", "label": "Botão", "default": "Aproveitar agora" },
+    { "type": "url", "id": "url", "label": "Link do botão" },
+    { "type": "image_picker", "id": "image", "label": "Imagem" }
+  ],
+  "presets": [ { "name": "Semana Aluzza (promo + contador)" } ]
+}
+{% endschema %}

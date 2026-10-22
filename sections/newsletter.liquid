@@ -1,0 +1,30 @@
+<section class="section"><div class="container">
+  <div class="alz-clube">
+    <div class="rv"><h2>{{ section.settings.title }}</h2><p>{{ section.settings.text }}</p></div>
+    {%- form 'customer', class: 'alz-clube__form rv', id: 'newsletter-form' -%}
+      {%- if form.posted_successfully? -%}
+        <p style="color:var(--ok);font-weight:500">{% render 'icon', name: 'check' %} Pronto! Seu cupom <b>{{ settings.first_coupon | default: 'BEMVINDA10' }}</b> já vale na primeira compra.</p>
+      {%- else -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" required placeholder="Seu melhor e-mail" aria-label="E-mail" autocomplete="email">
+        <button class="btn" type="submit">{{ section.settings.cta }}</button>
+        <div class="alz-clube__note">{{ section.settings.note }}</div>
+        {%- if form.errors -%}<div class="alz-clube__note" style="color:var(--erro)">{{ form.errors | default_errors }}</div>{%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Newsletter (cupom)",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "10% off na primeira compra" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Lançamentos, reposições do seu número e ofertas antes de todo mundo. Sem spam, prometido." },
+    { "type": "text", "id": "cta", "label": "Botão", "default": "Quero o cupom" },
+    { "type": "text", "id": "note", "label": "Nota", "default": "Ao cadastrar, você aceita receber e-mails da Aluzza. Pode cancelar quando quiser." }
+  ],
+  "presets": [ { "name": "Newsletter (cupom)" } ]
+}
+{% endschema %}

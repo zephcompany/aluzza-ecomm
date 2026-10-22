@@ -1,0 +1,9 @@
+<section class="container">
+  <div class="page-title"><h1>Favoritos</h1><p id="wish-count-title">Seus modelos salvos.</p></div>
+  <div class="grid grid--4" id="wish-grid" style="--gap:28px 20px;min-height:200px" data-wish-grid>
+    <div class="wish-empty" style="grid-column:1/-1">{% render 'icon', name: 'heart' %}<p>Toque no coração de um produto para salvar aqui.</p><a class="btn btn--ghost btn--sm mt-16" href="{% render 'coll-url', handle: 'novidades', tag: 'novo' %}">Ver novidades</a></div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Favoritos", "tag": "div", "settings": [] }
+{% endschema %}

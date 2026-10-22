@@ -1,0 +1,66 @@
+<section class="hero" id="hero" aria-label="Destaques">
+  {%- for b in section.blocks -%}
+  <div class="hero__slide" {{ b.shopify_attributes }}>
+    <div class="hero__media">
+      {%- if b.type == 'video' -%}
+        {%- if b.settings.video != blank -%}
+          {{ b.settings.video | video_tag: muted: true, loop: true, autoplay: false, playsinline: true, preload: 'metadata', controls: false }}
+        {%- else -%}
+          <video src="{{ 'hero.mp4' | asset_url }}" poster="{{ 'hero-poster.webp' | asset_url }}" muted loop playsinline preload="metadata"></video>
+        {%- endif -%}
+      {%- else -%}
+        {%- if b.settings.image != blank -%}
+          <picture>
+            {%- if b.settings.image_mobile != blank -%}<source media="(max-width:760px)" srcset="{{ b.settings.image_mobile | image_url: width: 900 }}">{%- endif -%}
+            <img src="{{ b.settings.image | image_url: width: 2000 }}" alt="{{ b.settings.image.alt | escape }}">
+          </picture>
+        {%- else -%}
+          <picture><source media="(max-width:760px)" srcset="{{ b.settings.fallback | append: '-m.webp' | asset_url }}"><img src="{{ b.settings.fallback | append: '.webp' | asset_url }}" alt=""></picture>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+    <div class="hero__content"><div class="container">
+      {%- if b.settings.kicker != blank -%}<span class="hero__kicker reveal">{{ b.settings.kicker }}</span>{%- endif -%}
+      <h1 class="reveal">{{ b.settings.title }}</h1>
+      {%- if b.settings.text != blank -%}<p class="reveal">{{ b.settings.text }}</p>{%- endif -%}
+      <div class="hero__ctas reveal">
+        {%- if b.settings.cta1 != blank -%}<a class="btn btn--light" href="{{ b.settings.url1 }}">{{ b.settings.cta1 }}</a>{%- endif -%}
+        {%- if b.settings.cta2 != blank -%}<a class="btn btn--outline-light" href="{{ b.settings.url2 }}">{{ b.settings.cta2 }}</a>{%- endif -%}
+      </div>
+    </div></div>
+  </div>
+  {%- endfor -%}
+  <div class="hero__ui"><div class="container">
+    <div class="hero__dots" role="tablist" aria-label="Slides">{% for b in section.blocks %}<button class="hero__dot" role="tab" aria-label="Slide {{ forloop.index }}"><i></i></button>{% endfor %}</div>
+    <div class="hero__arrows"><button class="hero__arrow" data-prev aria-label="Anterior">{% render 'icon', name: 'arrL' %}</button><button class="hero__arrow" data-next aria-label="Próximo">{% render 'icon', name: 'arrR' %}</button></div>
+  </div></div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero (slides)",
+  "tag": "div",
+  "max_blocks": 5,
+  "blocks": [
+    { "type": "video", "name": "Slide com vídeo", "settings": [
+      { "type": "video", "id": "video", "label": "Vídeo (se vazio, usa o vídeo do tema)" },
+      { "type": "text", "id": "kicker", "label": "Chamada", "default": "Primavera Verão 26 · fabricação própria" },
+      { "type": "text", "id": "title", "label": "Título", "default": "Conforto que acompanha o seu dia." },
+      { "type": "textarea", "id": "text", "label": "Texto", "default": "Saltos, rasteiras e sapatilhas com modelagem exclusiva, feitos pela Aluzza em Goiânia há 15 anos." },
+      { "type": "text", "id": "cta1", "label": "Botão 1", "default": "Ver novidades" }, { "type": "url", "id": "url1", "label": "Link 1" },
+      { "type": "text", "id": "cta2", "label": "Botão 2", "default": "Mais vendidos" }, { "type": "url", "id": "url2", "label": "Link 2" }
+    ] },
+    { "type": "image", "name": "Slide com imagem", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Imagem (desktop)" },
+      { "type": "image_picker", "id": "image_mobile", "label": "Imagem (celular)" },
+      { "type": "select", "id": "fallback", "label": "Banner do tema (se não escolher imagem)", "options": [ { "value": "hero-rasteiras", "label": "Rasteiras (rua)" }, { "value": "hero-editorial", "label": "Editorial (poltrona)" }, { "value": "hero-flatlay", "label": "Flat lay" } ], "default": "hero-rasteiras" },
+      { "type": "text", "id": "kicker", "label": "Chamada" },
+      { "type": "text", "id": "title", "label": "Título", "default": "Verão nos pés, o dia inteiro." },
+      { "type": "textarea", "id": "text", "label": "Texto" },
+      { "type": "text", "id": "cta1", "label": "Botão 1" }, { "type": "url", "id": "url1", "label": "Link 1" },
+      { "type": "text", "id": "cta2", "label": "Botão 2" }, { "type": "url", "id": "url2", "label": "Link 2" }
+    ] }
+  ],
+  "presets": [ { "name": "Hero (slides)" } ]
+}
+{% endschema %}

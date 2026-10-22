@@ -1,0 +1,19 @@
+<div class="band band--laranja marquee" aria-hidden="true"><div class="marquee__inner">
+  {%- for i in (1..2) -%}{%- for b in section.blocks -%}<span>{{ b.settings.text }} <i></i></span>{%- endfor -%}{%- endfor -%}
+</div></div>
+
+{% schema %}
+{
+  "name": "Faixa rolante",
+  "tag": "div",
+  "max_blocks": 8,
+  "blocks": [ { "type": "item", "name": "Item", "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Frete grátis a partir de R$ 299" } ] } ],
+  "presets": [ { "name": "Faixa rolante", "blocks": [
+    { "type": "item", "settings": { "text": "Frete grátis a partir de R$ 299" } },
+    { "type": "item", "settings": { "text": "Troca grátis em 30 dias" } },
+    { "type": "item", "settings": { "text": "Até 6x sem juros" } },
+    { "type": "item", "settings": { "text": "Fabricação própria em Goiânia" } },
+    { "type": "item", "settings": { "text": "Numeração 34 ao 39" } }
+  ] } ]
+}
+{% endschema %}

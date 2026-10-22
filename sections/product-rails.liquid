@@ -1,0 +1,26 @@
+<section class="section" data-recs="{{ product.id }}" data-limit="8"><div class="container">
+  <div class="section-head"><div><h2>{{ section.settings.title }}</h2><p>{{ section.settings.text }}</p></div><div class="rail__nav"><button class="rail__btn" data-prev aria-label="Anterior">{% render 'icon', name: 'arrL' %}</button><button class="rail__btn" data-next aria-label="Próximo">{% render 'icon', name: 'arrR' %}</button></div></div>
+  <div class="rail"><div class="rail__track" data-recs-track>
+    {%- comment -%} Fallback renderizado no servidor: mesma categoria {%- endcomment -%}
+    {%- assign cat = '' -%}
+    {%- for t in product.tags -%}{%- if t == 'saltos' or t == 'sapatilhas' or t == 'rasteiras' or t == 'tenis' -%}{%- assign cat = t -%}{%- endif -%}{%- endfor -%}
+    {%- assign n = 0 -%}
+    {%- for p in collections.all.products limit: 50 -%}
+      {%- if p.id == product.id %}{% continue %}{% endif -%}
+      {%- if cat != blank and p.tags contains cat -%}{%- render 'product-card', product: p -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+      {%- if n >= 8 %}{% break %}{% endif -%}
+    {%- endfor -%}
+  </div></div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Produtos relacionados",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Quem viu, também comprou" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Peças que combinam com este modelo." }
+  ],
+  "presets": [ { "name": "Produtos relacionados" } ]
+}
+{% endschema %}

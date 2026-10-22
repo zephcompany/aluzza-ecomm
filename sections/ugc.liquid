@@ -1,0 +1,40 @@
+<section class="section section--tight"><div class="container">
+  <div class="section-head"><div><h2>{{ section.settings.title }}</h2><p>Marque <a class="link" href="{{ section.settings.url }}" target="_blank" rel="noopener">{{ section.settings.handle }}</a> e apareça aqui.</p></div></div>
+  <div class="ugc rv-stagger">
+    {%- for b in section.blocks -%}
+      {%- assign pr = all_products[b.settings.product] -%}
+      {%- assign idx = b.settings.image_index | minus: 1 -%}
+      <a href="{{ section.settings.url }}" target="_blank" rel="noopener" {{ b.shopify_attributes }}>
+        {%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 500, height: 500, crop: 'center' }}" alt="" loading="lazy">
+        {%- elsif pr != blank -%}<img src="{{ pr.images[idx] | default: pr.featured_image | image_url: width: 500, height: 500, crop: 'center' }}" alt="" loading="lazy">{%- endif -%}
+        {% render 'icon', name: 'instagram' %}
+      </a>
+    {%- endfor -%}
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Instagram (#MinhaAluzza)",
+  "tag": "div",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "#MinhaAluzza" },
+    { "type": "text", "id": "handle", "label": "@ do Instagram", "default": "@aluzzacalcados" },
+    { "type": "url", "id": "url", "label": "Link", "default": "https://www.instagram.com/aluzzacalcados" }
+  ],
+  "blocks": [ { "type": "photo", "name": "Foto", "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagem" },
+    { "type": "product", "id": "product", "label": "…ou foto de um produto" },
+    { "type": "range", "id": "image_index", "label": "Qual foto", "min": 1, "max": 5, "step": 1, "default": 3 }
+  ] } ],
+  "presets": [ { "name": "Instagram (#MinhaAluzza)", "blocks": [
+    { "type": "photo", "settings": { "product": "tamanco-zara-caramelo-salto-alto", "image_index": 4 } },
+    { "type": "photo", "settings": { "product": "anabela-elisa-cafe", "image_index": 4 } },
+    { "type": "photo", "settings": { "product": "sapatilha-nina-2057", "image_index": 4 } },
+    { "type": "photo", "settings": { "product": "rasteira-isis-bege", "image_index": 4 } },
+    { "type": "photo", "settings": { "product": "tamanco-marina-preto", "image_index": 4 } },
+    { "type": "photo", "settings": { "product": "tamanco-soraia-dourado", "image_index": 4 } }
+  ] } ]
+}
+{% endschema %}

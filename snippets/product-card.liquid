@@ -1,0 +1,44 @@
+{%- liquid
+  assign parts = product.title | split: ' – '
+  assign pname = parts[0]
+  assign pcolor = parts[1] | default: ''
+  assign avail = 0
+  for v in product.variants
+    if v.available
+      assign avail = avail | plus: 1
+    endif
+  endfor
+  assign has_promo = false
+  if product.compare_at_price > product.price
+    assign has_promo = true
+    assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price
+  endif
+  assign inst = product.price | divided_by: settings.installments | default: 6
+  assign hover = product.images[1] | default: product.featured_image
+-%}
+<article class="pcard{% if mini %} pcard--mini{% endif %}" data-handle="{{ product.handle }}" data-id="{{ product.id }}">
+  <div class="pcard__top">
+    <a class="pcard__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      <img src="{{ product.featured_image | image_url: width: 720, height: 960, crop: 'center' }}" srcset="{{ product.featured_image | image_url: width: 480, height: 640, crop: 'center' }} 480w, {{ product.featured_image | image_url: width: 720, height: 960, crop: 'center' }} 720w" sizes="(max-width: 640px) 50vw, 25vw" alt="{{ product.title | escape }}" loading="lazy" width="720" height="960">
+      <img class="alt" src="{{ hover | image_url: width: 720, height: 960, crop: 'center' }}" alt="" loading="lazy" width="720" height="960">
+      <div class="pcard__badges">
+        {%- if has_promo -%}<span class="badge badge--promo">{% render 'icon', name: 'b-tag' %}−{{ pct }}%</span>
+        {%- elsif product.tags contains 'novo' -%}<span class="badge badge--new">{% render 'icon', name: 'b-spark' %}Novo</span>{%- endif -%}
+        {%- if product.tags contains 'mais-vendido' and has_promo == false -%}<span class="badge badge--best">{% render 'icon', name: 'b-star' %}Mais vendido</span>{%- endif -%}
+        {%- if avail <= 2 -%}<span class="badge badge--low">{% render 'icon', name: 'b-clock' %}Últimas unidades</span>{%- endif -%}
+      </div>
+    </a>
+    <button type="button" class="pcard__wish" data-wish="{{ product.handle }}" aria-label="Favoritar">{% render 'icon', name: 'heart' %}</button>
+    {%- unless mini -%}
+    <div class="pcard__quick"><small>Compra rápida · escolha o tamanho</small><div class="pcard__sizes">
+      {%- for v in product.variants -%}<button type="button" data-size="{{ v.title }}" data-variant="{{ v.id }}" {% unless v.available %}disabled{% endunless %}>{{ v.title }}</button>{%- endfor -%}
+    </div></div>
+    {%- endunless -%}
+  </div>
+  <div class="pcard__body">
+    <div class="pcard__name"><a href="{{ product.url }}">{{ pname }}</a></div>
+    <div class="pcard__colors" data-handle="{{ product.handle }}"><span class="pcard__color-name">{{ pcolor }}</span></div>
+    <div class="pcard__price">{% if has_promo %}<span class="price--old">{{ product.compare_at_price | money }}</span>{% endif %}<span class="price{% if has_promo %} price--promo{% endif %}">{{ product.price | money }}</span></div>
+    {%- unless mini -%}<div class="pcard__inst">{{ settings.installments | default: 6 }}x de {{ inst | money }} sem juros</div>{%- endunless -%}
+  </div>
+</article>

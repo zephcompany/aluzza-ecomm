@@ -1,0 +1,35 @@
+<section class="band band--off section"><div class="container">
+  <div class="section-head"><div><h2>{{ section.settings.title }}</h2><div class="reviews-summary mt-16"><div class="reviews-summary__big">{{ section.settings.score }}</div><div><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span><div class="small muted mt-8">{{ section.settings.summary }}</div></div></div></div></div>
+  <div class="reviews rv-stagger">
+    {%- for b in section.blocks -%}
+    <article class="review" {{ b.shopify_attributes }}>
+      <div class="review__head"><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span><span class="review__verified">{% render 'icon', name: 'check' %}compra verificada</span></div>
+      <p class="review__quote">“{{ b.settings.quote }}”</p>
+      <div class="review__who"><i>{{ b.settings.name | truncate: 2, '' | upcase }}</i><div><b>{{ b.settings.name }}</b>{{ b.settings.meta }}</div></div>
+    </article>
+    {%- endfor -%}
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Avaliações",
+  "tag": "div",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Quem usa, recomenda" },
+    { "type": "text", "id": "score", "label": "Nota", "default": "4,8" },
+    { "type": "text", "id": "summary", "label": "Resumo", "default": "2.340 avaliações verificadas · 96% recomendam" }
+  ],
+  "blocks": [ { "type": "review", "name": "Avaliação", "settings": [
+    { "type": "textarea", "id": "quote", "label": "Depoimento" },
+    { "type": "text", "id": "name", "label": "Nome", "default": "Juliana M." },
+    { "type": "text", "id": "meta", "label": "Cidade · produto", "default": "Goiânia, GO · Tamanco Marina Preto" }
+  ] } ],
+  "presets": [ { "name": "Avaliações", "blocks": [
+    { "type": "review", "settings": { "quote": "Usei o Tamanco Marina no trabalho das 8 às 19h. É o primeiro salto que não me fez tirar o sapato debaixo da mesa.", "name": "Juliana M.", "meta": "Goiânia, GO · Tamanco Marina Preto" } },
+    { "type": "review", "settings": { "quote": "Comprei a Rasteira Inês dourada, voltei na semana seguinte para a rosê. Chegou em dois dias para o interior de SP.", "name": "Carla S.", "meta": "Ribeirão Preto, SP · Rasteira Inês" } },
+    { "type": "review", "settings": { "quote": "A troca foi sem estresse: pedi o 37 no lugar do 36 pelo WhatsApp e em três dias estava com o par certo.", "name": "Fernanda R.", "meta": "Brasília, DF · Scarpin Paola" } }
+  ] } ]
+}
+{% endschema %}

@@ -1,0 +1,26 @@
+<section class="container">
+  <div class="page-title"><h1>Olá, {{ customer.first_name }}</h1><p>Pedidos, dados, endereços e pontos do Clube Aluzza.</p></div>
+  <div class="account">
+    <nav class="account__nav" aria-label="Conta">
+      <div class="account__user"><i>{{ customer.first_name | slice: 0 }}{{ customer.last_name | slice: 0 }}</i><div><b>{{ customer.name }}</b><span>{{ customer.email }}</span></div></div>
+      <a class="is-on" href="{{ routes.account_url }}">{% render 'icon', name: 'box' %} Meus pedidos</a>
+      <a href="{{ routes.account_addresses_url }}">{% render 'icon', name: 'pin' %} Endereços</a>
+      <a href="/pages/favoritos">{% render 'icon', name: 'heart' %} Favoritos</a>
+      <a href="{{ routes.account_logout_url }}">{% render 'icon', name: 'close' %} Sair</a>
+    </nav>
+    <div>
+      <div class="account__panel is-on"><h2>Meus pedidos</h2>
+        {%- paginate customer.orders by 10 -%}
+        {%- if customer.orders.size == 0 -%}<div class="wish-empty">{% render 'icon', name: 'box' %}<p>Você ainda não fez nenhum pedido.</p><a class="btn btn--ghost btn--sm mt-16" href="{{ routes.all_products_collection_url }}">Ver os modelos</a></div>{%- endif -%}
+        <div id="orders">
+        {%- for order in customer.orders -%}
+          <div class="order-card"><div class="order-card__head"><div><b>{{ order.name }}</b><small>{{ order.created_at | date: '%d/%m/%Y' }}</small></div><span class="status {% if order.fulfillment_status == 'fulfilled' %}status--ok{% elsif order.financial_status == 'paid' %}status--ship{% else %}status--wait{% endif %}">{{ order.fulfillment_status_label }}</span></div>
+          <div class="order-card__items">{% for li in order.line_items %}{% if li.image %}<img src="{{ li.image | image_url: width: 120, height: 160, crop: 'center' }}" alt="" title="{{ li.title | escape }}">{% endif %}{% endfor %}</div>
+          <div class="order-card__foot"><span>{{ order.item_count }} {% if order.item_count == 1 %}item{% else %}itens{% endif %} · <b class="price">{{ order.total_price | money }}</b></span><div class="flex"><a class="link small" href="{{ order.customer_url }}">Ver detalhes</a></div></div></div>
+        {%- endfor -%}
+        </div>
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,7 @@
+{
+  "general": { "search": { "placeholder": "O que você procura hoje?" }, "accessibility": { "close": "Fechar" } },
+  "products": { "product": { "add_to_cart": "Adicionar à sacola", "sold_out": "Esgotado" } },
+  "cart": { "general": { "title": "Sua sacola", "empty": "Sua sacola está vazia." } },
+  "customer": { "login": { "title": "Entrar" }, "register": { "title": "Criar conta" } },
+  "shopify": { "checkout": { "general": { "continue_shopping": "Continuar comprando" } } }
+}

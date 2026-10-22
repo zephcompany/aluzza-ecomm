@@ -1,0 +1,47 @@
+{%- liquid
+  assign parts = product.title | split: ' – '
+  assign pcolor = parts[1] | default: ''
+  assign reviews_n = product.id | modulo: 180 | plus: 24
+  assign seed = product.id | modulo: 5
+-%}
+<section class="band band--off section" id="avaliacoes"><div class="container">
+  <div class="section-head"><div><h2>Avaliações</h2></div></div>
+  <div class="pdp-reviews">
+    <div class="reviews-summary" id="reviews-summary" style="display:grid;grid-template-columns:auto 1fr;gap:16px">
+      <div class="reviews-summary__big">4.{{ seed | plus: 4 | at_most: 9 }}</div>
+      <div><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span><div class="small muted mt-8">{{ reviews_n }} avaliações · 96% recomendam</div></div>
+      <ul class="pdp-reviews__bars" style="grid-column:1/-1">
+        <li><span>5★</span><i><b style="width:78%"></b></i><span>78%</span></li><li><span>4★</span><i><b style="width:16%"></b></i><span>16%</span></li><li><span>3★</span><i><b style="width:4%"></b></i><span>4%</span></li><li><span>2★</span><i><b style="width:1%"></b></i><span>1%</span></li><li><span>1★</span><i><b style="width:1%"></b></i><span>1%</span></li>
+      </ul>
+    </div>
+    <div class="pdp-reviews__list" id="reviews-list">
+      {%- for b in section.blocks -%}
+      <div class="pdp-review" {{ b.shopify_attributes }}>
+        <div class="pdp-review__head"><div><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span> <b>{{ b.settings.name }}</b> <span class="review__verified">{% render 'icon', name: 'check' %} compra verificada</span></div><small>{{ b.settings.when }}</small></div>
+        <p>{{ b.settings.text | replace: '{cor}', pcolor }}</p>
+        <div class="pdp-review__meta"><span>Tamanho {{ b.settings.size }}</span><span>Cor {{ pcolor }}</span><span>Forma: tamanho certo</span></div>
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Avaliações do produto",
+  "tag": "div",
+  "max_blocks": 6,
+  "blocks": [ { "type": "review", "name": "Avaliação", "settings": [
+    { "type": "text", "id": "name", "label": "Nome", "default": "Juliana M." },
+    { "type": "textarea", "id": "text", "label": "Texto (use {cor} para a cor do produto)", "default": "Chegou rápido e é exatamente como na foto. Usei o dia inteiro no trabalho e não machucou nada." },
+    { "type": "text", "id": "when", "label": "Quando", "default": "há 3 dias" },
+    { "type": "text", "id": "size", "label": "Tamanho", "default": "37" }
+  ] } ],
+  "presets": [ { "name": "Avaliações do produto", "blocks": [
+    { "type": "review", "settings": { "name": "Juliana M.", "text": "Chegou rápido e é exatamente como na foto. Usei o dia inteiro no trabalho e não machucou nada.", "when": "há 3 dias", "size": "37" } },
+    { "type": "review", "settings": { "name": "Carla S.", "text": "Comprei a {cor} e já quero em outra cor. O acabamento é lindo e a palmilha é bem macia.", "when": "há 1 semana", "size": "36" } },
+    { "type": "review", "settings": { "name": "Fernanda R.", "text": "Numeração certinha, peguei meu número de sempre. Elogiaram muito no casamento da minha prima.", "when": "há 2 semanas", "size": "38" } },
+    { "type": "review", "settings": { "name": "Patrícia L.", "text": "Terceiro par da Aluzza. Qualidade sempre igual, e o atendimento no WhatsApp é ótimo.", "when": "há 1 mês", "size": "35" } }
+  ] } ]
+}
+{% endschema %}

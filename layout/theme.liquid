@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ page_title }}{% if current_tags %} – {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} – Página {{ current_page }}{% endif %}{% unless page_title contains shop.name %} · {{ shop.name }}{% endunless %}</title>
+{% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+<link rel="canonical" href="{{ canonical_url }}">
+<link rel="icon" href="{{ 'favicon.svg' | asset_url }}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+{{ 'aluzza.css' | asset_url | stylesheet_tag }}
+{{ 'shopify-extra.css' | asset_url | stylesheet_tag }}
+<script>document.documentElement.classList.remove('no-js');
+window.ALZ = {
+  shop: {{ shop.name | json }},
+  root: {{ routes.root_url | json }},
+  cartUrl: {{ routes.cart_url | json }},
+  searchUrl: {{ routes.search_url | json }},
+  allUrl: {{ routes.all_products_collection_url | json }},
+  accountUrl: {{ routes.account_url | json }},
+  loginUrl: {{ routes.account_login_url | json }},
+  currency: {{ cart.currency.iso_code | json }},
+  moneyFormat: {{ shop.money_format | json }},
+  freeShip: {{ settings.free_ship | default: 299 | times: 100 }},
+  installments: {{ settings.installments | default: 6 }},
+  pixOff: {{ settings.pix_off | default: 5 }},
+  coupon: {{ settings.first_coupon | default: 'BEMVINDA10' | json }},
+  whats: {{ settings.whats | default: '5562992306476' | json }},
+  promoEnd: {{ settings.promo_end | json }},
+  sizes: ['34','35','36','37','38','39'],
+  template: {{ template.name | json }},
+  product: {% if product %}{ handle: {{ product.handle | json }}, title: {{ product.title | json }}, id: {{ product.id }} }{% else %}null{% endif %}
+};</script>
+{{ content_for_header }}
+</head>
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}" data-page="{{ template.name }}">
+{% if template.name == 'index' %}<div id="preloader" class="preloader" aria-hidden="true"></div>{% endif %}
+<div class="page">
+{% sections 'header-group' %}
+<main id="main">
+{{ content_for_layout }}
+</main>
+{% sections 'footer-group' %}
+</div>
+{% render 'whats-chat' %}
+{% render 'cupom-popup' %}
+{% render 'toast-wrap' %}
+<script src="{{ 'families.js' | asset_url }}" defer></script>
+<script src="{{ 'aluzza.js' | asset_url }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<section class="container">
+  <div class="page-title"><h1>Endereços</h1><p>Usamos estes endereços para calcular o frete e entregar seus pedidos.</p></div>
+  <div class="grid grid--2" style="--gap:16px;margin-bottom:24px">
+    {%- for address in customer.addresses -%}
+    <div class="address-card"><div><b>{{ address.first_name }} {{ address.last_name }}{% if address == customer.default_address %} · principal{% endif %}</b>{{ address.address1 }}{% if address.address2 != blank %}, {{ address.address2 }}{% endif %}<br>{{ address.city }} – {{ address.province_code }}<br>CEP {{ address.zip }}</div>
+      <form method="post" action="/account/addresses/{{ address.id }}" style="display:inline"><input type="hidden" name="_method" value="delete"><button type="submit" onclick="return confirm('Remover este endereço?')">Remover</button></form></div>
+    {%- endfor -%}
+  </div>
+  <details class="filters__group" style="max-width:640px"><summary>Adicionar endereço {% render 'icon', name: 'chevD' %}</summary><div class="filters__body">
+  {%- form 'customer_address', customer.new_address, class: 'form-grid' -%}
+    <div class="field"><label>Nome</label><input name="address[first_name]" required></div>
+    <div class="field"><label>Sobrenome</label><input name="address[last_name]" required></div>
+    <div class="field full"><label>Rua e número</label><input name="address[address1]" required></div>
+    <div class="field"><label>Complemento</label><input name="address[address2]"></div>
+    <div class="field"><label>Cidade</label><input name="address[city]" required></div>
+    <div class="field"><label>Estado (UF)</label><input name="address[province]" required placeholder="GO"></div>
+    <div class="field"><label>CEP</label><input name="address[zip]" required inputmode="numeric"></div>
+    <div class="field"><label>Telefone</label><input name="address[phone]" inputmode="tel"></div>
+    <input type="hidden" name="address[country]" value="Brazil">
+    <div class="full"><label class="check"><input type="checkbox" name="address[default]" value="1"> Usar como endereço principal</label></div>
+    <div class="full"><button class="btn" type="submit">Salvar endereço</button></div>
+  {%- endform -%}
+  </div></details>
+  <p class="mt-32"><a class="link" href="{{ routes.account_url }}">Voltar à conta</a></p>
+</section>

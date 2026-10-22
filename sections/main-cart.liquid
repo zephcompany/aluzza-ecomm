@@ -1,0 +1,45 @@
+<section class="container">
+  <div class="page-title"><h1>Sua sacola</h1><p>Revise os itens, aplique o cupom e finalize em poucos passos.</p></div>
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty" style="padding:40px 0 60px">{% render 'icon', name: 'bag' %}<p>Sua sacola está vazia.</p><p class="small">Que tal começar pelos mais vendidos?</p><a class="btn btn--sm mt-16" href="{% render 'coll-url', handle: 'mais-vendidos', tag: 'mais-vendido' %}">Ver mais vendidos</a></div>
+  {%- else -%}
+  <div class="cart-layout">
+    <div id="cart-list">
+      <div class="ship-bar" data-shipbar></div>
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form" class="cart-table">
+        {%- for item in cart.items -%}
+        <div class="cart-item" data-key="{{ item.key }}" data-line="{{ forloop.index }}">
+          <a class="cart-item__img" href="{{ item.url }}"><img src="{{ item.image | image_url: width: 220, height: 293, crop: 'center' }}" alt=""></a>
+          <div>
+            <div class="cart-item__name"><a href="{{ item.url }}">{{ item.product.title | split: ' – ' | first }}</a></div>
+            <div class="cart-item__meta">{{ item.product.title | split: ' – ' | last }} · Tamanho {{ item.variant.title }}</div>
+            <div class="cart-item__row">
+              <div class="qty"><button type="button" data-qty="-1" aria-label="Menos">−</button><span>{{ item.quantity }}</span><button type="button" data-qty="1" aria-label="Mais">+</button></div>
+              <div class="price {% if item.original_line_price > item.final_line_price %}price--promo{% endif %}">{{ item.final_line_price | money }}</div>
+            </div>
+            <button type="button" class="cart-item__remove mt-8" data-remove>{% render 'icon', name: 'trash' %} Remover</button>
+          </div>
+        </div>
+        {%- endfor -%}
+      </form>
+    </div>
+    <aside class="cart-side" id="cart-side">
+      <h3>Resumo do pedido</h3>
+      <div class="summary-row"><span>Subtotal ({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}itens{% endif %})</span><span class="price">{{ cart.items_subtotal_price | money }}</span></div>
+      {%- if cart.total_discount > 0 -%}<div class="summary-row" style="color:var(--ok)"><span>Descontos</span><span>− {{ cart.total_discount | money }}</span></div>{%- endif -%}
+      <div class="summary-row small muted"><span>Frete</span><span>{% if cart.total_price >= settings.free_ship | default: 299 | times: 100 %}<span style="color:var(--ok)">Grátis</span>{% else %}calculado no checkout{% endif %}</span></div>
+      <div class="summary-row summary-row--total"><span>Total</span><span class="price">{{ cart.total_price | money }}</span></div>
+      <div class="small muted text-right">ou {{ settings.installments | default: 6 }}x de {{ cart.total_price | divided_by: settings.installments | default: 6 | money }} sem juros<br><span style="color:var(--ok)">{{ 100 | minus: settings.pix_off | default: 95 | times: cart.total_price | divided_by: 100 | money }} no Pix</span></div>
+      <form class="coupon mt-24" id="coupon-form"><input type="text" id="coupon-input" placeholder="CUPOM DE DESCONTO" aria-label="Cupom" style="text-transform:uppercase"><button class="btn btn--ghost" type="submit">Aplicar</button></form>
+      <div class="small muted mt-8" id="coupon-msg"></div>
+      <button class="btn btn--block btn--lg mt-24" type="submit" form="cart-form" name="checkout">Finalizar compra</button>
+      <a class="link small" href="{{ routes.all_products_collection_url }}" style="margin:14px auto 0;display:table">Continuar comprando</a>
+      <div class="small muted text-center mt-16">{% render 'icon', name: 'lock' %} Compra 100% segura · dados protegidos</div>
+    </aside>
+  </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Sacola", "tag": "div", "settings": [] }
+{% endschema %}

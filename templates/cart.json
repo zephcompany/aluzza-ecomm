@@ -1,0 +1,1 @@
+{ "sections": { "main": { "type": "main-cart", "settings": {} }, "upsell": { "type": "featured-products", "settings": { "title": "Você também pode gostar", "text": "", "collection": "mais-vendidos", "tag": "mais-vendido", "layout": "rail", "limit": 8, "unique_models": true, "link_text": "" } } }, "order": ["main", "upsell"] }

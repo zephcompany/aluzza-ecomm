@@ -1,0 +1,10 @@
+{% render 'auth-wrap-open' %}
+    <h1>Ativar conta</h1><p>Crie sua senha para ativar a conta.</p>
+    {%- form 'activate_customer_password', class: 'auth__form' -%}
+      {%- if form.errors -%}<div class="small" style="color:var(--erro)">{{ form.errors | default_errors }}</div>{%- endif -%}
+      <div class="field"><label for="a-pass">Senha</label><input id="a-pass" name="customer[password]" type="password" required minlength="6"></div>
+      <div class="field"><label for="a-pass2">Confirmar senha</label><input id="a-pass2" name="customer[password_confirmation]" type="password" required minlength="6"></div>
+      <button class="btn btn--block btn--lg" type="submit">Ativar conta</button>
+      <button class="btn btn--ghost btn--block" type="submit" name="decline">Recusar convite</button>
+    {%- endform -%}
+{% render 'auth-wrap-close' %}

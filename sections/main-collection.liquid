@@ -1,0 +1,122 @@
+{%- liquid
+  assign h = collection.handle
+  assign banner = ''
+  assign btitle = ''
+  assign btext = ''
+  case h
+    when 'saltos'
+      assign banner = 'hero-editorial.webp'
+      assign btitle = 'Saltos para usar o dia inteiro'
+      assign btext = 'Modelagem própria, palmilha acolchoada e altura na medida.'
+    when 'rasteiras-papetes'
+      assign banner = 'hero-rasteiras.webp'
+      assign btitle = 'Verão nos pés'
+      assign btext = 'Rasteiras e papetes com tiras macias e cores que combinam com tudo.'
+    when 'promocao'
+      assign banner = 'hero-flatlay.webp'
+      assign btitle = 'Semana Aluzza'
+      assign btext = 'Use SEMANA20 e ganhe 20% off acima de R$ 300.'
+  endcase
+  assign base_url = collection.url
+  if h == blank or h == 'all'
+    assign base_url = routes.all_products_collection_url
+  endif
+  assign tagpath = current_tags | join: '+'
+  assign subs = 'tamancos,anabelas,scarpins,sandalias,sapatilhas,rasteiras,papetes,tenis' | split: ','
+  assign sub_names = 'Tamancos,Anabelas,Scarpins,Sandálias,Sapatilhas,Rasteiras,Papetes,Tênis' | split: ','
+  assign alturas = 'altura-baixo,altura-medio,altura-alto,altura-plataforma' | split: ','
+  assign altura_names = 'Baixo (até 5 cm),Médio (6 a 8 cm),Alto (9 cm ou mais),Plataforma / anabela' | split: ','
+  assign sizes = '34,35,36,37,38,39' | split: ','
+-%}
+<section class="container">
+  <nav class="breadcrumb" aria-label="Você está em"><a href="{{ routes.root_url }}">Início</a>{% render 'icon', name: 'chevD' %}<a href="{{ base_url }}">{{ collection.title | default: 'Todos os modelos' }}</a>{% if current_tags %}<span id="bc-sub">{% render 'icon', name: 'chevD' %}<span>{{ current_tags | join: ', ' | replace: 'cor-', '' | replace: 'altura-', '' | replace: 'tam-', 'Tam. ' | capitalize }}</span></span>{% endif %}</nav>
+  <h1 id="plp-title">{{ collection.title | default: 'Todos os modelos' }}</h1>
+  <p id="plp-desc">{{ collection.description | strip_html | default: 'Tudo o que a Aluzza faz, em um só lugar.' }}</p>
+  {%- if current_tags == blank -%}
+    {%- if collection.image != blank -%}
+      <div class="plp-banner" id="plp-banner"><img src="{{ collection.image | image_url: width: 1800 }}" alt=""><div><h2>{{ collection.title }}</h2><p>{{ collection.description | strip_html | truncate: 120 }}</p></div></div>
+    {%- elsif banner != blank -%}
+      <div class="plp-banner" id="plp-banner"><img src="{{ banner | asset_url }}" alt=""><div><h2>{{ btitle }}</h2><p>{{ btext }}</p></div></div>
+    {%- endif -%}
+  {%- endif -%}
+</section>
+<section class="container section--tight" style="padding-top:8px">
+  {%- paginate collection.products by 12 -%}
+  <div class="plp" id="plp" data-base="{{ base_url }}" data-tags="{{ current_tags | join: ',' }}" data-sort="{{ collection.sort_by }}">
+    <aside class="filters" id="filters" aria-label="Filtros">
+      <div class="filters__close"><span>Filtrar</span><button class="icon-btn" data-close-drawer aria-label="Fechar">{% render 'icon', name: 'close' %}</button></div>
+      {%- assign has_sub = false -%}
+      {%- for t in collection.all_tags -%}{%- if subs contains t -%}{%- assign has_sub = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_sub -%}
+      <details class="filters__group" open><summary>Modelo {% render 'icon', name: 'chevD' %}</summary><div class="filters__body">
+        {%- for s in subs -%}{%- if collection.all_tags contains s -%}
+          {%- assign i = forloop.index0 -%}
+          <label class="check"><input type="checkbox" data-tag="{{ s }}" {% if current_tags contains s %}checked{% endif %}>{{ sub_names[i] }}</label>
+        {%- endif -%}{%- endfor -%}
+      </div></details>
+      {%- endif -%}
+      <details class="filters__group" open><summary>Tamanho {% render 'icon', name: 'chevD' %}</summary><div class="filters__body"><div class="sizes-filter">
+        {%- for z in sizes -%}{%- assign tz = 'tam-' | append: z -%}<button type="button" data-tag="{{ tz }}" class="{% if current_tags contains tz %}is-on{% endif %}">{{ z }}</button>{%- endfor -%}
+      </div><small class="muted">Mostra só o que tem no seu número.</small></div></details>
+      {%- assign has_cor = false -%}
+      {%- for t in collection.all_tags -%}{%- if t contains 'cor-' -%}{%- assign has_cor = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_cor -%}
+      <details class="filters__group" open><summary>Cor {% render 'icon', name: 'chevD' %}</summary><div class="filters__body"><div class="colors-filter">
+        {%- for t in collection.all_tags -%}{%- if t contains 'cor-' -%}
+          {%- assign cname = t | remove: 'cor-' | replace: '-', ' ' | capitalize -%}
+          <button type="button" data-tag="{{ t }}" title="{{ cname }}" class="{% if current_tags contains t %}is-on{% endif %}"><i data-color="{{ t }}"></i></button>
+        {%- endif -%}{%- endfor -%}
+      </div></div></details>
+      {%- endif -%}
+      {%- assign has_alt = false -%}
+      {%- for t in collection.all_tags -%}{%- if t contains 'altura-' -%}{%- assign has_alt = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_alt -%}
+      <details class="filters__group"><summary>Altura do salto {% render 'icon', name: 'chevD' %}</summary><div class="filters__body">
+        {%- for a in alturas -%}{%- if collection.all_tags contains a -%}{%- assign i = forloop.index0 -%}<label class="check"><input type="checkbox" data-tag="{{ a }}" {% if current_tags contains a %}checked{% endif %}>{{ altura_names[i] }}</label>{%- endif -%}{%- endfor -%}
+      </div></details>
+      {%- endif -%}
+      <details class="filters__group"><summary>Preço {% render 'icon', name: 'chevD' %}</summary><div class="filters__body"><label class="check"><input type="radio" name="sort" data-sort="price-ascending" {% if collection.sort_by == 'price-ascending' %}checked{% endif %}>Menor preço</label><label class="check"><input type="radio" name="sort" data-sort="price-descending" {% if collection.sort_by == 'price-descending' %}checked{% endif %}>Maior preço</label></div></details>
+    </aside>
+    <div>
+      <div class="plp-toolbar" id="plp-toolbar">
+        <div class="plp-toolbar__count" id="plp-count">{{ collection.products_count }} {% if collection.products_count == 1 %}modelo{% else %}modelos{% endif %}</div>
+        <div class="plp-toolbar__right">
+          <button class="btn btn--ghost btn--sm plp-filter-btn" id="open-filters" type="button">{% render 'icon', name: 'filter' %} Filtrar</button>
+          <label class="select"><span class="sr-only">Ordenar</span><select id="sort" data-sort-select>
+            <option value="manual" {% if collection.sort_by == 'manual' or collection.sort_by == blank %}selected{% endif %}>Relevância</option>
+            <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Mais vendidos</option>
+            <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Novidades</option>
+            <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Menor preço</option>
+            <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Maior preço</option>
+          </select><span id="sort-label">Ordenar</span>{% render 'icon', name: 'chevD' %}</label>
+        </div>
+      </div>
+      <div class="active-filters" id="active-filters">
+        {%- for t in current_tags -%}<button type="button" class="chip" data-remove-tag="{{ t }}">{{ t | replace: 'cor-', '' | replace: 'altura-', 'salto ' | replace: 'tam-', 'Tam. ' | replace: '-', ' ' | capitalize }} {% render 'icon', name: 'close' %}</button>{%- endfor -%}
+        {%- if current_tags.size > 0 -%}<a class="chip" href="{{ base_url }}">Limpar tudo</a>{%- endif -%}
+      </div>
+      <div class="grid grid--3" id="plp-grid" style="--gap:28px 20px">
+        {%- for product in collection.products -%}{%- render 'product-card', product: product -%}{%- endfor -%}
+        {%- if collection.products.size == 0 -%}
+          <div class="plp-empty plp-soon" style="grid-column:1/-1">{% render 'icon', name: 'spark' %}<h3>Nenhum modelo com esses filtros</h3><p>Tente tirar um filtro ou ver todos os modelos.</p><div class="plp-soon__actions"><a class="btn btn--primary btn--sm" href="{{ base_url }}">Limpar filtros</a><a class="btn btn--ghost btn--sm" href="{{ routes.all_products_collection_url }}">Ver todos os modelos</a></div></div>
+        {%- endif -%}
+      </div>
+      {%- if paginate.pages > 1 -%}
+      <div class="load-more" id="load-more-wrap"><span id="lm-text">Mostrando {{ paginate.current_offset | plus: collection.products.size }} de {{ collection.products_count }}</span><div class="load-more__track"><i id="lm-bar" style="width:{{ paginate.current_offset | plus: collection.products.size | times: 100 | divided_by: collection.products_count }}%"></i></div>{% if paginate.next %}<a class="btn btn--ghost" id="load-more" href="{{ paginate.next.url }}" data-next>Ver mais modelos</a>{% endif %}</div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endpaginate -%}
+</section>
+<section class="band band--off section section--tight"><div class="container">
+  <ul class="trust__list">
+    <li class="trust__item">{% render 'icon', name: 'truck' %}<div><b>Frete grátis a partir de R$ {{ settings.free_ship | default: 299 }}</b><span>Para todo o Brasil.</span></div></li>
+    <li class="trust__item">{% render 'icon', name: 'swap' %}<div><b>Troca grátis em 30 dias</b><span>A primeira troca é por nossa conta.</span></div></li>
+    <li class="trust__item">{% render 'icon', name: 'card' %}<div><b>Até {{ settings.installments | default: 6 }}x sem juros</b><span>Ou {{ settings.pix_off | default: 5 }}% off no Pix.</span></div></li>
+    <li class="trust__item">{% render 'icon', name: 'foot' %}<div><b>Numeração 34 ao 39</b><span>Forma normal. <a href="{{ pages.ajuda.url | default: '/pages/ajuda' }}#tamanhos" class="link">Guia de tamanhos</a></span></div></li>
+  </ul>
+</div></section>
+
+{% schema %}
+{ "name": "Coleção", "tag": "div", "settings": [] }
+{% endschema %}

@@ -1,0 +1,19 @@
+{%- if settings.popup_enabled -%}
+{%- assign pp = all_products[settings.popup_product] -%}
+<div class="alz-dialog alz-cupom" id="alz-cupom-news"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
+  <div class="alz-cupom__img">{% if pp != blank %}<img src="{{ pp.images[2] | default: pp.images[1] | default: pp.featured_image | image_url: width: 800 }}" alt="">{% else %}<img src="{{ 'hero-flatlay.webp' | asset_url }}" alt="">{% endif %}</div>
+  <div class="alz-cupom__body">
+    <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">{% render 'icon', name: 'close' %}</button>
+    <span class="eyebrow">Primeira vez por aqui?</span>
+    <h3>{{ settings.popup_title | default: 'Ganhe 10% off na sua primeira compra' }}</h3>
+    <p>{{ settings.popup_text | default: 'Deixe seu e-mail e receba o cupom na hora. Lançamentos e ofertas da Aluzza antes de todo mundo, sem spam.' }}</p>
+    {%- form 'customer', id: 'alz-cupom-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter,popup">
+      <input type="email" name="contact[email]" required placeholder="Seu melhor e-mail" aria-label="E-mail" autocomplete="email">
+      <button class="btn btn--block" type="submit">Quero meu cupom</button>
+    {%- endform -%}
+    <div class="alz-cupom__code" hidden>Seu cupom: {{ settings.first_coupon | default: 'BEMVINDA10' }}</div>
+    <a class="alz-cupom__skip" href="#" data-close-alz-dialog>Agora não, obrigada</a>
+  </div>
+</div></div>
+{%- endif -%}

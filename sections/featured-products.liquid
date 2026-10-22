@@ -1,0 +1,59 @@
+{%- liquid
+  assign coll = section.settings.collection
+  assign limit = section.settings.limit
+  assign uniq = ''
+  assign shown = 0
+  if coll != blank
+    assign src = coll.products
+  else
+    assign src = collections.all.products
+  endif
+-%}
+<section class="section{% if section.settings.tight %} section--tight{% endif %}{% if section.settings.band %} band band--off{% endif %}" id="s-{{ section.id }}"><div class="container">
+  <div class="section-head">
+    <div><h2>{{ section.settings.title }}</h2>{% if section.settings.text != blank %}<p>{{ section.settings.text }}</p>{% endif %}</div>
+    {%- if section.settings.layout == 'rail' -%}
+      <div class="rail__nav"><button class="rail__btn" data-prev aria-label="Anterior">{% render 'icon', name: 'arrL' %}</button><button class="rail__btn" data-next aria-label="Próximo">{% render 'icon', name: 'arrR' %}</button></div>
+    {%- elsif section.settings.link_text != blank -%}
+      <a class="link" href="{% if section.settings.link != blank %}{{ section.settings.link }}{% elsif coll != blank %}{{ coll.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}">{{ section.settings.link_text }}</a>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.layout == 'rail' -%}<div class="rail"><div class="rail__track">{%- else -%}<div class="grid grid--4 rv-stagger">{%- endif -%}
+  {%- for product in src limit: 50 -%}
+    {%- if shown >= limit %}{% break %}{% endif -%}
+    {%- if coll == blank and section.settings.tag != blank -%}{%- unless product.tags contains section.settings.tag %}{% continue %}{% endunless -%}{%- endif -%}
+    {%- if section.settings.unique_models -%}
+      {%- assign model = product.title | split: ' – ' | first -%}
+      {%- assign key = '|' | append: model | append: '|' -%}
+      {%- if uniq contains key %}{% continue %}{% endif -%}
+      {%- assign uniq = uniq | append: key -%}
+    {%- endif -%}
+    {%- render 'product-card', product: product -%}
+    {%- assign shown = shown | plus: 1 -%}
+  {%- endfor -%}
+  {%- if section.settings.layout == 'rail' -%}</div></div>{%- else -%}</div>{%- endif -%}
+  {%- if section.settings.layout == 'rail' and section.settings.link_text != blank -%}
+    <div class="text-center mt-32"><a class="btn btn--ghost" href="{% if section.settings.link != blank %}{{ section.settings.link }}{% elsif coll != blank %}{{ coll.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}">{{ section.settings.link_text }}</a></div>
+  {%- endif -%}
+</div></section>
+
+{% schema %}
+{
+  "name": "Produtos em destaque",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Chegou esta semana" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Lançamentos direto do nosso ateliê. Poucas peças por modelo." },
+    { "type": "collection", "id": "collection", "label": "Coleção" },
+    { "type": "text", "id": "tag", "label": "…ou filtrar todos os produtos por tag (ex.: novo, mais-vendido, promocao)", "default": "novo" },
+    { "type": "select", "id": "layout", "label": "Layout", "options": [ { "value": "grid", "label": "Grade (4 por linha)" }, { "value": "rail", "label": "Carrossel" } ], "default": "grid" },
+    { "type": "range", "id": "limit", "label": "Quantidade", "min": 4, "max": 12, "step": 1, "default": 8 },
+    { "type": "checkbox", "id": "unique_models", "label": "Mostrar só uma cor por modelo", "default": true },
+    { "type": "text", "id": "link_text", "label": "Texto do link", "default": "Ver todas as novidades" },
+    { "type": "url", "id": "link", "label": "Link (se vazio, usa a coleção)" },
+    { "type": "checkbox", "id": "tight", "label": "Espaçamento menor", "default": false },
+    { "type": "checkbox", "id": "band", "label": "Fundo off-white", "default": false }
+  ],
+  "presets": [ { "name": "Produtos em destaque" } ]
+}
+{% endschema %}

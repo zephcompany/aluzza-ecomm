@@ -1,0 +1,31 @@
+/* Ajustes específicos do tema Shopify (complementa aluzza.css) */
+.shopify-section{display:contents}
+.header-wrap,.announce-wrap{display:contents}
+.tabs .btn-tab{display:inline-flex;align-items:center;justify-content:center;flex:1;height:44px;border:0;background:transparent;font:inherit;color:var(--texto-2);text-decoration:none}
+.account__nav a{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--radius);color:var(--texto);text-decoration:none;font-size:14.5px}
+.account__nav a.is-on{background:var(--off)}
+.account__nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6}
+.prose h2{font-size:clamp(24px,2.6vw,34px);margin:32px 0 10px}
+.prose p{margin:0 0 14px;color:var(--texto-2)}
+.prose ul{margin:0 0 14px 20px;color:var(--texto-2)}
+.mega__img img{transition:opacity .22s var(--ease),transform .8s var(--ease)}
+.pcard__colors .swatch{opacity:0;animation:swIn .3s forwards}
+@keyframes swIn{to{opacity:1}}
+.colors-filter i[data-color]{background:#ccc}
+.shopify-challenge__container{padding:40px 16px}
+.shopify-policy__container{max-width:760px;margin:40px auto;padding:0 var(--gutter)}
+.shopify-policy__title h1{font-family:var(--font-display);font-weight:400;margin-bottom:16px}
+.shopify-policy__body{color:var(--texto-2)}
+.cart-item__remove svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;vertical-align:-2px;margin-right:4px}
+.hero__media video{width:100%;height:100%;object-fit:cover}
+.hero__media .video-section__media,.hero__media deferred-media{width:100%;height:100%}
+.pinfo__type .badge{margin-left:6px}
+.order-card{border:1px solid var(--linha);border-radius:var(--radius-2);padding:18px 20px;margin-bottom:14px}
+.order-card__head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.order-card__head small{margin-left:8px;color:var(--texto-3)}
+.order-card__items{display:flex;gap:8px;margin:14px 0}
+.order-card__items img{width:52px;height:69px;object-fit:cover;border-radius:3px;background:var(--off)}
+.status{font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;background:var(--off)}
+.status--ok{background:#E3F1E7;color:var(--ok)}
+.status--ship{background:var(--laranja-tint);color:var(--laranja-2)}
+.status--wait{background:var(--off-2);color:var(--texto-2)}

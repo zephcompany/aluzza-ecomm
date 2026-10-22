@@ -1,0 +1,91 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "s1": { "type": "video", "settings": { "kicker": "Primavera Verão 26 · fabricação própria", "title": "Conforto que acompanha o seu dia.", "text": "Saltos, rasteiras e sapatilhas com modelagem exclusiva, feitos pela Aluzza em Goiânia há 15 anos.", "cta1": "Ver novidades", "url1": "/collections/novidades", "cta2": "Mais vendidos", "url2": "/collections/mais-vendidos" } },
+        "s2": { "type": "image", "settings": { "fallback": "hero-rasteiras", "kicker": "Rasteiras & Papetes", "title": "Verão nos pés, o dia inteiro.", "text": "Tiras macias, palmilha acolchoada e cores que combinam com tudo. A partir de R$ 129,90.", "cta1": "Comprar rasteiras", "url1": "/collections/rasteiras-papetes" } },
+        "s3": { "type": "image", "settings": { "fallback": "hero-editorial", "kicker": "Saltos", "title": "Salto que você põe de manhã e esquece à noite.", "text": "Scarpins, anabelas e tamancos com a altura certa para cada ocasião, do trabalho ao casamento.", "cta1": "Ver saltos", "url1": "/collections/saltos", "cta2": "Guia de tamanhos", "url2": "/pages/ajuda#tamanhos" } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "truck", "title": "Frete grátis a partir de R$ 299", "text": "Para todo o Brasil. Em Goiânia, chega amanhã." } },
+        "t2": { "type": "item", "settings": { "icon": "swap", "title": "Troca grátis em 30 dias", "text": "Não serviu? A primeira troca é por nossa conta." } },
+        "t3": { "type": "item", "settings": { "icon": "card", "title": "Até 6x sem juros", "text": "Ou 5% de desconto pagando no Pix." } },
+        "t4": { "type": "item", "settings": { "icon": "hand", "title": "Fabricação própria", "text": "Modelagem exclusiva, feita em Goiânia desde 2011." } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {}
+    },
+    "tiles": {
+      "type": "cat-tiles",
+      "blocks": {
+        "c1": { "type": "tile", "settings": { "title": "Tamancos", "handle": "tamancos", "product": "tamanco-marina-preto", "image_index": 3 } },
+        "c2": { "type": "tile", "settings": { "title": "Scarpins", "handle": "scarpins", "product": "scarpin-paola-cafe", "image_index": 2 } },
+        "c3": { "type": "tile", "settings": { "title": "Anabelas", "handle": "anabelas", "product": "anabela-elisa-cafe", "image_index": 2 } },
+        "c4": { "type": "tile", "settings": { "title": "Rasteiras", "handle": "rasteiras-papetes", "product": "rasteira-isis-bege", "image_index": 2 } },
+        "c5": { "type": "tile", "settings": { "title": "Sapatilhas", "handle": "sapatilhas", "product": "sapatilha-nina-2057", "image_index": 2 } },
+        "c6": { "type": "tile", "settings": { "title": "Promoção", "handle": "promocao", "product": "tamanco-mist-cafe", "image_index": 4 } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"],
+      "settings": { "title": "Escolha pelo seu dia", "text": "Do salto para a reunião à rasteira para o fim de semana." }
+    },
+    "novidades": { "type": "featured-products", "settings": { "title": "Chegou esta semana", "text": "Lançamentos direto do nosso ateliê. Poucas peças por modelo.", "collection": "novidades", "tag": "novo", "layout": "grid", "limit": 8, "unique_models": true, "link_text": "Ver todas as novidades" } },
+    "bycolor": { "type": "bycolor", "settings": { "p1": "tamanco-marina-preto", "hex1": "#1a1a1a", "p2": "tamanco-marina-off", "hex2": "#f1ece3", "p3": "tamanco-marina-vermelho-20385", "hex3": "#b3261e", "p4": "tamanco-marina-amarelo", "hex4": "#e9c349" } },
+    "best": { "type": "featured-products", "settings": { "title": "Os mais pedidos", "text": "Os modelos que mais saem da nossa loja, mês após mês.", "collection": "mais-vendidos", "tag": "mais-vendido", "layout": "rail", "limit": 10, "unique_models": true, "link_text": "" } },
+    "promo": { "type": "promo-week", "settings": {} },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "m1": { "type": "item", "settings": { "text": "Frete grátis a partir de R$ 299" } },
+        "m2": { "type": "item", "settings": { "text": "Troca grátis em 30 dias" } },
+        "m3": { "type": "item", "settings": { "text": "Até 6x sem juros" } },
+        "m4": { "type": "item", "settings": { "text": "Fabricação própria em Goiânia" } },
+        "m5": { "type": "item", "settings": { "text": "Numeração 34 ao 39" } }
+      },
+      "block_order": ["m1", "m2", "m3", "m4", "m5"],
+      "settings": {}
+    },
+    "story": {
+      "type": "story",
+      "blocks": {
+        "p1": { "type": "point", "settings": { "text": "Modelagem exclusiva, testada em quem usa salto o dia inteiro" } },
+        "p2": { "type": "point", "settings": { "text": "Coleções novas toda semana, em pequenas quantidades" } },
+        "p3": { "type": "point", "settings": { "text": "Loja física em Goiânia e envio para todo o Brasil" } }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {}
+    },
+    "promocao": { "type": "featured-products", "settings": { "title": "Promoção da semana", "text": "Últimas peças de modelos queridos. Enquanto durar o estoque.", "collection": "promocao", "tag": "promocao", "layout": "rail", "limit": 8, "unique_models": true, "link_text": "Ver toda a promoção" } },
+    "ugc": {
+      "type": "ugc",
+      "blocks": {
+        "u1": { "type": "photo", "settings": { "product": "tamanco-zara-caramelo-salto-alto", "image_index": 4 } },
+        "u2": { "type": "photo", "settings": { "product": "anabela-elisa-cafe", "image_index": 4 } },
+        "u3": { "type": "photo", "settings": { "product": "sapatilha-nina-2057", "image_index": 4 } },
+        "u4": { "type": "photo", "settings": { "product": "rasteira-isis-bege", "image_index": 4 } },
+        "u5": { "type": "photo", "settings": { "product": "tamanco-marina-preto", "image_index": 4 } },
+        "u6": { "type": "photo", "settings": { "product": "tamanco-soraia-dourado", "image_index": 4 } }
+      },
+      "block_order": ["u1", "u2", "u3", "u4", "u5", "u6"],
+      "settings": {}
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "r1": { "type": "review", "settings": { "quote": "Usei o Tamanco Marina no trabalho das 8 às 19h. É o primeiro salto que não me fez tirar o sapato debaixo da mesa.", "name": "Juliana M.", "meta": "Goiânia, GO · Tamanco Marina Preto" } },
+        "r2": { "type": "review", "settings": { "quote": "Comprei a Rasteira Inês dourada, voltei na semana seguinte para a rosê. Chegou em dois dias para o interior de SP.", "name": "Carla S.", "meta": "Ribeirão Preto, SP · Rasteira Inês" } },
+        "r3": { "type": "review", "settings": { "quote": "A troca foi sem estresse: pedi o 37 no lugar do 36 pelo WhatsApp e em três dias estava com o par certo.", "name": "Fernanda R.", "meta": "Brasília, DF · Scarpin Paola" } }
+      },
+      "block_order": ["r1", "r2", "r3"],
+      "settings": {}
+    },
+    "recent": { "type": "recent", "settings": {} },
+    "newsletter": { "type": "newsletter", "settings": {} }
+  },
+  "order": ["hero", "trust", "tiles", "novidades", "bycolor", "best", "promo", "marquee", "story", "promocao", "ugc", "reviews", "recent", "newsletter"]
+}

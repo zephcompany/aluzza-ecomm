@@ -1,0 +1,44 @@
+<section class="section section--tight"><div class="container">
+  <div class="section-head"><div><h2>{{ section.settings.title }}</h2><p>{{ section.settings.text }}</p></div><a class="link hide-mobile" href="{{ routes.all_products_collection_url }}">Todos os modelos</a></div>
+  <div class="cat-rail rv-stagger">
+    {%- for b in section.blocks -%}
+      {%- assign pr = all_products[b.settings.product] -%}
+      {%- assign idx = b.settings.image_index | minus: 1 -%}
+      <a class="cat-tile" href="{% if b.settings.url != blank %}{{ b.settings.url }}{% else %}{% render 'coll-url', handle: b.settings.handle %}{% endif %}" {{ b.shopify_attributes }}>
+        {%- if b.settings.image != blank -%}<img src="{{ b.settings.image | image_url: width: 600 }}" alt="" loading="lazy">
+        {%- elsif pr != blank -%}<img src="{{ pr.images[idx] | default: pr.featured_image | image_url: width: 600, height: 800, crop: 'center' }}" alt="" loading="lazy">{%- endif -%}
+        <span class="cat-tile__label">{{ b.settings.title }} {% render 'icon', name: 'arrR' %}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Categorias (tiles)",
+  "tag": "div",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Escolha pelo seu dia" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Do salto para a reunião à rasteira para o fim de semana." }
+  ],
+  "blocks": [
+    { "type": "tile", "name": "Tile", "settings": [
+      { "type": "text", "id": "title", "label": "Nome", "default": "Tamancos" },
+      { "type": "text", "id": "handle", "label": "Coleção (handle) ou tag", "default": "tamancos" },
+      { "type": "url", "id": "url", "label": "Link (opcional, sobrepõe a coleção)" },
+      { "type": "image_picker", "id": "image", "label": "Imagem" },
+      { "type": "product", "id": "product", "label": "…ou usar foto de um produto" },
+      { "type": "range", "id": "image_index", "label": "Qual foto do produto", "min": 1, "max": 5, "step": 1, "default": 2 }
+    ] }
+  ],
+  "presets": [ { "name": "Categorias (tiles)", "blocks": [
+    { "type": "tile", "settings": { "title": "Tamancos", "handle": "tamancos", "product": "tamanco-marina-preto", "image_index": 3 } },
+    { "type": "tile", "settings": { "title": "Scarpins", "handle": "scarpins", "product": "scarpin-paola-cafe", "image_index": 2 } },
+    { "type": "tile", "settings": { "title": "Anabelas", "handle": "anabelas", "product": "anabela-elisa-cafe", "image_index": 2 } },
+    { "type": "tile", "settings": { "title": "Rasteiras", "handle": "rasteiras-papetes", "product": "rasteira-isis-bege", "image_index": 2 } },
+    { "type": "tile", "settings": { "title": "Sapatilhas", "handle": "sapatilhas", "product": "sapatilha-nina-2057", "image_index": 2 } },
+    { "type": "tile", "settings": { "title": "Promoção", "handle": "promocao", "product": "tamanco-mist-cafe", "image_index": 4 } }
+  ] } ]
+}
+{% endschema %}

@@ -1,0 +1,22 @@
+{% render 'auth-wrap-open' %}
+    <h1>Bem-vinda</h1><p>Entre ou crie sua conta para acompanhar pedidos e ganhar 10% off na primeira compra.</p>
+    <div class="tabs"><button type="button" class="is-on" data-tab="login">Entrar</button><a class="btn-tab" href="{{ routes.account_register_url }}" style="display:inline-flex">Criar conta</a></div>
+    {%- form 'customer_login', class: 'auth__form', id: 'form-login' -%}
+      {%- if form.errors -%}<div class="small" style="color:var(--erro)">{{ form.errors | default_errors }}</div>{%- endif -%}
+      <div class="field"><label for="l-email">E-mail</label><input id="l-email" name="customer[email]" type="email" required autocomplete="email" placeholder="seu@email.com"></div>
+      <div class="field"><label for="l-pass">Senha</label><input id="l-pass" name="customer[password]" type="password" required autocomplete="current-password" placeholder="••••••••"></div>
+      <div class="auth__row"><label class="check"><input type="checkbox" checked> Continuar conectada</label><a href="#recover" id="recover-link">Esqueci a senha</a></div>
+      <button class="btn btn--block btn--lg" type="submit">Entrar</button>
+    {%- endform -%}
+    <div id="recover" hidden>
+      {%- form 'recover_customer_password', class: 'auth__form mt-24' -%}
+        <h3 style="font-family:var(--font-ui);font-weight:500;font-size:18px">Recuperar senha</h3>
+        {%- if form.posted_successfully? -%}<p class="small" style="color:var(--ok)">Enviamos um e-mail com o link para criar uma nova senha.</p>{%- endif -%}
+        {%- if form.errors -%}<div class="small" style="color:var(--erro)">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="field"><label for="r-email">E-mail</label><input id="r-email" name="email" type="email" required autocomplete="email"></div>
+        <button class="btn btn--block" type="submit">Enviar link</button>
+      {%- endform -%}
+    </div>
+    <p class="small muted text-center mt-16">Ainda não tem conta? <a class="link" href="{{ routes.account_register_url }}">Crie a sua e ganhe 10% off</a>.</p>
+{% render 'auth-wrap-close' %}
+<script>document.addEventListener('DOMContentLoaded',function(){var l=document.getElementById('recover-link'),r=document.getElementById('recover');if(l&&r){l.addEventListener('click',function(e){e.preventDefault();r.hidden=!r.hidden;});if(location.hash==='#recover')r.hidden=false;}});</script>
