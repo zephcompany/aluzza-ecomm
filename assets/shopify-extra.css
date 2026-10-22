@@ -29,3 +29,7 @@
 .status--ok{background:#E3F1E7;color:var(--ok)}
 .status--ship{background:var(--laranja-tint);color:var(--laranja-2)}
 .status--wait{background:var(--off-2);color:var(--texto-2)}
+.cart-side .small svg,.cart-item__remove svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;vertical-align:-2px}
+.breadcrumb>span,.breadcrumb #bc-sub{display:inline-flex;align-items:center;gap:6px}
+.breadcrumb svg{width:12px;height:12px;flex:none}
+.plp-toolbar__count{white-space:nowrap}
