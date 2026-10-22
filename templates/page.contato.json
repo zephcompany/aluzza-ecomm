@@ -1,1 +1,11 @@
-{ "sections": { "main": { "type": "main-contato", "settings": {} } }, "order": ["main"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-contato",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

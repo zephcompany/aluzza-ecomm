@@ -1,1 +1,68 @@
-{ "sections": { "hero": { "type": "page-hero", "settings": { "eyebrow": "Desde 2011, em Goiânia", "title": "Feito por quem usa salto o dia inteiro.", "text": "A Aluzza nasceu de uma inquietação simples: por que um sapato bonito precisava machucar? Quinze anos depois, desenhamos e fabricamos cada modelo no nosso ateliê, com a forma pensada para o pé brasileiro.", "image": "hero-flatlay" } }, "story": { "type": "story", "blocks": { "p1": { "type": "point", "settings": { "text": "Modelagem exclusiva, testada em quem usa salto o dia inteiro" } }, "p2": { "type": "point", "settings": { "text": "Coleções novas toda semana, em pequenas quantidades" } }, "p3": { "type": "point", "settings": { "text": "Loja física em Goiânia e envio para todo o Brasil" } } }, "block_order": ["p1", "p2", "p3"], "settings": { "cta": "Ver os modelos", "url": "/collections/all" } }, "content": { "type": "main-page", "settings": {} }, "best": { "type": "featured-products", "settings": { "title": "Os mais pedidos", "text": "", "collection": "mais-vendidos", "tag": "mais-vendido", "layout": "rail", "limit": 8, "unique_models": true, "link_text": "" } } }, "order": ["hero", "story", "content", "best"] }
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "Desde 2011, em Goiânia",
+        "title": "Feito por quem usa salto o dia inteiro.",
+        "text": "A Aluzza nasceu de uma inquietação simples: por que um sapato bonito precisava machucar? Quinze anos depois, desenhamos e fabricamos cada modelo no nosso ateliê, com a forma pensada para o pé brasileiro.",
+        "image": "hero-flatlay"
+      }
+    },
+    "story": {
+      "type": "story",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "text": "Modelagem exclusiva, testada em quem usa salto o dia inteiro"
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "text": "Coleções novas toda semana, em pequenas quantidades"
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "text": "Loja física em Goiânia e envio para todo o Brasil"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "cta": "Ver os modelos",
+        "url": "/collections/all"
+      }
+    },
+    "content": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "best": {
+      "type": "featured-products",
+      "settings": {
+        "title": "Os mais pedidos",
+        "text": "",
+        "collection": "mais-vendidos",
+        "tag": "mais-vendido",
+        "layout": "rail",
+        "limit": 8,
+        "unique_models": true,
+        "link_text": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "story",
+    "content",
+    "best"
+  ]
+}

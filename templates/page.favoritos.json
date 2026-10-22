@@ -1,1 +1,25 @@
-{ "sections": { "main": { "type": "main-favoritos", "settings": {} }, "best": { "type": "featured-products", "settings": { "title": "Os mais pedidos", "text": "", "collection": "mais-vendidos", "tag": "mais-vendido", "layout": "rail", "limit": 8, "unique_models": true, "link_text": "" } } }, "order": ["main", "best"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-favoritos",
+      "settings": {}
+    },
+    "best": {
+      "type": "featured-products",
+      "settings": {
+        "title": "Os mais pedidos",
+        "text": "",
+        "collection": "mais-vendidos",
+        "tag": "mais-vendido",
+        "layout": "rail",
+        "limit": 8,
+        "unique_models": true,
+        "link_text": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "best"
+  ]
+}

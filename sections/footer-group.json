@@ -2,7 +2,12 @@
   "type": "footer",
   "name": "Rodapé",
   "sections": {
-    "footer": { "type": "footer", "settings": {} }
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
