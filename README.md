@@ -4,7 +4,7 @@ Site estático (HTML + CSS + JS puro), sem dependências de build. Abra `index.h
 em um servidor local (ex.: `python3 -m http.server`) ou publique a pasta inteira.
 
 ## Estrutura
-- `index.html` — home (preloader, hero com vídeo + 2 banners, categorias, novidades, compre por cor, mais vendidos, Semana Aluzza com contador, história, promoção, UGC, avaliações, newsletter)
+- `index.html` — home (preloader, hero com vídeo + 2 banners, categorias, novidades, compre por cor, mais vendidos, Semana Aluzza com contador, história, promoção, UGC, avaliações, alz-clube)
 - `categoria.html?c=saltos|sapatilhas|rasteiras|tenis|promocao|novidades|todos[&s=sub][&q=busca][&h=altura][&sort=]` — listagem com filtros, ordenação e "ver mais"
 - `produto.html?p=slug` — página de produto (galeria com zoom, cores da família, tamanhos com estoque, Veja em você, frete, avaliações, cross-sell, vistos recentemente)
 - `carrinho.html`, `checkout.html` (3 etapas), `pedido.html?n=` (confirmação com Pix)
@@ -26,6 +26,6 @@ Geradas a partir da 1ª foto de cada produto (Gemini / ChatGPT) e normalizadas p
 Para adicionar um produto novo: gere a foto, salve como `assets/img/products/pk{id}.webp` e informe `pack` no catálogo.
 
 ## Observações
-- O "Veja em você" é apenas a interface (modal explicativo + aviso), conforme combinado.
+- O "Veja em você" é apenas a interface (alz-dialog explicativo + aviso), conforme combinado.
 - Avaliações, pontos do clube e pedidos de exemplo são dados de demonstração.
 - Fontes: Marcellus + Jost (Google Fonts).

@@ -183,13 +183,13 @@
     document.body.classList.remove('is-locked');
   }
   function openModal(id) { const m = $(id); if (!m) return; m.classList.add('is-open'); document.body.classList.add('is-locked'); }
-  function closeModal(m) { m.classList.remove('is-open'); if (!$('.modal.is-open')) document.body.classList.remove('is-locked'); }
+  function closeModal(m) { m.classList.remove('is-open'); if (!$('.alz-dialog.is-open')) document.body.classList.remove('is-locked'); }
   document.addEventListener('click', e => {
-    const c = e.target.closest('[data-close-modal]'); if (c) closeModal(c.closest('.modal'));
-    if (e.target.classList.contains('modal__bg')) closeModal(e.target.closest('.modal'));
+    const c = e.target.closest('[data-close-alz-dialog]'); if (c) closeModal(c.closest('.alz-dialog'));
+    if (e.target.classList.contains('alz-dialog__bg')) closeModal(e.target.closest('.alz-dialog'));
     if (e.target.closest('[data-close-drawer]')) closeAll();
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAll(); $$('.modal.is-open').forEach(closeModal); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAll(); $$('.alz-dialog.is-open').forEach(closeModal); } });
 
   /* ------------------------------------------------------------------ header / footer */
   function renderHeader() {
@@ -363,23 +363,23 @@
       </div>
       <button type="button" class="wchat__btn" id="wchat-toggle" aria-label="Falar com o atendimento no WhatsApp">${I.whats}<span class="wchat__label">Ajuda no WhatsApp</span><span class="wchat__badge" id="wchat-badge" hidden>1</span></button>
     </div>
-    <div class="modal popup" id="popup-news"><div class="modal__bg"></div><div class="modal__box">
-      <div class="popup__img"><img src="${byId[2082].images[2]}" alt=""></div>
-      <div class="popup__body">
-        <button class="icon-btn modal__close" data-close-modal aria-label="Fechar">${I.close}</button>
+    <div class="alz-dialog alz-cupom" id="alz-cupom-news"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
+      <div class="alz-cupom__img"><img src="${byId[2082].images[2]}" alt=""></div>
+      <div class="alz-cupom__body">
+        <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">${I.close}</button>
         <span class="eyebrow">Primeira vez por aqui?</span>
         <h3>Ganhe 10% off na sua primeira compra</h3>
         <p>Deixe seu e-mail e receba o cupom na hora. Lançamentos e ofertas da Aluzza antes de todo mundo, sem spam.</p>
-        <form id="popup-form"><input type="email" required placeholder="Seu melhor e-mail" aria-label="E-mail"><button class="btn btn--block" type="submit">Quero meu cupom</button></form>
-        <div class="popup__code" hidden>Seu cupom: ${CFG.FIRST_COUPON}</div>
-        <a class="popup__skip" href="#" data-close-modal>Agora não, obrigada</a>
+        <form id="alz-cupom-form"><input type="email" required placeholder="Seu melhor e-mail" aria-label="E-mail"><button class="btn btn--block" type="submit">Quero meu cupom</button></form>
+        <div class="alz-cupom__code" hidden>Seu cupom: ${CFG.FIRST_COUPON}</div>
+        <a class="alz-cupom__skip" href="#" data-close-alz-dialog>Agora não, obrigada</a>
       </div>
     </div></div>`;
-    // popup (uma vez por sessão, após 14s, só se ainda não cadastrou)
-    if (!sess.get('aluzza_popup') && !store.get('aluzza_news') && document.body.dataset.page !== 'checkout' && document.body.dataset.page !== 'pedido') {
-      setTimeout(() => { if (!$('.modal.is-open') && !$('.drawer.is-open')) { openModal('#popup-news'); sess.set('aluzza_popup', '1'); } }, 14000);
+    // alz-cupom (uma vez por sessão, após 14s, só se ainda não cadastrou)
+    if (!sess.get('aluzza_alz-cupom') && !store.get('aluzza_news') && document.body.dataset.page !== 'checkout' && document.body.dataset.page !== 'pedido') {
+      setTimeout(() => { if (!$('.alz-dialog.is-open') && !$('.drawer.is-open')) { openModal('#alz-cupom-news'); sess.set('aluzza_alz-cupom', '1'); } }, 14000);
     }
-    $('#popup-form').addEventListener('submit', e => { e.preventDefault(); store.set('aluzza_news', true); $('#popup-form').hidden = true; $('.popup__code').hidden = false; toast(`${I.check}<span>Cupom ${CFG.FIRST_COUPON} liberado. Use no carrinho.</span>`); });
+    $('#alz-cupom-form').addEventListener('submit', e => { e.preventDefault(); store.set('aluzza_news', true); $('#alz-cupom-form').hidden = true; $('.alz-cupom__code').hidden = false; toast(`${I.check}<span>Cupom ${CFG.FIRST_COUPON} liberado. Use no carrinho.</span>`); });
   }
 
   /* ------------------------------------------------------------------ badges / mini cart */
@@ -708,7 +708,7 @@
     sg.innerHTML = CFG.SIZES.map(s => `<button type="button" data-size="${s}" class="${p.stock[s] > 0 && p.stock[s] <= 3 ? 'is-low' : ''}" ${p.stock[s] ? '' : 'disabled'} aria-label="Tamanho ${s}${p.stock[s] ? '' : ', esgotado'}">${s}</button>`).join('');
     sg.addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
-      if (b.disabled) { $('#notify-size').textContent = b.dataset.size; openModal('#modal-notify'); return; }
+      if (b.disabled) { $('#notify-size').textContent = b.dataset.size; openModal('#alz-dialog-notify'); return; }
       size = b.dataset.size; $$('button', sg).forEach(x => x.classList.toggle('is-on', x === b));
       const st = p.stock[size]; note.className = 'size-note' + (st <= 3 ? ' is-low' : ''); note.innerHTML = st <= 3 ? `${I.flame} Restam só ${st} ${st === 1 ? 'par' : 'pares'} no ${size}` : `Tamanho ${size} selecionado · forma normal, compre a sua numeração habitual`;
       $('#sticky-size').textContent = `Tam. ${size}`;
@@ -728,10 +728,10 @@
     document.body.classList.add('has-sticky-buy');
     const buyBox = $('#p-buy'); if ('IntersectionObserver' in window) { new IntersectionObserver(en => $('#sticky-buy').classList.toggle('is-on', !en[0].isIntersecting && en[0].boundingClientRect.top < 0), { threshold: 0 }).observe(buyBox); }
     // veja em você
-    $('#tryon-btn').addEventListener('click', () => { $('#tryon-img').src = p.images[0]; openModal('#modal-tryon'); });
-    $('#size-guide-btn').addEventListener('click', () => openModal('#modal-sizes'));
-    $('#notify-form').addEventListener('submit', e => { e.preventDefault(); closeModal($('#modal-notify')); toast(`${I.check}<span>Pronto! Avisamos você quando o ${$('#notify-size').textContent} voltar.</span>`); });
-    $('#tryon-form').addEventListener('submit', e => { e.preventDefault(); toast(`${I.check}<span>Você será avisada quando o Veja em você estiver disponível.</span>`); closeModal($('#modal-tryon')); });
+    $('#tryon-btn').addEventListener('click', () => { $('#tryon-img').src = p.images[0]; openModal('#alz-dialog-tryon'); });
+    $('#size-guide-btn').addEventListener('click', () => openModal('#alz-dialog-sizes'));
+    $('#notify-form').addEventListener('submit', e => { e.preventDefault(); closeModal($('#alz-dialog-notify')); toast(`${I.check}<span>Pronto! Avisamos você quando o ${$('#notify-size').textContent} voltar.</span>`); });
+    $('#tryon-form').addEventListener('submit', e => { e.preventDefault(); toast(`${I.check}<span>Você será avisada quando o Veja em você estiver disponível.</span>`); closeModal($('#alz-dialog-tryon')); });
     // frete
     $('#ship-form').addEventListener('submit', e => {
       e.preventDefault(); const cep = $('#ship-cep').value.replace(/\D/g, '');
@@ -898,8 +898,8 @@
     const st = { ok: ['status--ok', 'Entregue'], ship: ['status--ship', 'A caminho'], wait: ['status--wait', 'Aguardando pagamento'] };
     $('#orders').innerHTML = orders.map(o => `<div class="order-card"><div class="order-card__head"><div><b>${o.n}</b><small>${new Date(o.date).toLocaleDateString('pt-BR')}</small></div><span class="status ${st[o.status][0]}">${st[o.status][1]}</span></div><div class="order-card__items">${o.items.map(i => byId[i.id] ? `<img src="${mainImg(byId[i.id])}" alt="${esc(byId[i.id].name)}" title="${esc(byId[i.id].name)} · ${i.size}">` : '').join('')}</div><div class="order-card__foot"><span>${o.items.reduce((a, i) => a + i.qty, 0)} ${o.items.reduce((a, i) => a + i.qty, 0) > 1 ? 'itens' : 'item'} · <b class="price">${money(o.total)}</b></span><div class="flex"><a class="link small" href="pedido.html?n=${o.n}">Ver detalhes</a>${o.status === 'ok' && byId[o.items[0].id] ? `<a class="link small" href="${url.product(byId[o.items[0].id])}">Comprar de novo</a>` : ''}</div></div></div>`).join('');
     $('#d-nome').value = u.name; $('#d-email').value = u.email;
-    $$('#panel-enderecos .address-card button, #panel-enderecos .btn').forEach(b => b.addEventListener('click', () => openModal('#modal-endereco')));
-    $('#form-endereco') && $('#form-endereco').addEventListener('submit', e => { e.preventDefault(); closeModal($('#modal-endereco')); toast(`${I.check}<span>Endereço salvo</span>`); });
+    $$('#panel-enderecos .address-card button, #panel-enderecos .btn').forEach(b => b.addEventListener('click', () => openModal('#alz-dialog-endereco')));
+    $('#form-endereco') && $('#form-endereco').addEventListener('submit', e => { e.preventDefault(); closeModal($('#alz-dialog-endereco')); toast(`${I.check}<span>Endereço salvo</span>`); });
     $('#form-dados').addEventListener('submit', e => { e.preventDefault(); user.set({ ...u, name: $('#d-nome').value, email: $('#d-email').value }); toast(`${I.check}<span>Dados atualizados</span>`); });
     const w = wish.ids.map(i => byId[i]).filter(Boolean);
     $('#acc-wish').innerHTML = w.length ? w.map(p => productCard(p)).join('') : `<div class="wish-empty" style="grid-column:1/-1">${I.heart}<p>Você ainda não salvou favoritos.</p></div>`;
@@ -962,13 +962,34 @@
     const page = document.body.dataset.page; if (pages[page]) pages[page]();
     initRails(); initReveal();
     const pg = document.querySelector('.page'); if (!$('#preloader') && pg) { pg.classList.add('page-fade'); pg.addEventListener('animationend', () => pg.classList.remove('page-fade'), { once: true }); }
-    // newsletter forms genéricas
-    $$('[data-newsletter]').forEach(f => f.addEventListener('submit', e => { e.preventDefault(); store.set('aluzza_news', true); f.innerHTML = `<p style="color:var(--ok);font-weight:500">${I.check.replace('<svg', '<svg style="width:18px;height:18px;display:inline;vertical-align:-3px;stroke:currentColor;fill:none;stroke-width:2"')} Pronto! Seu cupom ${CFG.FIRST_COUPON} vale na primeira compra.</p>`; }));
-    $$('[data-open-modal]').forEach(b => b.addEventListener('click', () => openModal(b.dataset.openModal)));
+    // alz-clube forms genéricas
+    $$('[data-alz-clube]').forEach(f => f.addEventListener('submit', e => { e.preventDefault(); store.set('aluzza_news', true); f.innerHTML = `<p style="color:var(--ok);font-weight:500">${I.check.replace('<svg', '<svg style="width:18px;height:18px;display:inline;vertical-align:-3px;stroke:currentColor;fill:none;stroke-width:2"')} Pronto! Seu cupom ${CFG.FIRST_COUPON} vale na primeira compra.</p>`; }));
+    $$('[data-open-alz-dialog]').forEach(b => b.addEventListener('click', () => openModal(b.getAttribute('data-open-alz-dialog'))));
     // rótulo dos selects customizados acompanha a opção escolhida
     $$('.select select').forEach(sel => { const lab = sel.nextElementSibling; const sync = () => { if (lab && lab.tagName === 'SPAN' && sel.selectedIndex >= 0 && !sel.dataset.keepLabel) lab.textContent = sel.options[sel.selectedIndex].text; }; sel.addEventListener('change', sync); if (sel.id !== 'sort' || qs().sort) sync(); });
     initWhatsChat();
+    // tipografia: nunca deixar 1–2 palavras sozinhas na última linha
+    fixWidows(document); setTimeout(() => fixWidows(document), 1200);
+    new MutationObserver(muts => { muts.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 1) fixWidows(n); })); }).observe(document.body, { childList: true, subtree: true });
   });
+
+  // junta as 3 últimas palavras com espaço inquebrável em textos com 4+ palavras
+  const WIDOW_SEL = 'h1,h2,h3,h4,p,li,dd,small,figcaption,label,.lead,.pcard__name,.story__points span,.trust__item span,.wchat__msg,.hero p';
+  function fixWidows(root) {
+    const els = root.matches && root.matches(WIDOW_SEL) ? [root] : [];
+    els.push(...(root.querySelectorAll ? root.querySelectorAll(WIDOW_SEL) : []));
+    els.forEach(el => {
+      if (el.dataset.widowed || el.closest('.sr-only, select, textarea, code, pre')) return;
+      // só o último nó de texto do elemento (ignora elementos filhos no fim, como ícones)
+      let t = el.lastChild; while (t && t.nodeType !== 3 && t.previousSibling) t = t.previousSibling;
+      if (!t || t.nodeType !== 3) return;
+      const txt = t.nodeValue; const words = txt.trim().split(/\s+/);
+      if (words.length < 4 && el.childNodes.length === 1) return;
+      if (txt.trim().split(/\s+/).length < 3) return;
+      t.nodeValue = txt.replace(/\s+(\S+)\s+(\S+)\s*$/, '\u00A0$1\u00A0$2' + (txt.match(/\s+$/) ? txt.match(/\s+$/)[0] : ''));
+      el.dataset.widowed = '1';
+    });
+  }
 
   window.Aluzza = { cart, wish, user, productCard, money, P, CFG, openModal, toast, I };
 })();

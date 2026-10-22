@@ -54,9 +54,11 @@ body{
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   overflow-x:clip;
 }
-body.is-locked{overflow:hidden}
+body.is-locked{overscroll-behavior:none}
 html:has(body.is-locked){overflow:hidden}
 img,video,svg{display:block;max-width:100%}
+h1,h2,h3,.hero h1{text-wrap:balance}
+p,li,dd,small,figcaption,.lead,label,.small{text-wrap:pretty}
 img{height:auto}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
@@ -437,8 +439,8 @@ body.has-preloader.is-ready .page{opacity:1}
 .band{position:relative;overflow:hidden}
 .band--laranja{background:var(--laranja);color:#fff}
 .band--off{background:var(--off)}
-.band--oliva{background:var(--oliva);color:#fff}
-.band--marrom{background:var(--marrom-2);color:#fff}
+.band--oliva{color:#fff;background:#56623A;background-image:radial-gradient(ellipse 70% 90% at 68% 22%,#7D8B55 0%,rgba(125,139,85,0) 60%),radial-gradient(ellipse 60% 70% at 18% 92%,#66743F 0%,rgba(102,116,63,0) 60%),linear-gradient(180deg,#5A6639,#49542E)}
+.band--marrom{color:#fff;background:#2E1D12;background-image:radial-gradient(ellipse 65% 85% at 28% 30%,#5A3B24 0%,rgba(90,59,36,0) 62%),radial-gradient(ellipse 50% 60% at 85% 85%,#4A2E1B 0%,rgba(74,46,27,0) 60%),linear-gradient(180deg,#33211A,#1F140C)}
 .band--preto{background:var(--preto);color:#fff}
 
 /* compre por cor */
@@ -532,14 +534,14 @@ body.has-preloader.is-ready .page{opacity:1}
 /* --------------------------------------------------------------------------
    Newsletter
    -------------------------------------------------------------------------- */
-.newsletter{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:center}
-.newsletter h2{font-size:clamp(30px,3.4vw,46px)}
-.newsletter p{margin-top:12px;color:var(--texto-2);max-width:46ch}
-.newsletter__form{display:flex;gap:10px;flex-wrap:wrap}
-.newsletter__form input{flex:1;min-width:220px;height:54px;border:1px solid var(--linha-2);border-radius:var(--radius);padding:0 18px;background:#fff;outline:0}
-.newsletter__form input:focus{border-color:var(--preto)}
-.newsletter__note{font-size:12.5px;color:var(--texto-3);margin-top:10px;width:100%}
-@media (max-width:860px){.newsletter{grid-template-columns:1fr}}
+.alz-clube{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:center}
+.alz-clube h2{font-size:clamp(30px,3.4vw,46px)}
+.alz-clube p{margin-top:12px;color:var(--texto-2);max-width:46ch}
+.alz-clube__form{display:flex;gap:10px;flex-wrap:wrap}
+.alz-clube__form input{flex:1;min-width:220px;height:54px;border:1px solid var(--linha-2);border-radius:var(--radius);padding:0 18px;background:#fff;outline:0}
+.alz-clube__form input:focus{border-color:var(--preto)}
+.alz-clube__note{font-size:12.5px;color:var(--texto-3);margin-top:10px;width:100%}
+@media (max-width:860px){.alz-clube{grid-template-columns:1fr}}
 
 /* --------------------------------------------------------------------------
    Footer
@@ -690,6 +692,7 @@ body.has-preloader.is-ready .page{opacity:1}
 .size-grid button[disabled]{color:var(--texto-3);background:repeating-linear-gradient(135deg,transparent 0 6px,var(--off) 6px 7px);border-color:var(--linha);cursor:pointer}
 .size-grid button[disabled]:hover{border-color:var(--linha-2)}
 .size-note{font-size:13px;color:var(--texto-2);display:flex;align-items:center;gap:8px;min-height:20px}
+.size-note svg{width:15px;height:15px;flex:none;fill:currentColor}
 .size-note.is-low{color:var(--laranja-2);font-weight:500}
 .size-note.is-error{color:var(--erro);font-weight:500}
 .pinfo__buy{display:grid;grid-template-columns:auto 1fr;gap:10px;padding-top:4px}
@@ -946,17 +949,17 @@ main>section.container{padding-bottom:clamp(24px,3vw,40px)}
 .help-section .accordion{margin-top:8px}
 
 /* --------------------------------------------------------------------------
-   Modais, toast, popup, whatsapp
+   Modais, toast, alz-cupom, whatsapp
    -------------------------------------------------------------------------- */
-.modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
-.modal.is-open{opacity:1;visibility:visible;transition-delay:0s}
-.modal__bg{position:absolute;inset:0;background:rgba(26,21,18,.55);backdrop-filter:blur(3px)}
-.modal__box{position:relative;background:#fff;width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:var(--radius-2);padding:32px;transform:translateY(16px) scale(.98);transition:transform .35s var(--ease-out)}
-.modal.is-open .modal__box{transform:none}
-.modal__close{position:absolute;top:12px;right:12px}
-.modal h3{font-size:26px;margin-bottom:8px}
-.modal p{color:var(--texto-2);font-size:14.5px}
-.modal--wide .modal__box{max-width:760px}
+.alz-dialog{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.alz-dialog.is-open{opacity:1;visibility:visible;transition-delay:0s}
+.alz-dialog__bg{position:absolute;inset:0;background:rgba(26,21,18,.55);backdrop-filter:blur(3px)}
+.alz-dialog__box{position:relative;background:#fff;width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:var(--radius-2);padding:32px;transform:translateY(16px) scale(.98);transition:transform .35s var(--ease-out)}
+.alz-dialog.is-open .alz-dialog__box{transform:none}
+.alz-dialog__close{position:absolute;top:12px;right:12px}
+.alz-dialog h3{font-size:26px;margin-bottom:8px}
+.alz-dialog p{color:var(--texto-2);font-size:14.5px}
+.alz-dialog--wide .alz-dialog__box{max-width:760px}
 .size-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:16px}
 .size-table th,.size-table td{padding:10px;border-bottom:1px solid var(--linha);text-align:center;font-variant-numeric:tabular-nums}
 .size-table th{background:var(--off);font-weight:500}
@@ -986,19 +989,19 @@ main>section.container{padding-bottom:clamp(24px,3vw,40px)}
 @keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes toastOut{to{opacity:0;transform:translateY(8px)}}
 
-.popup .modal__box{max-width:820px;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
-.popup__img{background:var(--off);min-height:320px}
-.popup__img img{width:100%;height:100%;object-fit:cover}
-.popup__body{padding:40px 36px}
-.popup__body .eyebrow{display:block;margin-bottom:10px}
-.popup__body h3{font-size:32px}
-.popup__body p{margin-top:10px}
-.popup__body form{display:grid;gap:10px;margin-top:20px}
-.popup__body input{height:50px;border:1px solid var(--linha-2);border-radius:var(--radius);padding:0 14px;outline:0}
-.popup__body input:focus{border-color:var(--preto)}
-.popup__skip{margin-top:12px;font-size:12.5px;color:var(--texto-3);text-decoration:underline;text-underline-offset:3px;display:block;text-align:center}
-.popup__code{margin-top:14px;text-align:center;background:var(--laranja-tint);padding:14px;border-radius:var(--radius);font-weight:600;letter-spacing:.1em;color:var(--laranja-2)}
-@media (max-width:700px){.popup .modal__box{grid-template-columns:1fr}.popup__img{display:none}.popup__body{padding:28px 22px}}
+.alz-cupom .alz-dialog__box{max-width:820px;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.alz-cupom__img{background:var(--off);min-height:320px}
+.alz-cupom__img img{width:100%;height:100%;object-fit:cover}
+.alz-cupom__body{padding:40px 36px}
+.alz-cupom__body .eyebrow{display:block;margin-bottom:10px}
+.alz-cupom__body h3{font-size:32px}
+.alz-cupom__body p{margin-top:10px}
+.alz-cupom__body form{display:grid;gap:10px;margin-top:20px}
+.alz-cupom__body input{height:50px;border:1px solid var(--linha-2);border-radius:var(--radius);padding:0 14px;outline:0}
+.alz-cupom__body input:focus{border-color:var(--preto)}
+.alz-cupom__skip{margin-top:12px;font-size:12.5px;color:var(--texto-3);text-decoration:underline;text-underline-offset:3px;display:block;text-align:center}
+.alz-cupom__code{margin-top:14px;text-align:center;background:var(--laranja-tint);padding:14px;border-radius:var(--radius);font-weight:600;letter-spacing:.1em;color:var(--laranja-2)}
+@media (max-width:700px){.alz-cupom .alz-dialog__box{grid-template-columns:1fr}.alz-cupom__img{display:none}.alz-cupom__body{padding:28px 22px}}
 
 
 /* --------------------------------------------------------------------------
