@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Produto · Aluzza Calçados</title>
+<meta name="description" content="Detalhes do produto Aluzza: cores, tamanhos, frete e avaliações.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body data-page="produto">
+<div class="page">
+<div id="site-header"></div>
+<main>
+
+<section class="container">
+  <nav class="breadcrumb" aria-label="Você está em" style="padding-top:18px"><a href="index.html">Início</a><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg><a id="bc-cat" href="#">Categoria</a><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg><a id="bc-sub" href="#">Tipo</a><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg><span id="bc-name"></span></nav>
+  <div class="pdp">
+    <div class="gallery">
+      <div class="gallery__thumbs" id="gallery-thumbs"></div>
+      <div class="gallery__main" id="gallery-main"></div>
+      <div class="gallery__mobile" id="gallery-mobile"></div>
+      <div class="gallery__dots" id="gallery-dots"></div>
+    </div>
+    <div class="pinfo">
+      <div class="pinfo__top">
+        <div class="pinfo__type" id="p-type"></div>
+        <h1 id="p-name"></h1>
+        <div class="pinfo__rating" id="p-rating"></div>
+      </div>
+      <div>
+        <div class="pinfo__price" id="p-price"></div>
+        <div class="pinfo__pay mt-8" id="p-pay"></div>
+      </div>
+      <div class="pinfo__social" id="p-social"></div>
+      <div class="pinfo__block">
+        <div class="pinfo__label">Cor <span id="p-color-name"></span></div>
+        <div class="color-list" id="p-colors"></div>
+      </div>
+      <div class="pinfo__block">
+        <div class="pinfo__label">Tamanho <button type="button" id="size-guide-btn">Guia de tamanhos</button></div>
+        <div class="size-grid" id="p-sizes"></div>
+        <div class="size-note" id="size-note"></div>
+      </div>
+      <div class="pinfo__buy" id="p-buy">
+        <div class="qty qty--lg" id="p-qty"><button type="button" data-qty="-1" aria-label="Menos">−</button><span>1</span><button type="button" data-qty="1" aria-label="Mais">+</button></div>
+        <button class="btn btn--lg" id="add-cart">Adicionar à sacola</button>
+        <div class="pinfo__buy2" style="grid-column:1/-1">
+          <button class="btn btn--ghost btn--lg" id="buy-now">Comprar agora</button>
+          <button class="btn btn--tryon" id="tryon-btn" type="button"><span class="tryon-ic"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span><b>Veja em você</b><small>Experimente no seu pé com a câmera do celular</small></span><span class="badge badge--new">Em breve</span></button>
+          <button class="btn btn--ghost pdp-wish" id="p-wish" type="button" style="border-color:var(--linha-2)"><svg viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:1.6"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 8 3.6 4.6 7 4.6c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.7C19.5 15.9 12 20.5 12 20.5z"/></svg> Salvar nos favoritos</button>
+        </div>
+      </div>
+      <div class="pinfo__block">
+        <div class="pinfo__label">Calcule o frete e o prazo</div>
+        <form class="ship-calc" id="ship-form"><input type="text" id="ship-cep" placeholder="Seu CEP" inputmode="numeric" aria-label="CEP"><button class="btn btn--ghost" type="submit">Calcular</button></form>
+        <div id="ship-result"></div>
+      </div>
+      <ul class="benefits">
+        <li><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>Frete grátis a partir de R$ 299 · em Goiânia, chega amanhã</li>
+        <li><svg viewBox="0 0 24 24"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>Primeira troca grátis em até 30 dias</li>
+        <li><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>Compra protegida e dados criptografados</li>
+        <li><svg viewBox="0 0 24 24"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12M11 11V4.5a1.5 1.5 0 0 1 3 0V12M14 11.5V6a1.5 1.5 0 0 1 3 0v8c0 3.5-2.5 6-6 6-2.5 0-4.3-1-5.6-3L4 13.2a1.4 1.4 0 0 1 2.3-1.6L8 13.5"/></svg>Fabricação própria em Goiânia, modelagem exclusiva</li>
+      </ul>
+      <div class="accordion">
+        <details open><summary>Sobre o modelo <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><div class="accordion__body" id="p-desc"></div></details>
+        <details><summary>Detalhes e materiais <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><div class="accordion__body"><dl class="spec" id="p-spec"></dl></div></details>
+        <details><summary>Trocas e devoluções <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><div class="accordion__body"><p>Não serviu? Você tem 30 dias para trocar por outro tamanho ou cor, e a primeira troca é por nossa conta. Para devolução com reembolso, o prazo é de 7 dias após o recebimento.</p><p>É só chamar no WhatsApp (62) 99230-6476 com o número do pedido.</p></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><div><h2>Complete o look</h2><p>Peças que combinam com este modelo.</p></div><div class="rail__nav"><button class="rail__btn" data-prev aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button class="rail__btn" data-next aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button></div></div>
+  <div class="rail"><div class="rail__track" id="complete"></div></div>
+</div></section>
+
+<section class="band band--off section" id="avaliacoes"><div class="container">
+  <div class="section-head"><div><h2>Avaliações</h2></div></div>
+  <div class="pdp-reviews">
+    <div class="reviews-summary" id="reviews-summary" style="display:grid;grid-template-columns:auto 1fr;gap:16px"></div>
+    <div class="pdp-reviews__list" id="reviews-list"></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><div><h2>Quem viu, também comprou</h2></div><div class="rail__nav"><button class="rail__btn" data-prev aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button class="rail__btn" data-next aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button></div></div>
+  <div class="rail"><div class="rail__track" id="also"></div></div>
+</div></section>
+
+<section class="section section--tight" id="recent-wrap" hidden><div class="container">
+  <div class="section-head"><div><h2>Você viu por último</h2></div><div class="rail__nav"><button class="rail__btn" data-prev aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button class="rail__btn" data-next aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button></div></div>
+  <div class="rail"><div class="rail__track" id="recent"></div></div>
+</div></section>
+
+<div class="sticky-buy" id="sticky-buy">
+  <img id="sticky-img" src="" alt=""><div class="sticky-buy__info"><b id="sticky-name"></b><span><span id="sticky-price"></span> · <span id="sticky-size">Escolha o tamanho</span></span></div><button class="btn btn--sm" id="sticky-add">Adicionar</button>
+</div>
+
+<div class="modal modal--wide" id="modal-tryon"><div class="modal__bg"></div><div class="modal__box">
+  <button class="icon-btn modal__close" data-close-modal aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <div class="tryon">
+    <div class="tryon__preview"><img id="tryon-img" src="" alt=""><div class="tryon__frame"><svg viewBox="0 0 24 24"><path d="M9 3c-2.5 0-4 2.5-4 6 0 3 1 4.5 1 7 0 2 1.5 4 3.5 4s3-1.5 3-3.5c0-2-1-3.5-1-6 0-3.5 0-7.5-2.5-7.5z"/><circle cx="15.5" cy="5" r="1.2"/><circle cx="17.5" cy="8" r="1"/><circle cx="18.5" cy="11.5" r=".9"/></svg>Posicione o pé dentro da marcação</div><div class="tryon__scan"></div></div>
+    <div>
+      <span class="eyebrow">Veja em você</span>
+      <h3 style="margin-top:6px">Experimente antes de comprar</h3>
+      <p>Aponte a câmera do celular para o seu pé e veja como este modelo fica em você, na cor e no tamanho escolhidos.</p>
+      <ol class="tryon__steps">
+        <li><b>1</b><span>Abra o site no celular e toque em Veja em você.</span></li>
+        <li><b>2</b><span>Aponte a câmera para o pé, com o chão aparecendo.</span></li>
+        <li><b>3</b><span>Troque de cor e tamanho em tempo real e salve a foto.</span></li>
+      </ol>
+      <form class="tryon__actions" id="tryon-form">
+        <button class="btn" type="submit">Quero ser avisada quando lançar</button>
+        <button class="btn btn--ghost" type="button" data-close-modal>Voltar ao produto</button>
+      </form>
+      <p class="small mt-16">A prova virtual está em fase final de testes. Enquanto isso, a primeira troca de tamanho é grátis.</p>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="modal-sizes"><div class="modal__bg"></div><div class="modal__box">
+  <button class="icon-btn modal__close" data-close-modal aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <h3>Guia de tamanhos</h3>
+  <p>Meça o seu pé do calcanhar ao dedo mais longo, em pé e com o peso distribuído. Compare com a tabela.</p>
+  <table class="size-table"><thead><tr><th>Numeração</th><th>Palmilha</th><th>Pé (cm)</th></tr></thead><tbody id="size-table-body"></tbody></table>
+  <div class="size-tip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7v.5"/></svg><span>Este modelo tem forma normal: compre a sua numeração habitual. Em dúvida entre dois números, escolha o maior para modelos fechados e o menor para rasteiras.</span></div>
+</div></div>
+
+<div class="modal" id="modal-notify"><div class="modal__bg"></div><div class="modal__box">
+  <button class="icon-btn modal__close" data-close-modal aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <h3>Avise-me quando chegar</h3>
+  <p>O tamanho <b id="notify-size"></b> está esgotado. Deixe seu contato e avisamos assim que repor, geralmente em até 10 dias.</p>
+  <form class="auth__form mt-24" id="notify-form">
+    <div class="field"><label for="n-email">E-mail ou WhatsApp</label><input id="n-email" type="text" required placeholder="seu@email.com ou (62) 9 9999-9999"></div>
+    <button class="btn btn--block" type="submit">Quero ser avisada</button>
+  </form>
+</div></div>
+</main>
+<div id="site-footer"></div>
+</div>
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

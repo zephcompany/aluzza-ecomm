@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrar · Aluzza Calçados</title>
+<meta name="description" content="Entre na sua conta Aluzza ou crie uma em segundos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body data-page="login">
+<div class="page">
+<div id="site-header"></div>
+<main>
+
+<section class="auth">
+  <div class="auth__media"><img src="assets/img/banners/hero-editorial.webp" alt=""><div><h2>Sua conta, seus favoritos, seus pedidos.</h2><p>Acompanhe entregas, repita compras e ganhe pontos no Clube Aluzza.</p></div></div>
+  <div class="auth__panel"><div class="auth__box">
+    <h1>Bem-vinda</h1><p>Entre ou crie sua conta para acompanhar pedidos e ganhar 10% off na primeira compra.</p>
+    <div class="tabs"><button type="button" class="is-on">Entrar</button><button type="button">Criar conta</button></div>
+    <form class="auth__form" id="form-login">
+      <div class="field"><label for="l-email">E-mail</label><input id="l-email" type="email" required autocomplete="email" placeholder="seu@email.com"></div>
+      <div class="field"><label for="l-pass">Senha</label><input id="l-pass" type="password" required autocomplete="current-password" placeholder="••••••••"></div>
+      <div class="auth__row"><label class="check"><input type="checkbox" checked> Continuar conectada</label><a href="#">Esqueci a senha</a></div>
+      <button class="btn btn--block btn--lg" type="submit">Entrar</button>
+      <div class="divider">ou</div>
+      <button class="btn btn--block btn--google" type="button"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.3-.2-1.9H12v3.7h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.4 14a6 6 0 0 1 0-3.8V7.6H3.1a10 10 0 0 0 0 9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.8-2.8A10 10 0 0 0 3.1 7.6L6.4 10c.8-2.3 3-4 5.6-4z"/></svg> Entrar com o Google</button>
+    </form>
+    <form class="auth__form" id="form-cad" hidden>
+      <div class="field"><label for="c-nome-cad">Nome completo</label><input id="c-nome-cad" required autocomplete="name"></div>
+      <div class="field"><label for="c-email-cad">E-mail</label><input id="c-email-cad" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="c-tel-cad">WhatsApp</label><input id="c-tel-cad" inputmode="tel" placeholder="(62) 9 9999-9999"></div>
+      <div class="field"><label for="c-pass-cad">Crie uma senha</label><input id="c-pass-cad" type="password" required autocomplete="new-password" minlength="6"><small>Mínimo de 6 caracteres.</small></div>
+      <label class="check"><input type="checkbox" checked> Quero receber lançamentos e ofertas por e-mail</label>
+      <button class="btn btn--block btn--lg" type="submit">Criar conta e ganhar 10% off</button>
+      <p class="small muted text-center">Ao criar a conta você concorda com os <a class="link" href="ajuda.html#privacidade">termos e a política de privacidade</a>.</p>
+    </form>
+  </div></div>
+</section>
+</main>
+<div id="site-footer"></div>
+</div>
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pedido confirmado · Aluzza Calçados</title>
+<meta name="description" content="Seu pedido foi recebido.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body data-page="pedido">
+<div class="page">
+<div id="site-header"></div>
+<main>
+
+<section class="container"><div class="confirm" id="confirm">
+  <div class="confirm__icon"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></div>
+  <h1>Pedido recebido, <span id="order-name"></span>!</h1>
+  <p>Enviamos a confirmação para <b id="order-mail"></b>. Assim que o pagamento for aprovado, começamos a separar o seu pedido.</p>
+  <div class="confirm__num" id="order-num"></div>
+  <ol class="timeline"><li class="is-done"><b>Pedido recebido</b>agora</li><li><b>Pagamento aprovado</b><span id="order-pay"></span></li><li><b>Em separação</b>até 1 dia útil</li><li><b>Enviado</b><span id="order-ship"></span></li></ol>
+  <div class="pix-box" id="pix-box"><div class="pix-box__qr" aria-hidden="true"></div><div><b style="font-weight:500">Pague com Pix para liberar o envio</b><p class="small mt-8">Abra o app do seu banco, escolha pagar com Pix e escaneie o código, ou copie o código abaixo. Vale por 30 minutos.</p><code id="pix-code">00020126580014br.gov.bcb.pix0136aluzza-calcados-demo-7f3a-9c2e-5204000053039865802BR5915ALUZZA CALCADOS6007GOIANIA62070503***6304A1B2</code><button class="btn btn--sm mt-16" id="copy-pix" type="button">Copiar código Pix</button></div></div>
+  <div class="cart-side mt-32" style="position:static;text-align:left"><h3>Itens do pedido</h3><div class="order-mini" id="order-items" style="max-height:none"></div><div class="summary-row summary-row--total mt-16"><span>Total</span><span class="price" id="order-total"></span></div><p class="small muted mt-8">Entrega em: <span id="order-addr"></span></p></div>
+  <div class="confirm__actions"><a class="btn" href="conta.html">Acompanhar pedido</a><a class="btn btn--ghost" id="wa-share" href="#" target="_blank" rel="noopener">Falar no WhatsApp</a><a class="link" href="index.html">Voltar para a loja</a></div>
+</div></section>
+</main>
+<div id="site-footer"></div>
+</div>
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
