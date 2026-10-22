@@ -33,3 +33,6 @@
 .breadcrumb>span,.breadcrumb #bc-sub{display:inline-flex;align-items:center;gap:6px}
 .breadcrumb svg{width:12px;height:12px;flex:none}
 .plp-toolbar__count{white-space:nowrap}
+.mega{min-width:720px}
+.mega ul a{white-space:nowrap}
+.hero-page::after{background:linear-gradient(180deg,rgba(26,21,18,.15),rgba(26,21,18,.72))}
