@@ -2,8 +2,104 @@
   "type": "header",
   "name": "Cabeçalho",
   "sections": {
-    "announce": { "type": "announce", "settings": {} },
-    "header": { "type": "header", "settings": {} }
+    "announce": {
+      "type": "announce",
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "mega_product": "anabela-elisa-cafe",
+        "mega_caption": "Novo: Anabela Elisa"
+      },
+      "blocks": {
+        "b1": {
+          "type": "modelo",
+          "settings": {
+            "title": "Scarpins",
+            "handle": "scarpins",
+            "product": "scarpin-paola-cafe",
+            "caption": "Scarpin Paola"
+          }
+        },
+        "b2": {
+          "type": "modelo",
+          "settings": {
+            "title": "Sandálias",
+            "handle": "sandalias",
+            "product": "sandalia-lauren-off",
+            "caption": "Sandália Lauren"
+          }
+        },
+        "b3": {
+          "type": "modelo",
+          "settings": {
+            "title": "Anabelas",
+            "handle": "anabelas",
+            "product": "anabela-elisa-cafe",
+            "caption": "Anabela Elisa"
+          }
+        },
+        "b4": {
+          "type": "modelo",
+          "settings": {
+            "title": "Tamancos",
+            "handle": "tamancos",
+            "product": "tamanco-marina-preto",
+            "caption": "Tamanco Marina"
+          }
+        },
+        "b5": {
+          "type": "altura",
+          "settings": {
+            "title": "Salto baixo (até 5 cm)",
+            "tag": "altura-baixo",
+            "product": "tamanco-dulce-preto",
+            "caption": "Salto baixo · Tamanco Dulce"
+          }
+        },
+        "b6": {
+          "type": "altura",
+          "settings": {
+            "title": "Salto médio (6 a 8 cm)",
+            "tag": "altura-medio",
+            "product": "tamanco-aline-preto",
+            "caption": "Salto médio · Tamanco Aline"
+          }
+        },
+        "b7": {
+          "type": "altura",
+          "settings": {
+            "title": "Salto alto (9 cm ou mais)",
+            "tag": "altura-alto",
+            "product": "tamanco-zara-preto-salto-medio",
+            "caption": "Salto alto · Tamanco Zara"
+          }
+        },
+        "b8": {
+          "type": "altura",
+          "settings": {
+            "title": "Plataforma e anabela",
+            "tag": "altura-plataforma",
+            "product": "anabela-elisa-cafe",
+            "caption": "Plataforma · Anabela Elisa"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8"
+      ]
+    }
   },
-  "order": ["announce", "header"]
+  "order": [
+    "announce",
+    "header"
+  ]
 }

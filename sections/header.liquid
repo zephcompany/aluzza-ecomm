@@ -17,18 +17,19 @@
           <div><h4>Por modelo</h4><ul>
             {%- for b in section.blocks -%}{%- if b.type == 'modelo' -%}
               {%- assign im = all_products[b.settings.product] -%}
-              <li {{ b.shopify_attributes }}><a href="{% render 'coll-url', handle: b.settings.handle %}" data-img="{{ im.images[1] | default: im.featured_image | image_url: width: 640 }}" data-cap="{{ b.settings.caption | escape }}">{{ b.settings.title }}</a></li>
+              <li {{ b.shopify_attributes }}><a href="{% render 'coll-url', handle: b.settings.handle %}" data-img="{% if im %}{{ im.images[1] | default: im.featured_image | image_url: width: 640 }}{% endif %}" data-cap="{{ b.settings.caption | escape }}">{{ b.settings.title }}</a></li>
             {%- endif -%}{%- endfor -%}
             <li><a href="{% render 'coll-url', handle: 'saltos' %}">Ver todos os saltos</a></li>
           </ul></div>
           <div><h4>Por altura</h4><ul>
             {%- for b in section.blocks -%}{%- if b.type == 'altura' -%}
               {%- assign im = all_products[b.settings.product] -%}
-              <li {{ b.shopify_attributes }}><a href="{{ routes.all_products_collection_url }}/{{ b.settings.tag }}" data-img="{{ im.images[1] | default: im.featured_image | image_url: width: 640 }}" data-cap="{{ b.settings.caption | escape }}">{{ b.settings.title }}</a></li>
+              <li {{ b.shopify_attributes }}><a href="{{ routes.all_products_collection_url }}/{{ b.settings.tag }}" data-img="{% if im %}{{ im.images[1] | default: im.featured_image | image_url: width: 640 }}{% endif %}" data-cap="{{ b.settings.caption | escape }}">{{ b.settings.title }}</a></li>
             {%- endif -%}{%- endfor -%}
           </ul></div>
           {%- assign mp = all_products[section.settings.mega_product] -%}
-          <a class="mega__img" href="{{ mp.url }}" id="mega-img" data-def="{{ mp.images[1] | default: mp.featured_image | image_url: width: 640 }}" data-defcap="{{ section.settings.mega_caption | escape }}"><img src="{{ mp.images[1] | default: mp.featured_image | image_url: width: 640 }}" alt=""><span>{{ section.settings.mega_caption }}</span></a>
+          {%- if mp == blank -%}{%- assign mp = collections.all.products.first -%}{%- endif -%}
+          <a class="mega__img" href="{{ mp.url }}" id="mega-img" data-def="{% if mp %}{{ mp.images[1] | default: mp.featured_image | image_url: width: 640 }}{% endif %}" data-defcap="{{ section.settings.mega_caption | escape }}"><img src="{% if mp %}{{ mp.images[1] | default: mp.featured_image | image_url: width: 640 }}{% endif %}" alt=""><span>{{ section.settings.mega_caption }}</span></a>
         </div>
       </li>
       <li><a class="nav__link{% if cur == 'sapatilhas' %} is-active{% endif %}" href="{% render 'coll-url', handle: 'sapatilhas' %}">Sapatilhas</a></li>

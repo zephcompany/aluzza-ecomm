@@ -3,6 +3,7 @@
   assign pcolor = parts[1] | default: ''
   assign reviews_n = product.id | modulo: 180 | plus: 24
   assign seed = product.id | modulo: 5
+  assign cor_token = '{' | append: 'cor' | append: '}'
 -%}
 <section class="band band--off section" id="avaliacoes"><div class="container">
   <div class="section-head"><div><h2>Avaliações</h2></div></div>
@@ -18,7 +19,7 @@
       {%- for b in section.blocks -%}
       <div class="pdp-review" {{ b.shopify_attributes }}>
         <div class="pdp-review__head"><div><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span> <b>{{ b.settings.name }}</b> <span class="review__verified">{% render 'icon', name: 'check' %} compra verificada</span></div><small>{{ b.settings.when }}</small></div>
-        <p>{{ b.settings.text | replace: '{cor}', pcolor }}</p>
+        <p>{{ b.settings.text | replace: cor_token, pcolor }}</p>
         <div class="pdp-review__meta"><span>Tamanho {{ b.settings.size }}</span><span>Cor {{ pcolor }}</span><span>Forma: tamanho certo</span></div>
       </div>
       {%- endfor -%}

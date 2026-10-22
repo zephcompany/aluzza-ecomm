@@ -27,7 +27,7 @@
       <h3>Resumo do pedido</h3>
       <div class="summary-row"><span>Subtotal ({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}itens{% endif %})</span><span class="price">{{ cart.items_subtotal_price | money }}</span></div>
       {%- if cart.total_discount > 0 -%}<div class="summary-row" style="color:var(--ok)"><span>Descontos</span><span>− {{ cart.total_discount | money }}</span></div>{%- endif -%}
-      <div class="summary-row small muted"><span>Frete</span><span>{% if cart.total_price >= settings.free_ship | default: 299 | times: 100 %}<span style="color:var(--ok)">Grátis</span>{% else %}calculado no checkout{% endif %}</span></div>
+      <div class="summary-row small muted"><span>Frete</span><span>{% assign free_cents = settings.free_ship | default: 299 | times: 100 %}{% if cart.total_price >= free_cents %}<span style="color:var(--ok)">Grátis</span>{% else %}calculado no checkout{% endif %}</span></div>
       <div class="summary-row summary-row--total"><span>Total</span><span class="price">{{ cart.total_price | money }}</span></div>
       <div class="small muted text-right">ou {{ settings.installments | default: 6 }}x de {{ cart.total_price | divided_by: settings.installments | default: 6 | money }} sem juros<br><span style="color:var(--ok)">{{ 100 | minus: settings.pix_off | default: 95 | times: cart.total_price | divided_by: 100 | money }} no Pix</span></div>
       <form class="coupon mt-24" id="coupon-form"><input type="text" id="coupon-input" placeholder="CUPOM DE DESCONTO" aria-label="Cupom" style="text-transform:uppercase"><button class="btn btn--ghost" type="submit">Aplicar</button></form>
