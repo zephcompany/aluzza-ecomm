@@ -54,7 +54,7 @@
 -%}
 <section class="container">
   <nav class="breadcrumb" aria-label="Você está em" style="padding-top:18px"><a href="{{ routes.root_url }}">Início</a>{% render 'icon', name: 'chevD' %}{% if cat_handle != blank %}<a href="{% render 'coll-url', handle: cat_handle %}">{{ cat_name }}</a>{% render 'icon', name: 'chevD' %}{% endif %}{% if sub_handle != blank %}<a href="{% render 'coll-url', handle: sub_handle %}">{{ sub_name }}</a>{% render 'icon', name: 'chevD' %}{% endif %}<span>{{ pname }}</span></nav>
-  <div class="pdp" id="pdp" data-handle="{{ product.handle }}" data-heel="{{ heel | escape }}" data-hex="{{ product.metafields.aluzza.hex | default: '' }}">
+  <div class="pdp" id="pdp" data-handle="{{ product.handle }}" data-pack="{{ product.images[1] | default: product.featured_image | image_url: width: 1000 }}" data-heel="{{ heel | escape }}" data-hex="{{ product.metafields.aluzza.hex | default: '' }}">
     <div class="gallery">
       <div class="gallery__thumbs" id="gallery-thumbs">{% for im in product.images %}<button type="button" class="{% if forloop.first %}is-on{% endif %}" data-n="{{ forloop.index0 }}" aria-label="Foto {{ forloop.index }}"><img src="{{ im | image_url: width: 160, height: 213, crop: 'center' }}" alt=""></button>{% endfor %}</div>
       <div class="gallery__main" id="gallery-main">
@@ -81,7 +81,7 @@
       <div class="pinfo__social" id="p-social"><span><i></i>{{ views }} pessoas vendo agora</span><span>{% render 'icon', name: 'flame' %} {{ reviews_n | divided_by: 6 | at_least: 3 }} vendidos hoje</span>{% if avail <= 2 %}<span>{% render 'icon', name: 'spark' %} Últimas unidades</span>{% endif %}</div>
       <div class="pinfo__block" id="p-colors-wrap">
         <div class="pinfo__label">Cor <span id="p-color-name">{{ pcolor }}</span></div>
-        <div class="color-list" id="p-colors" data-handle="{{ product.handle }}"><a href="{{ product.url }}" class="is-on" title="{{ pcolor | escape }}"><img src="{{ product.featured_image | image_url: width: 160, height: 213, crop: 'center' }}" alt=""></a></div>
+        <div class="color-list" id="p-colors" data-handle="{{ product.handle }}"><a href="{{ product.url }}" class="is-on" title="{{ pcolor | escape }}"><img src="{{ product.images[1] | default: product.featured_image | image_url: width: 160, height: 213, crop: 'center' }}" alt=""></a></div>
       </div>
       <div class="pinfo__block">
         <div class="pinfo__label">Tamanho <button type="button" id="size-guide-btn">Guia de tamanhos</button></div>
@@ -123,7 +123,7 @@
 </section>
 
 <div class="sticky-buy" id="sticky-buy">
-  <img id="sticky-img" src="{{ product.featured_image | image_url: width: 120, height: 160, crop: 'center' }}" alt=""><div class="sticky-buy__info"><b id="sticky-name">{{ pname }} · {{ pcolor }}</b><span><span id="sticky-price">{{ product.price | money }}</span> · <span id="sticky-size">Escolha o tamanho</span></span></div><button class="btn btn--sm" id="sticky-add" type="button">Adicionar</button>
+  <img id="sticky-img" src="{{ product.images[1] | default: product.featured_image | image_url: width: 120, height: 160, crop: 'center' }}" alt=""><div class="sticky-buy__info"><b id="sticky-name">{{ pname }} · {{ pcolor }}</b><span><span id="sticky-price">{{ product.price | money }}</span> · <span id="sticky-size">Escolha o tamanho</span></span></div><button class="btn btn--sm" id="sticky-add" type="button">Adicionar</button>
 </div>
 
 <div class="alz-dialog alz-dialog--wide" id="alz-dialog-tryon"><div class="alz-dialog__bg"></div><div class="alz-dialog__box"></div></div>
