@@ -19,6 +19,7 @@
       SEMANA20:   { type: 'pct', value: 20, min: 300, label: 'Semana Aluzza: 20% off' }
     },
     WHATS: '5562992306476',
+    TRYON_ENDPOINT: '', // URL do worker do provador (tryon-worker/README.md)
     WHATS_TXT: 'Oi, Aluzza! Vim pelo site e quero ajuda para escolher um modelo.',
     PROMO_END: Date.now() + 1000 * 60 * 60 * 51 + 1000 * 60 * 22, // contador da Semana Aluzza (demo)
     SIZES: ['34', '35', '36', '37', '38', '39']
@@ -728,10 +729,13 @@
     document.body.classList.add('has-sticky-buy');
     const buyBox = $('#p-buy'); if ('IntersectionObserver' in window) { new IntersectionObserver(en => $('#sticky-buy').classList.toggle('is-on', !en[0].isIntersecting && en[0].boundingClientRect.top < 0), { threshold: 0 }).observe(buyBox); }
     // veja em você
-    $('#tryon-btn').addEventListener('click', () => { $('#tryon-img').src = p.images[0]; openModal('#alz-dialog-tryon'); });
+    if (window.AluzzaTryon) AluzzaTryon.init({ endpoint: CFG.TRYON_ENDPOINT, whats: CFG.WHATS, toast: t => toast(`${I.check}<span>${t}</span>`),
+      product: { name: p.name, color: p.color, heel: p.heel, hex: p.hex, images: [mainImg(p), ...p.images] },
+      siblings: fam.map(f => ({ color: f.color, hex: f.hex, image: mainImg(f), image2: f.images[0], url: location.origin + location.pathname.replace(/[^/]*$/, '') + url.product(f) })),
+      onPickSize: () => { sg.scrollIntoView({ behavior: 'smooth', block: 'center' }); sg.classList.add('is-pulse'); setTimeout(() => sg.classList.remove('is-pulse'), 1600); } });
+    $('#tryon-btn').addEventListener('click', () => openModal('#alz-dialog-tryon'));
     $('#size-guide-btn').addEventListener('click', () => openModal('#alz-dialog-sizes'));
     $('#notify-form').addEventListener('submit', e => { e.preventDefault(); closeModal($('#alz-dialog-notify')); toast(`${I.check}<span>Pronto! Avisamos você quando o ${$('#notify-size').textContent} voltar.</span>`); });
-    $('#tryon-form').addEventListener('submit', e => { e.preventDefault(); toast(`${I.check}<span>Você será avisada quando o Veja em você estiver disponível.</span>`); closeModal($('#alz-dialog-tryon')); });
     // frete
     $('#ship-form').addEventListener('submit', e => {
       e.preventDefault(); const cep = $('#ship-cep').value.replace(/\D/g, '');
@@ -751,6 +755,9 @@
     const dist = [78, 16, 4, 1, 1];
     $('#reviews-summary').innerHTML = `<div class="reviews-summary__big">${p.rating.toFixed(1)}</div><div>${stars(p.rating)}<div class="small muted mt-8">${p.reviews} avaliações · 96% recomendam</div></div><ul class="pdp-reviews__bars" style="grid-column:1/-1">${dist.map((v, k) => `<li><span>${5 - k}★</span><i><b style="width:${v}%"></b></i><span>${v}%</span></li>`).join('')}</ul>`;
     $('#reviews-list').innerHTML = rv.map(r => `<div class="pdp-review"><div class="pdp-review__head"><div>${stars(r.s)} <b>${r.n}</b> <span class="review__verified">${I.check} compra verificada</span></div><small>${r.d}</small></div><p>${r.t}</p><div class="pdp-review__meta"><span>Tamanho ${r.tam}</span><span>Cor ${esc(p.color)}</span><span>Forma: tamanho certo</span></div></div>`).join('');
+    // #MinhaAluzza com este modelo (fotos de uso do modelo e das outras cores)
+    const ugcImgs = [].concat(...[p, ...fam.filter(f => f.id !== p.id)].map(f => f.images.slice(0, 3))).filter((x, i, a) => a.indexOf(x) === i).slice(0, 6);
+    if (ugcImgs.length) { $('#ugc-pdp').innerHTML = ugcImgs.map(im => `<a href="https://www.instagram.com/aluzzacalcados" target="_blank" rel="noopener"><img src="${im}" alt="Cliente com o ${esc(p.name)}" loading="lazy"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>`).join(''); $('#ugc-text').innerHTML = `Clientes com o <b>${esc(p.name)}</b>. Marque <a class="link" href="https://www.instagram.com/aluzzacalcados" target="_blank" rel="noopener">@aluzzacalcados</a> e apareça aqui.`; } else $('#ugc-wrap').hidden = true;
     // relacionados
     const complete = P.filter(x => x.id !== p.id && x.type !== p.type && Math.abs(x.price - p.price) < 80).sort((a, b) => b.best - a.best).slice(0, 8);
     const also = P.filter(x => x.id !== p.id && x.sub === p.sub && !p.family.includes(x.id)).concat(P.filter(x => x.cat === p.cat && x.id !== p.id)).filter((x, i, a) => a.indexOf(x) === i).slice(0, 8);

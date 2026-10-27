@@ -1,0 +1,9 @@
+{
+  "name": "aluzza-tryon",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Provador virtual da Aluzza (Cloudflare Worker)",
+  "scripts": { "dev": "wrangler dev", "deploy": "wrangler deploy", "secret": "wrangler secret put GEMINI_API_KEY" },
+  "devDependencies": { "wrangler": "^4" }
+}
