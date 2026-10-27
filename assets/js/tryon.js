@@ -31,50 +31,62 @@
     const cur = siblings.findIndex(s => s.color === opts.product.color); state.pick = cur < 0 ? 0 : cur;
     opts._siblings = siblings;
     const box = $('#alz-dialog-tryon .alz-dialog__box'); if (!box) return;
-    box.innerHTML = `<button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="tryon tryon--app" id="tryon-app"></div>`;
+    box.innerHTML = `<div class="tryon tryon--app" id="tryon-app"></div>`; box.closest('.alz-dialog').classList.add('alz-dialog--tryon');
     render(opts.endpoint ? 'upload' : 'soon');
     const btn = $('#tryon-btn'); if (btn) { const b = $('.badge', btn); if (b) { b.textContent = opts.endpoint ? 'Novo' : 'Em breve'; } }
   }
 
   function picked() { return state.opts._siblings[state.pick]; }
 
+  const NAV = { upload: 1, preview: 2, loading: 3, result: 3, error: 2, soon: 1 };
+  function nav(step) {
+    const k = NAV[step] || 1; const items = ['Foto', 'Cor', 'Resultado'];
+    return `<ol class="tryon__nav" aria-label="Etapas">${items.map((t, i) => `<li class="${i + 1 < k ? 'is-done' : i + 1 === k ? 'is-on' : ''}"><b>${i + 1 < k ? IC.check : i + 1}</b><span>${t}</span></li>`).join('')}</ol>`;
+  }
+  function chips(label) {
+    const o = state.opts; if (o._siblings.length < 2) return '';
+    return `<div class="tryon__pick"><div class="tryon__label">${label}</div><div class="tryon__chips" role="radiogroup" aria-label="${esc(label)}">${o._siblings.map((s, i) => `<button type="button" role="radio" aria-checked="${i === state.pick}" class="tryon__chip ${i === state.pick ? 'is-on' : ''}" data-pick="${i}"><i style="background:${s.hex || '#bbb'}"></i>${esc(s.color)}</button>`).join('')}</div></div>`;
+  }
   function render(step) {
     state.step = step; const o = state.opts; const p = picked(); const app = $('#tryon-app'); if (!app) return;
     app.dataset.step = step;
-    const sw = o._siblings.length > 1 ? `<div class="tryon__colors" aria-label="Escolha a cor">${o._siblings.map((s, i) => `<button type="button" class="swatch swatch--lg ${i === state.pick ? 'is-on' : ''}" style="background:${s.hex || '#bbb'}" data-pick="${i}" title="${esc(s.color)}" aria-label="${esc(s.color)}"></button>`).join('')}<span class="tryon__color-name">${esc(p.color)}</span></div>` : '';
+    const title = `<div class="tryon__title"><span class="eyebrow">Veja em você</span><strong>${esc(o.product.name)}</strong></div>`;
+    const head = `<div class="tryon__head">${title}${nav(step)}<button type="button" class="tryon__close" data-close-alz-dialog aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>`;
     const privacy = `<p class="tryon__privacy">${IC.lock} Sua foto é usada só para gerar esta prévia e não fica guardada.</p>`;
-    let stage = '', side = '';
+    const sample = o.sample || 'https://zephcompany.github.io/aluzza-ecomm/assets/img/products/p2084-1.webp';
+    let stage = '', side = '', foot = '';
     if (step === 'soon') {
       stage = `<img class="tryon__bg" src="${esc(p.image)}" alt=""><div class="tryon__frame">${IC.foot}Posicione o pé dentro da marcação</div><div class="tryon__scan"></div>`;
-      side = `<span class="eyebrow">Veja em você</span><h3>Experimente antes de comprar</h3><p>Aponte a câmera do celular para o seu pé e veja como este modelo fica em você, na cor escolhida.</p>
-        <ol class="tryon__steps"><li><b>1</b><span>Abra o site no celular e toque em Veja em você.</span></li><li><b>2</b><span>Tire uma foto do pé, com o chão aparecendo.</span></li><li><b>3</b><span>Troque de cor e salve a foto.</span></li></ol>
-        <form class="tryon__actions" id="tryon-form"><button class="btn" type="submit">Quero ser avisada quando lançar</button><button class="btn btn--ghost" type="button" data-close-alz-dialog>Voltar ao produto</button></form>
-        <p class="small mt-16">A prova virtual está em fase final de testes. Enquanto isso, a primeira troca de tamanho é grátis.</p>`;
+      side = `<h3>Experimente antes de comprar</h3><p>Aponte a câmera do celular para o seu pé e veja como este modelo fica em você, na cor escolhida.</p>
+        <ol class="tryon__steps"><li><b>1</b><span>Abra o site no celular e toque em Veja em você.</span></li><li><b>2</b><span>Tire uma foto do pé, com o chão aparecendo.</span></li><li><b>3</b><span>Troque de cor e salve a foto.</span></li></ol>`;
+      foot = `<form class="tryon__actions" id="tryon-form"><button class="btn btn--lg" type="submit">Quero ser avisada quando lançar</button><button class="btn btn--ghost btn--lg" type="button" data-close-alz-dialog>Voltar ao produto</button></form>`;
     } else if (step === 'upload') {
-      stage = `<img class="tryon__bg" src="${esc(p.image)}" alt=""><label class="tryon__drop" for="tryon-file">${IC.cam}<b>Tirar ou enviar foto do pé</b><span>JPG, PNG ou HEIC · até 10 MB</span></label><input type="file" id="tryon-file" accept="image/*" capture="environment" hidden>`;
-      side = `<span class="eyebrow">Veja em você</span><h3>${esc(o.product.name)} <small>${esc(p.color)}</small></h3><p>Mande uma foto do seu pé e a gente mostra como o modelo fica em você, na cor que escolher.</p>${sw}
-        <ul class="tryon__tips">${TIPS.map(t => `<li>${IC.check}<span>${t}</span></li>`).join('')}</ul>
-        <div class="tryon__actions"><label class="btn" for="tryon-file">${IC.cam} Tirar foto agora</label><label class="btn btn--ghost" for="tryon-file-gal">${IC.up} Escolher da galeria</label><input type="file" id="tryon-file-gal" accept="image/*" hidden></div>${privacy}`;
+      stage = `<div class="tryon__example"><img src="${esc(sample)}" alt="Exemplo de foto ideal"><span class="tryon__badge">${IC.check} Foto ideal</span><ul class="tryon__hints"><li>${IC.check}Pé inteiro visível</li><li>${IC.check}Chão aparecendo</li><li>${IC.check}Boa luz</li></ul></div><div class="tryon__dropmask" aria-hidden="true">${IC.up}<b>Solte a foto aqui</b></div>`;
+      side = `<h3>Envie uma foto do seu pé</h3><p>A gente coloca o ${esc(o.product.name)} na sua foto, na cor que você escolher. Leva uns 15 segundos.</p>
+        <div class="tryon__cta"><label class="tryon__big" for="tryon-file"><span class="tryon__big-ic">${IC.cam}</span><span><b>Tirar foto agora</b><small>Abre a câmera do celular</small></span></label><label class="tryon__big tryon__big--ghost" for="tryon-file-gal"><span class="tryon__big-ic">${IC.up}</span><span><b>Escolher da galeria</b><small>JPG, PNG ou HEIC · até 10 MB</small></span></label><input type="file" id="tryon-file" accept="image/*" capture="environment" hidden><input type="file" id="tryon-file-gal" accept="image/*" hidden></div>
+        <p class="tryon__note">Dica: pé descalço ou de meia fina, fotografado de cima ou de lado, a uns 60 cm.</p>${privacy}`;
+      foot = '';
     } else if (step === 'preview') {
       stage = `<img class="tryon__photo" src="${state.photo}" alt="Sua foto"><button type="button" class="tryon__retake" data-retake>${IC.swap} Trocar foto</button>`;
-      side = `<span class="eyebrow">Veja em você</span><h3>${esc(o.product.name)} <small>${esc(p.color)}</small></h3><p>Foto pronta. Escolha a cor e toque em experimentar. Leva uns 15 segundos.</p>${sw}
-        <div class="tryon__actions"><button class="btn btn--lg" type="button" data-go>${IC.spark} Experimentar no meu pé</button><button class="btn btn--ghost" type="button" data-retake>Trocar a foto</button></div>${privacy}`;
+      side = `<h3>Foto pronta. Qual cor você quer ver?</h3><p>Escolha a cor e toque em <b>Ver no meu pé</b>. Depois dá pra trocar de cor sem enviar outra foto.</p>${chips('Cor do ' + o.product.name)}${privacy}`;
+      foot = `<div class="tryon__actions"><button class="btn btn--lg" type="button" data-go>${IC.spark} Ver no meu pé</button><button class="btn btn--ghost btn--lg" type="button" data-retake>Trocar a foto</button></div>`;
     } else if (step === 'loading') {
-      stage = `<img class="tryon__photo is-dim" src="${state.photo}" alt=""><div class="tryon__scan"></div><div class="tryon__loader"><span class="tryon__spin"></span><b id="tryon-msg">${LOADING_MSGS[0]}</b><small>Não feche esta janela</small></div>`;
-      side = `<span class="eyebrow">Veja em você</span><h3>${esc(o.product.name)} <small>${esc(p.color)}</small></h3><p>Estamos colocando o ${esc(o.product.name)} no seu pé. Enquanto isso, veja o passo a passo da prova.</p>
-        <ol class="tryon__steps"><li class="is-on"><b>1</b><span>Reconhecer o pé e o ângulo da foto</span></li><li><b>2</b><span>Ajustar o modelo, a cor e o salto</span></li><li><b>3</b><span>Acertar luz e sombras para ficar real</span></li></ol>${privacy}`;
+      stage = `<img class="tryon__photo is-dim" src="${state.photo}" alt=""><div class="tryon__scan"></div><div class="tryon__loader"><span class="tryon__spin"></span><b id="tryon-msg">${LOADING_MSGS[0]}</b><div class="tryon__progress"><i></i></div><small>Leva uns 15 segundos · não feche esta janela</small></div>`;
+      side = `<h3>Colocando o ${esc(o.product.name)} no seu pé…</h3><p>Cor escolhida: <b>${esc(p.color)}</b>. Enquanto isso, é assim que a prova é feita:</p>
+        <ol class="tryon__steps"><li class="is-on"><b>1</b><span>Reconhecer o pé e o ângulo da foto</span></li><li><b>2</b><span>Ajustar o modelo, a cor e o salto</span></li><li><b>3</b><span>Acertar luz e sombras para ficar real</span></li></ol>`;
+      foot = '';
     } else if (step === 'result') {
-      stage = `<div class="tryon__compare" id="tryon-compare" style="--x:100%"><img src="${state.result}" alt="Você com o ${esc(o.product.name)}"><div class="tryon__before"><img src="${state.photo}" alt="Antes"></div><div class="tryon__handle" aria-hidden="true"></div><span class="tryon__tag tryon__tag--a">antes</span><span class="tryon__tag tryon__tag--b">com o ${esc(o.product.name)}</span><input type="range" min="0" max="100" value="100" class="tryon__range" aria-label="Comparar antes e depois"></div>`;
-      side = `<span class="eyebrow">Ficou assim em você</span><h3>${esc(o.product.name)} <small>${esc(p.color)}</small></h3><p>Arraste a foto para comparar. Quer ver em outra cor? É só tocar na bolinha.</p>${sw}
-        <div class="tryon__actions tryon__actions--grid"><button class="btn" type="button" data-size>${IC.bag} Escolher o tamanho</button><button class="btn btn--ghost" type="button" data-save>${IC.dl} Salvar foto</button><button class="btn btn--ghost" type="button" data-share>${IC.share} Compartilhar</button><button class="btn btn--ghost" type="button" data-retake>${IC.swap} Outra foto</button></div>
-        <p class="small muted mt-12">É uma prévia gerada por IA: caimento e brilho podem variar um pouco do produto real. A primeira troca de tamanho é grátis.</p>`;
+      stage = `<div class="tryon__compare" id="tryon-compare" style="--x:50%"><img src="${state.result}" alt="Você com o ${esc(o.product.name)}"><div class="tryon__before"><img src="${state.photo}" alt="Antes"></div><div class="tryon__handle" aria-hidden="true"></div><span class="tryon__tag tryon__tag--a">antes</span><span class="tryon__tag tryon__tag--b">depois</span><span class="tryon__hint" id="tryon-hint">${IC.swap} Arraste para comparar</span><input type="range" min="0" max="100" value="50" class="tryon__range" aria-label="Comparar antes e depois"></div>`;
+      side = `<h3>Pronto! Assim fica em você</h3><p>${esc(o.product.name)} na cor <b>${esc(p.color)}</b>. Arraste a linha na foto para ver o antes e o depois.</p>${chips('Ver em outra cor')}
+        <p class="tryon__note">Prévia gerada por IA: caimento e brilho podem variar um pouco do produto real. A primeira troca de tamanho é grátis.</p>`;
+      foot = `<div class="tryon__actions tryon__actions--result"><button class="btn btn--lg" type="button" data-size>${IC.bag} Escolher tamanho e comprar</button><div class="tryon__row"><button class="btn btn--ghost" type="button" data-save>${IC.dl} Salvar foto</button><button class="btn btn--ghost" type="button" data-share>${IC.share} Compartilhar</button></div><button class="tryon__link" type="button" data-retake>${IC.swap} Experimentar com outra foto</button></div>`;
     } else if (step === 'error') {
       stage = `<img class="tryon__photo is-dim" src="${state.photo || p.image}" alt=""><div class="tryon__loader tryon__loader--err">${IC.foot}<b>${esc(state.error || 'Não deu certo desta vez.')}</b></div>`;
-      side = `<span class="eyebrow">Veja em você</span><h3>Vamos tentar de novo?</h3><p>${esc(state.error || 'Não conseguimos gerar a prévia agora.')}</p>
-        <ul class="tryon__tips">${TIPS.map(t => `<li>${IC.check}<span>${t}</span></li>`).join('')}</ul>
-        <div class="tryon__actions"><button class="btn" type="button" data-go>Tentar de novo</button><button class="btn btn--ghost" type="button" data-retake>Trocar a foto</button>${o.whats ? `<a class="btn btn--ghost" href="https://wa.me/${o.whats}?text=${encodeURIComponent('Oi! Tentei usar o Veja em você no site e não funcionou. Pode me ajudar com o ' + o.product.name + ' ' + p.color + '?')}" target="_blank" rel="noopener">${IC.wa} Falar com a Lívia</a>` : ''}</div>`;
+      side = `<h3>Vamos tentar de novo?</h3><p>${esc(state.error || 'Não conseguimos gerar a prévia agora.')}</p>
+        <ul class="tryon__tips">${TIPS.map(t => `<li>${IC.check}<span>${t}</span></li>`).join('')}</ul>`;
+      foot = `<div class="tryon__actions"><button class="btn btn--lg" type="button" data-go>Tentar de novo</button><button class="btn btn--ghost btn--lg" type="button" data-retake>Trocar a foto</button>${o.whats ? `<a class="tryon__link" href="https://wa.me/${o.whats}?text=${encodeURIComponent('Oi! Tentei usar o Veja em você no site e não funcionou. Pode me ajudar com o ' + o.product.name + ' ' + p.color + '?')}" target="_blank" rel="noopener">${IC.wa} Falar com a Lívia no WhatsApp</a>` : ''}</div>`;
     }
-    app.innerHTML = `<div class="tryon__stage">${stage}</div><div class="tryon__side">${side}</div>`;
+    app.innerHTML = `${head}<div class="tryon__stage">${stage}</div><div class="tryon__side">${side}</div><div class="tryon__foot ${foot ? '' : 'is-empty'}">${foot}</div>`;
     bind(app);
     if (window.fixWidows) try { window.fixWidows(app); } catch (e) {}
   }
@@ -85,13 +97,16 @@
     app.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => { state.pick = +b.dataset.pick; if (state.step === 'result') { run(); } else render(state.step); }));
     app.querySelectorAll('[data-retake]').forEach(b => b.addEventListener('click', () => { state.photo = null; state.result = null; render('upload'); }));
     app.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', run));
-    const r = $('.tryon__range', app); if (r) { const c = $('#tryon-compare'); r.addEventListener('input', () => c.style.setProperty('--x', r.value + '%')); }
+    const r = $('.tryon__range', app); if (r) { const c = $('#tryon-compare'); const h = $('#tryon-hint'); r.addEventListener('input', () => { c.style.setProperty('--x', r.value + '%'); if (h) h.classList.add('is-hidden'); }); setTimeout(() => h && h.classList.add('is-hidden'), 6000); }
     const sv = $('[data-save]', app); if (sv) sv.addEventListener('click', save);
     const sh = $('[data-share]', app); if (sh) sh.addEventListener('click', share);
     const sz = $('[data-size]', app); if (sz) sz.addEventListener('click', () => { closeDialog(); if (o.onPickSize) o.onPickSize(picked()); });
     const f = $('#tryon-form', app); if (f) f.addEventListener('submit', e => { e.preventDefault(); closeDialog(); if (o.toast) o.toast('Você será avisada quando o Veja em você estiver disponível.'); });
-    // drag & drop
-    const drop = $('.tryon__drop', app); if (drop) { ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('is-over'); })); ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('is-over'); })); drop.addEventListener('drop', e => { const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadPhoto(f); }); }
+    // arrastar e soltar (desktop): a área toda da prova aceita a foto
+    const mask = $('.tryon__dropmask', app);
+    if (mask) { let n = 0; const on = e => { e.preventDefault(); n++; app.classList.add('is-over'); }; const off = e => { e.preventDefault(); if (--n <= 0) { n = 0; app.classList.remove('is-over'); } };
+      app.addEventListener('dragenter', on); app.addEventListener('dragover', e => e.preventDefault()); app.addEventListener('dragleave', off);
+      app.addEventListener('drop', e => { e.preventDefault(); n = 0; app.classList.remove('is-over'); const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadPhoto(f); }); }
   }
 
   function closeDialog() { const m = $('#alz-dialog-tryon'); if (m) { m.classList.remove('is-open'); if (!document.querySelector('.alz-dialog.is-open')) document.body.classList.remove('is-locked'); } }
