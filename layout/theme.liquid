@@ -29,6 +29,7 @@ window.ALZ = {
   pixOff: {{ settings.pix_off | default: 5 }},
   coupon: {{ settings.first_coupon | default: 'BEMVINDA10' | json }},
   whats: {{ settings.whats | default: '5562992306476' | json }},
+  tryon: {{ settings.tryon_endpoint | default: '' | strip | json }},
   promoEnd: {{ settings.promo_end | json }},
   sizes: ['34','35','36','37','38','39'],
   template: {{ template.name | json }},
@@ -49,6 +50,7 @@ window.ALZ = {
 {% render 'cupom-popup' %}
 {% render 'toast-wrap' %}
 <script src="{{ 'families.js' | asset_url }}" defer></script>
+{%- if template.name == 'product' -%}<script src="{{ 'tryon.js' | asset_url }}" defer></script>{%- endif -%}
 <script src="{{ 'aluzza.js' | asset_url }}" defer></script>
 </body>
 </html>

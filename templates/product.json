@@ -62,12 +62,20 @@
     "recent": {
       "type": "recent",
       "settings": {}
+    },
+    "ugc": {
+      "type": "ugc",
+      "settings": {
+        "title": "#MinhaAluzza",
+        "use_product": true
+      }
     }
   },
   "order": [
     "main",
     "rails",
     "reviews",
+    "ugc",
     "recent"
   ]
 }

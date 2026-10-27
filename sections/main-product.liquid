@@ -54,7 +54,7 @@
 -%}
 <section class="container">
   <nav class="breadcrumb" aria-label="Você está em" style="padding-top:18px"><a href="{{ routes.root_url }}">Início</a>{% render 'icon', name: 'chevD' %}{% if cat_handle != blank %}<a href="{% render 'coll-url', handle: cat_handle %}">{{ cat_name }}</a>{% render 'icon', name: 'chevD' %}{% endif %}{% if sub_handle != blank %}<a href="{% render 'coll-url', handle: sub_handle %}">{{ sub_name }}</a>{% render 'icon', name: 'chevD' %}{% endif %}<span>{{ pname }}</span></nav>
-  <div class="pdp" id="pdp" data-handle="{{ product.handle }}">
+  <div class="pdp" id="pdp" data-handle="{{ product.handle }}" data-heel="{{ heel | escape }}" data-hex="{{ product.metafields.aluzza.hex | default: '' }}">
     <div class="gallery">
       <div class="gallery__thumbs" id="gallery-thumbs">{% for im in product.images %}<button type="button" class="{% if forloop.first %}is-on{% endif %}" data-n="{{ forloop.index0 }}" aria-label="Foto {{ forloop.index }}"><img src="{{ im | image_url: width: 160, height: 213, crop: 'center' }}" alt=""></button>{% endfor %}</div>
       <div class="gallery__main" id="gallery-main">
@@ -126,27 +126,7 @@
   <img id="sticky-img" src="{{ product.featured_image | image_url: width: 120, height: 160, crop: 'center' }}" alt=""><div class="sticky-buy__info"><b id="sticky-name">{{ pname }} · {{ pcolor }}</b><span><span id="sticky-price">{{ product.price | money }}</span> · <span id="sticky-size">Escolha o tamanho</span></span></div><button class="btn btn--sm" id="sticky-add" type="button">Adicionar</button>
 </div>
 
-<div class="alz-dialog alz-dialog--wide" id="alz-dialog-tryon"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
-  <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">{% render 'icon', name: 'close' %}</button>
-  <div class="tryon">
-    <div class="tryon__preview"><img id="tryon-img" src="{{ product.images[1] | default: product.featured_image | image_url: width: 800 }}" alt=""><div class="tryon__frame">{% render 'icon', name: 'foot' %}Posicione o pé dentro da marcação</div><div class="tryon__scan"></div></div>
-    <div>
-      <span class="eyebrow">Veja em você</span>
-      <h3 style="margin-top:6px">Experimente antes de comprar</h3>
-      <p>Aponte a câmera do celular para o seu pé e veja como este modelo fica em você, na cor e no tamanho escolhidos.</p>
-      <ol class="tryon__steps">
-        <li><b>1</b><span>Abra o site no celular e toque em Veja em você.</span></li>
-        <li><b>2</b><span>Aponte a câmera para o pé, com o chão aparecendo.</span></li>
-        <li><b>3</b><span>Troque de cor e tamanho em tempo real e salve a foto.</span></li>
-      </ol>
-      <form class="tryon__actions" id="tryon-form">
-        <button class="btn" type="submit">Quero ser avisada quando lançar</button>
-        <button class="btn btn--ghost" type="button" data-close-alz-dialog>Voltar ao produto</button>
-      </form>
-      <p class="small mt-16">A prova virtual está em fase final de testes. Enquanto isso, a primeira troca de tamanho é grátis.</p>
-    </div>
-  </div>
-</div></div>
+<div class="alz-dialog alz-dialog--wide" id="alz-dialog-tryon"><div class="alz-dialog__bg"></div><div class="alz-dialog__box"></div></div>
 
 <div class="alz-dialog" id="alz-dialog-sizes"><div class="alz-dialog__bg"></div><div class="alz-dialog__box">
   <button class="icon-btn alz-dialog__close" data-close-alz-dialog aria-label="Fechar">{% render 'icon', name: 'close' %}</button>

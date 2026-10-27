@@ -1,6 +1,45 @@
+{%- liquid
+  assign dyn = false
+  if template.name == 'product' and section.settings.use_product and product != blank
+    assign dyn = true
+    assign fam_tag = ''
+    for t in product.tags
+      if t contains 'familia-'
+        assign fam_tag = t
+      endif
+    endfor
+  endif
+-%}
 <section class="section section--tight"><div class="container">
-  <div class="section-head"><div><h2>{{ section.settings.title }}</h2><p>Marque <a class="link" href="{{ section.settings.url }}" target="_blank" rel="noopener">{{ section.settings.handle }}</a> e apareça aqui.</p></div></div>
+  <div class="section-head"><div><h2>{{ section.settings.title }}</h2><p>{% if dyn %}Clientes com o <b>{{ product.title | split: ' – ' | first }}</b>. {% endif %}Marque <a class="link" href="{{ section.settings.url }}" target="_blank" rel="noopener">{{ section.settings.handle }}</a> e apareça aqui.</p></div><a class="link hide-mobile" href="{{ section.settings.url }}" target="_blank" rel="noopener">Ver no Instagram</a></div>
   <div class="ugc rv-stagger">
+    {%- if dyn -%}
+      {%- assign shown = 0 -%}
+      {%- for im in product.images offset: 1 limit: 3 -%}
+        <a href="{{ section.settings.url }}" target="_blank" rel="noopener"><img src="{{ im | image_url: width: 500, height: 500, crop: 'center' }}" alt="Cliente com o {{ product.title | split: ' – ' | first | escape }}" loading="lazy">{% render 'icon', name: 'instagram' %}</a>
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endfor -%}
+      {%- if fam_tag != blank -%}
+        {%- for pr in collections.all.products limit: 250 -%}
+          {%- if shown >= 6 %}{% break %}{% endif -%}
+          {%- if pr.id != product.id and pr.tags contains fam_tag and pr.images.size > 1 -%}
+            <a href="{{ section.settings.url }}" target="_blank" rel="noopener"><img src="{{ pr.images[1] | image_url: width: 500, height: 500, crop: 'center' }}" alt="Cliente com o {{ pr.title | split: ' – ' | first | escape }}" loading="lazy">{% render 'icon', name: 'instagram' %}</a>
+            {%- assign shown = shown | plus: 1 -%}
+            {%- if shown < 6 and pr.images.size > 2 -%}
+              <a href="{{ section.settings.url }}" target="_blank" rel="noopener"><img src="{{ pr.images[2] | image_url: width: 500, height: 500, crop: 'center' }}" alt="" loading="lazy">{% render 'icon', name: 'instagram' %}</a>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if shown < 6 -%}
+        {%- for im in product.images offset: 4 limit: 2 -%}
+          {%- if shown >= 6 %}{% break %}{% endif -%}
+          <a href="{{ section.settings.url }}" target="_blank" rel="noopener"><img src="{{ im | image_url: width: 500, height: 500, crop: 'center' }}" alt="" loading="lazy">{% render 'icon', name: 'instagram' %}</a>
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- else -%}
     {%- for b in section.blocks -%}
       {%- assign pr = all_products[b.settings.product] -%}
       {%- assign idx = b.settings.image_index | minus: 1 -%}
@@ -10,6 +49,7 @@
         {% render 'icon', name: 'instagram' %}
       </a>
     {%- endfor -%}
+    {%- endif -%}
   </div>
 </div></section>
 
@@ -21,7 +61,8 @@
   "settings": [
     { "type": "text", "id": "title", "label": "Título", "default": "#MinhaAluzza" },
     { "type": "text", "id": "handle", "label": "@ do Instagram", "default": "@aluzzacalcados" },
-    { "type": "text", "id": "url", "label": "Link", "default": "https://www.instagram.com/aluzzacalcados" }
+    { "type": "text", "id": "url", "label": "Link", "default": "https://www.instagram.com/aluzzacalcados" },
+    { "type": "checkbox", "id": "use_product", "label": "Na página de produto, usar fotos do produto e das outras cores", "default": true }
   ],
   "blocks": [ { "type": "photo", "name": "Foto", "settings": [
     { "type": "image_picker", "id": "image", "label": "Imagem" },
