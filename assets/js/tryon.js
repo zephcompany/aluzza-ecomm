@@ -19,6 +19,7 @@
     foot: '<svg viewBox="0 0 24 24"><path d="M9 3c-2.5 0-4 2.5-4 6 0 3 1 4.5 1 7 0 2 1.5 4 3.5 4s3-1.5 3-3.5c0-2-1-3.5-1-6 0-3.5 0-7.5-2.5-7.5z"/><circle cx="15.5" cy="5" r="1.2"/><circle cx="17.5" cy="8" r="1"/><circle cx="18.5" cy="11.5" r=".9"/></svg>',
     wa: '<svg viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 5 5.2-1.4A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.7-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.1.6 2.8.6a2.4 2.4 0 0 0 1.6-1.1 2 2 0 0 0 .1-1.1c0-.2-.2-.2-.5-.3z"/></svg>'
   };
+  const abs = u => { try { return new URL(u, location.href).href; } catch (e) { return u; } };
   const LOADING_MSGS = ['Analisando a foto do seu pé…', 'Ajustando o modelo ao seu pé…', 'Acertando luz e sombras…', 'Quase lá, finalizando a prévia…'];
   const TIPS = ['Pé descalço ou de meia fina, com o chão aparecendo.', 'Foto de cima ou de lado, a uns 60 cm do pé.', 'Luz natural ajuda. Evite sombras fortes e fundo bagunçado.'];
 
@@ -122,7 +123,7 @@
     let k = 0; state.timer = setInterval(() => { k = (k + 1) % LOADING_MSGS.length; const m = $('#tryon-msg'); if (m) m.textContent = LOADING_MSGS[k]; const li = document.querySelectorAll('#tryon-app .tryon__steps li'); li.forEach((l, i) => l.classList.toggle('is-on', i === Math.min(k, 2))); }, 4500);
     const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 100000);
     try {
-      const res = await fetch(o.endpoint.replace(/\/$/, '') + '/tryon', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctl.signal, body: JSON.stringify({ photo: state.photo, product: [p.image].concat(p.image2 ? [p.image2] : []), name: o.product.name, color: p.color, heel: o.product.heel || '' }) });
+      const res = await fetch(o.endpoint.replace(/\/$/, '') + '/tryon', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctl.signal, body: JSON.stringify({ photo: state.photo, product: [p.image].concat(p.image2 ? [p.image2] : []).map(abs), name: o.product.name, color: p.color, heel: o.product.heel || '' }) });
       const j = await res.json().catch(() => ({}));
       if (!res.ok || !j.image) throw new Error(j.message || 'Não conseguimos gerar a prévia agora. Tente de novo em instantes.');
       state.result = j.image; render('result');
