@@ -99,7 +99,7 @@
         "type": "text",
         "id": "tryon_endpoint",
         "label": "URL do provador",
-        "info": "Ex.: https://aluzza-tryon.seu-usuario.workers.dev"
+        "info": "Ex.: https://aluzza-ecomm.seu-usuario.workers.dev"
       }
     ]
   }
