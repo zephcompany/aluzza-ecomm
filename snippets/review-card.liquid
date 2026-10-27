@@ -1,0 +1,8 @@
+{%- comment -%} card de avaliação (carrossel da home) {%- endcomment -%}
+{%- assign n = b.settings.stars | default: 5 -%}
+{%- assign ini = b.settings.name | split: ' ' -%}
+<article class="review" {{ b.shopify_attributes }}>
+  <div class="review__head"><span class="stars">{% for i in (1..n) %}{% render 'icon', name: 'star' %}{% endfor %}</span><span class="review__verified">{% render 'icon', name: 'check' %}compra verificada</span></div>
+  <p class="review__quote">“{{ b.settings.quote }}”</p>
+  <div class="review__who"><i>{{ ini[0] | slice: 0 }}{{ ini[1] | slice: 0 }}</i><div><b>{{ b.settings.name }}</b>{{ b.settings.meta }}</div></div>
+</article>

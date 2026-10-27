@@ -354,7 +354,8 @@
           "settings": {
             "quote": "Usei o Tamanco Marina no trabalho das 8 às 19h. É o primeiro salto que não me fez tirar o sapato debaixo da mesa.",
             "name": "Juliana M.",
-            "meta": "Goiânia, GO · Tamanco Marina Preto"
+            "meta": "Goiânia, GO · Tamanco Marina Preto",
+            "stars": 5
           }
         },
         "r2": {
@@ -362,7 +363,8 @@
           "settings": {
             "quote": "Comprei a Rasteira Inês dourada, voltei na semana seguinte para a rosê. Chegou em dois dias para o interior de SP.",
             "name": "Carla S.",
-            "meta": "Ribeirão Preto, SP · Rasteira Inês"
+            "meta": "Ribeirão Preto, SP · Rasteira Inês Dourada",
+            "stars": 5
           }
         },
         "r3": {
@@ -370,16 +372,171 @@
           "settings": {
             "quote": "A troca foi sem estresse: pedi o 37 no lugar do 36 pelo WhatsApp e em três dias estava com o par certo.",
             "name": "Fernanda R.",
-            "meta": "Brasília, DF · Scarpin Paola"
+            "meta": "Brasília, DF · Scarpin Paola Café",
+            "stars": 5
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "quote": "Terceiro par da Aluzza. Qualidade sempre igual, e o atendimento no WhatsApp é ótimo.",
+            "name": "Patrícia L.",
+            "meta": "Anápolis, GO · Anabela Elisa Café",
+            "stars": 5
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "quote": "A sapatilha é macia desde o primeiro dia, sem aquela fase de machucar o calcanhar.",
+            "name": "Ana Beatriz",
+            "meta": "Uberlândia, MG · Sapatilha Nina Marrom",
+            "stars": 5
+          }
+        },
+        "r6": {
+          "type": "review",
+          "settings": {
+            "quote": "Uso no consultório o dia todo. Salto baixo, firme e bonito, exatamente o que eu procurava.",
+            "name": "Renata F.",
+            "meta": "Goiânia, GO · Tamanco Dulce Preto",
+            "stars": 5
+          }
+        },
+        "r7": {
+          "type": "review",
+          "settings": {
+            "quote": "A papete caramelo combinou com tudo no verão. Já lavei duas vezes e continua nova.",
+            "name": "Camila A.",
+            "meta": "Palmas, TO · Papete Ludia Caramelo",
+            "stars": 4
+          }
+        },
+        "r8": {
+          "type": "review",
+          "settings": {
+            "quote": "Casamento da minha irmã, dancei a noite inteira. Nenhuma bolha.",
+            "name": "Luciana T.",
+            "meta": "Cuiabá, MT · Sandália Lauren Off White",
+            "stars": 5
+          }
+        },
+        "r9": {
+          "type": "review",
+          "settings": {
+            "quote": "Tênis confortável e com cara de marca grande. Já veio elogio no primeiro dia.",
+            "name": "Mariana P.",
+            "meta": "São Paulo, SP · Tênis Samba Aluzza",
+            "stars": 5
+          }
+        },
+        "r10": {
+          "type": "review",
+          "settings": {
+            "quote": "Tiras macias, não aperta o peito do pé. Comprei para mim e para minha mãe.",
+            "name": "Débora N.",
+            "meta": "Rio Verde, GO · Rasteira Talu Bege",
+            "stars": 5
+          }
+        },
+        "r11": {
+          "type": "review",
+          "settings": {
+            "quote": "Bico fino sem apertar os dedos. Finalmente um scarpin que dá pra usar em reunião longa.",
+            "name": "Isabela C.",
+            "meta": "Belo Horizonte, MG · Scarpin Carmém Preto",
+            "stars": 5
+          }
+        },
+        "r12": {
+          "type": "review",
+          "settings": {
+            "quote": "A cor é igualzinha à foto. Palmilha acolchoada de verdade, dá pra sentir.",
+            "name": "Tatiane G.",
+            "meta": "Campo Grande, MS · Tamanco Zara Caramelo",
+            "stars": 4
+          }
+        },
+        "r13": {
+          "type": "review",
+          "settings": {
+            "quote": "Retirei na loja em duas horas. Atendimento rápido e o sapato lindo ao vivo.",
+            "name": "Vanessa O.",
+            "meta": "Aparecida de Goiânia, GO · Anabela Louise Caramelo",
+            "stars": 5
+          }
+        },
+        "r14": {
+          "type": "review",
+          "settings": {
+            "quote": "Chegou em cinco dias no Nordeste, muito bem embalada. A rasteira é leve e elegante.",
+            "name": "Priscila D.",
+            "meta": "Fortaleza, CE · Rasteira Isis Café",
+            "stars": 5
+          }
+        },
+        "r15": {
+          "type": "review",
+          "settings": {
+            "quote": "Salto alto que não balança. Caminhei do estacionamento até o evento sem medo.",
+            "name": "Gabriela S.",
+            "meta": "Curitiba, PR · Sandália Helena Preta",
+            "stars": 5
+          }
+        },
+        "r16": {
+          "type": "review",
+          "settings": {
+            "quote": "Dourado discreto, do jeito que eu queria. Usei na formatura e na festa depois.",
+            "name": "Larissa M.",
+            "meta": "Goiânia, GO · Tamanco Soraia Dourado",
+            "stars": 5
+          }
+        },
+        "r17": {
+          "type": "review",
+          "settings": {
+            "quote": "Numeração certinha, peguei meu número de sempre. Forma normal mesmo.",
+            "name": "Aline B.",
+            "meta": "Sorocaba, SP · Papete Resort Fendy",
+            "stars": 4
+          }
+        },
+        "r18": {
+          "type": "review",
+          "settings": {
+            "quote": "Já são quatro pares em dois anos. Compro de olho fechado.",
+            "name": "Bruna V.",
+            "meta": "Vitória, ES · Sapatilha Moema Dourada",
+            "stars": 5
           }
         }
       },
       "block_order": [
         "r1",
         "r2",
-        "r3"
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r16",
+        "r17",
+        "r18"
       ],
-      "settings": {}
+      "settings": {
+        "title": "Quem usa, recomenda",
+        "score": "4,8",
+        "summary": "2.340 avaliações verificadas · 96% recomendam"
+      }
     },
     "recent": {
       "type": "recent",

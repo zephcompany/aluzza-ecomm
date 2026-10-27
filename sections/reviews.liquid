@@ -1,13 +1,11 @@
 <section class="band band--off section"><div class="container">
   <div class="section-head"><div><h2>{{ section.settings.title }}</h2><div class="reviews-summary mt-16"><div class="reviews-summary__big">{{ section.settings.score }}</div><div><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span><div class="small muted mt-8">{{ section.settings.summary }}</div></div></div></div></div>
-  <div class="reviews rv-stagger">
-    {%- for b in section.blocks -%}
-    <article class="review" {{ b.shopify_attributes }}>
-      <div class="review__head"><span class="stars">{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span><span class="review__verified">{% render 'icon', name: 'check' %}compra verificada</span></div>
-      <p class="review__quote">“{{ b.settings.quote }}”</p>
-      <div class="review__who"><i>{{ b.settings.name | truncate: 2, '' | upcase }}</i><div><b>{{ b.settings.name }}</b>{{ b.settings.meta }}</div></div>
-    </article>
-    {%- endfor -%}
+  {%- assign half = section.blocks.size | plus: 1 | divided_by: 2 -%}
+  {%- capture row1 -%}{%- for b in section.blocks limit: half -%}{%- render 'review-card', b: b -%}{%- endfor -%}{%- endcapture -%}
+  {%- capture row2 -%}{%- for b in section.blocks offset: half -%}{%- render 'review-card', b: b -%}{%- endfor -%}{%- endcapture -%}
+  <div class="reviews-marquee" aria-label="Avaliações de clientes">
+    <div class="reviews-row"><div class="reviews-track">{{ row1 }}</div><div class="reviews-track" aria-hidden="true">{{ row1 }}</div></div>
+    {%- if row2 != blank -%}<div class="reviews-row reviews-row--rev"><div class="reviews-track">{{ row2 }}</div><div class="reviews-track" aria-hidden="true">{{ row2 }}</div></div>{%- endif -%}
   </div>
 </div></section>
 
@@ -15,7 +13,7 @@
 {
   "name": "Avaliações",
   "tag": "div",
-  "max_blocks": 6,
+  "max_blocks": 30,
   "settings": [
     { "type": "text", "id": "title", "label": "Título", "default": "Quem usa, recomenda" },
     { "type": "text", "id": "score", "label": "Nota", "default": "4,8" },
@@ -24,12 +22,28 @@
   "blocks": [ { "type": "review", "name": "Avaliação", "settings": [
     { "type": "textarea", "id": "quote", "label": "Depoimento" },
     { "type": "text", "id": "name", "label": "Nome", "default": "Juliana M." },
-    { "type": "text", "id": "meta", "label": "Cidade · produto", "default": "Goiânia, GO · Tamanco Marina Preto" }
+    { "type": "text", "id": "meta", "label": "Cidade · produto", "default": "Goiânia, GO · Tamanco Marina Preto" },
+    { "type": "range", "id": "stars", "label": "Estrelas", "min": 1, "max": 5, "step": 1, "default": 5 }
   ] } ],
   "presets": [ { "name": "Avaliações", "blocks": [
-    { "type": "review", "settings": { "quote": "Usei o Tamanco Marina no trabalho das 8 às 19h. É o primeiro salto que não me fez tirar o sapato debaixo da mesa.", "name": "Juliana M.", "meta": "Goiânia, GO · Tamanco Marina Preto" } },
-    { "type": "review", "settings": { "quote": "Comprei a Rasteira Inês dourada, voltei na semana seguinte para a rosê. Chegou em dois dias para o interior de SP.", "name": "Carla S.", "meta": "Ribeirão Preto, SP · Rasteira Inês" } },
-    { "type": "review", "settings": { "quote": "A troca foi sem estresse: pedi o 37 no lugar do 36 pelo WhatsApp e em três dias estava com o par certo.", "name": "Fernanda R.", "meta": "Brasília, DF · Scarpin Paola" } }
+    { "type": "review", "settings": {"quote": "Usei o Tamanco Marina no trabalho das 8 às 19h. É o primeiro salto que não me fez tirar o sapato debaixo da mesa.", "name": "Juliana M.", "meta": "Goiânia, GO · Tamanco Marina Preto", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Comprei a Rasteira Inês dourada, voltei na semana seguinte para a rosê. Chegou em dois dias para o interior de SP.", "name": "Carla S.", "meta": "Ribeirão Preto, SP · Rasteira Inês Dourada", "stars": 5} },
+    { "type": "review", "settings": {"quote": "A troca foi sem estresse: pedi o 37 no lugar do 36 pelo WhatsApp e em três dias estava com o par certo.", "name": "Fernanda R.", "meta": "Brasília, DF · Scarpin Paola Café", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Terceiro par da Aluzza. Qualidade sempre igual, e o atendimento no WhatsApp é ótimo.", "name": "Patrícia L.", "meta": "Anápolis, GO · Anabela Elisa Café", "stars": 5} },
+    { "type": "review", "settings": {"quote": "A sapatilha é macia desde o primeiro dia, sem aquela fase de machucar o calcanhar.", "name": "Ana Beatriz", "meta": "Uberlândia, MG · Sapatilha Nina Marrom", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Uso no consultório o dia todo. Salto baixo, firme e bonito, exatamente o que eu procurava.", "name": "Renata F.", "meta": "Goiânia, GO · Tamanco Dulce Preto", "stars": 5} },
+    { "type": "review", "settings": {"quote": "A papete caramelo combinou com tudo no verão. Já lavei duas vezes e continua nova.", "name": "Camila A.", "meta": "Palmas, TO · Papete Ludia Caramelo", "stars": 4} },
+    { "type": "review", "settings": {"quote": "Casamento da minha irmã, dancei a noite inteira. Nenhuma bolha.", "name": "Luciana T.", "meta": "Cuiabá, MT · Sandália Lauren Off White", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Tênis confortável e com cara de marca grande. Já veio elogio no primeiro dia.", "name": "Mariana P.", "meta": "São Paulo, SP · Tênis Samba Aluzza", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Tiras macias, não aperta o peito do pé. Comprei para mim e para minha mãe.", "name": "Débora N.", "meta": "Rio Verde, GO · Rasteira Talu Bege", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Bico fino sem apertar os dedos. Finalmente um scarpin que dá pra usar em reunião longa.", "name": "Isabela C.", "meta": "Belo Horizonte, MG · Scarpin Carmém Preto", "stars": 5} },
+    { "type": "review", "settings": {"quote": "A cor é igualzinha à foto. Palmilha acolchoada de verdade, dá pra sentir.", "name": "Tatiane G.", "meta": "Campo Grande, MS · Tamanco Zara Caramelo", "stars": 4} },
+    { "type": "review", "settings": {"quote": "Retirei na loja em duas horas. Atendimento rápido e o sapato lindo ao vivo.", "name": "Vanessa O.", "meta": "Aparecida de Goiânia, GO · Anabela Louise Caramelo", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Chegou em cinco dias no Nordeste, muito bem embalada. A rasteira é leve e elegante.", "name": "Priscila D.", "meta": "Fortaleza, CE · Rasteira Isis Café", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Salto alto que não balança. Caminhei do estacionamento até o evento sem medo.", "name": "Gabriela S.", "meta": "Curitiba, PR · Sandália Helena Preta", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Dourado discreto, do jeito que eu queria. Usei na formatura e na festa depois.", "name": "Larissa M.", "meta": "Goiânia, GO · Tamanco Soraia Dourado", "stars": 5} },
+    { "type": "review", "settings": {"quote": "Numeração certinha, peguei meu número de sempre. Forma normal mesmo.", "name": "Aline B.", "meta": "Sorocaba, SP · Papete Resort Fendy", "stars": 4} },
+    { "type": "review", "settings": {"quote": "Já são quatro pares em dois anos. Compro de olho fechado.", "name": "Bruna V.", "meta": "Vitória, ES · Sapatilha Moema Dourada", "stars": 5} }
   ] } ]
 }
 {% endschema %}

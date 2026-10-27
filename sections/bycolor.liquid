@@ -24,7 +24,7 @@
     <div class="bycolor__media rv" id="bycolor-media">
       {%- for i in (1..4) -%}
         {%- assign key = 'p' | append: i -%}{%- assign pr = all_products[section.settings[key]] -%}
-        {%- if pr != blank -%}<img src="{{ pr.images[1] | default: pr.featured_image | image_url: width: 900, height: 1200, crop: 'center' }}" alt="{{ pr.title | escape }}" class="{% if forloop.first %}is-on{% endif %}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">{%- endif -%}
+        {%- if pr != blank -%}<img src="{{ pr.featured_image | image_url: width: 900, height: 1200, crop: 'center' }}" alt="{{ pr.title | escape }}" class="{% if forloop.first %}is-on{% endif %}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">{%- endif -%}
       {%- endfor -%}
       <a class="bycolor__tag" id="bycolor-tag" href="{{ first.url }}"><b>{{ first.title | split: ' – ' | first }}</b> · <span id="bycolor-tag-color">{{ first.title | split: ' – ' | last }}</span> · <span id="bycolor-tag-price">{{ first.price | money }}</span> {% render 'icon', name: 'arrR' %}</a>
     </div>
