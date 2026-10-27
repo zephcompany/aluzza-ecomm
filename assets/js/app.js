@@ -464,8 +464,8 @@
     if (low) b.push(`<span class="badge badge--low">${BI.clock}Últimas unidades</span>`);
     return b.join('');
   }
-  const mainImg = p => p.images[0];                 // foto real do produto primeiro
-  const hoverImg = p => p.pack || p.images[1] || p.images[0]; // packshot (mockup) no hover
+  const mainImg = p => p.pack || p.images[0];       // packshot (fundo liso) primeiro
+  const hoverImg = p => p.pack ? p.images[0] : (p.images[1] || p.images[0]); // no pé, no hover
   const packImg = p => p.pack || p.images[0];       // miniaturas, cor, sacola e provador
   function productCard(p, o = {}) {
     const fam = p.family.map(i => byId[i]).filter(Boolean);
@@ -685,7 +685,7 @@
     document.title = `${p.name} ${p.color} · Aluzza Calçados`;
     const fam = p.family.map(i => byId[i]).filter(Boolean);
     const low = Object.values(p.stock).filter(v => v > 0).length <= 2;
-    const gallery = p.pack ? [p.images[0], p.pack, ...p.images.slice(1)] : p.images;
+    const gallery = p.pack ? [p.pack, ...p.images] : p.images;
     $('#bc-cat').textContent = CAT_NAMES[p.cat]; $('#bc-cat').href = url.cat(p.cat); $('#bc-sub').textContent = SUB_NAMES[p.sub]; $('#bc-sub').href = url.cat(p.cat, p.sub); $('#bc-name').textContent = p.name;
     // galeria
     $('#gallery-thumbs').innerHTML = gallery.map((im, n) => `<button type="button" class="${n ? '' : 'is-on'}" data-n="${n}" aria-label="Foto ${n + 1}"><img src="${im}" alt=""></button>`).join('');
