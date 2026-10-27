@@ -161,6 +161,7 @@ function originAllowed(origin, env) {
   const list = (env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
   if (!list.length) return true;           // sem lista = aberto (útil em testes)
   if (!origin) return false;
+  if (origin === 'null') return list.includes('null'); // iframes em sandbox (ex.: artifact)
   return list.some(p => p === '*' || origin === p || (p.startsWith('*.') && origin.endsWith(p.slice(1))));
 }
 
