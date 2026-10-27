@@ -48,17 +48,18 @@ export default {
     let body;
     try { body = await request.json(); } catch { return json({ error: 'bad_json' }, 400, cors); }
 
+    const mode = body.mode === 'packshot' ? 'packshot' : 'tryon';
     const photo = parseDataUrl(body.photo);
-    if (!photo) return json({ error: 'photo_required', message: 'Envie uma foto do seu pé.' }, 400, cors);
-    if (photo.bytes > DEFAULTS.MAX_PHOTO_BYTES) return json({ error: 'photo_too_large', message: 'A foto é muito grande. Tente uma menor.' }, 413, cors);
+    if (mode === 'tryon' && !photo) return json({ error: 'photo_required', message: 'Envie uma foto do seu pé.' }, 400, cors);
+    if (photo && photo.bytes > DEFAULTS.MAX_PHOTO_BYTES) return json({ error: 'photo_too_large', message: 'A foto é muito grande. Tente uma menor.' }, 413, cors);
 
-    const productUrls = (Array.isArray(body.product) ? body.product : [body.product]).filter(u => typeof u === 'string' && /^https?:\/\//i.test(u)).slice(0, 2);
+    const productUrls = (Array.isArray(body.product) ? body.product : [body.product]).filter(u => typeof u === 'string' && /^https?:\/\//i.test(u)).slice(0, 3);
     if (!productUrls.length) return json({ error: 'product_required' }, 400, cors);
 
     const t0 = Date.now();
     try {
       const products = await Promise.all(productUrls.map(u => fetchImage(u)));
-      const prompt = buildPrompt(body);
+      const prompt = mode === 'packshot' ? buildPackshotPrompt(body) : buildPrompt(body);
       const result = provider(env) === 'fal'
         ? await viaFal(env, prompt, photo, products)
         : await viaGemini(env, prompt, photo, products);
@@ -84,6 +85,17 @@ function buildPrompt(b) {
   ].join(' ');
 }
 const clean = s => (typeof s === 'string' ? s.replace(/[^\p{L}\p{N} .,’'()-]/gu, '').slice(0, 80) : '');
+// packshot: foto de catálogo em fundo liso a partir das fotos de uso (usado pela própria loja para completar o catálogo)
+function buildPackshotPrompt(b) {
+  const name = clean(b.name) || 'the shoes'; const color = clean(b.color); const heel = clean(b.heel);
+  return [
+    `You are a product photographer for a women's shoe e-commerce. The reference photo(s) show a real shoe model: ${name}${color ? `, color ${color}` : ''}${heel ? `, heel ${heel}` : ''}.`,
+    `Create a clean studio packshot of this EXACT pair: both shoes standing side by side, three-quarter front view, the right shoe slightly behind the left, on a seamless matte off-white background (#F7F4EF) that fills the entire frame.`,
+    `Soft diffused daylight from the upper left, a gentle natural contact shadow under each shoe. No feet, no legs, no people, no props, no text, no logo overlays, no reflections, no vignette.`,
+    `Preserve precisely the design, straps, materials, texture, hardware, heel shape and height, and the color from the references; do not redesign the shoe.`,
+    `Vertical 3:4 composition, the pair centered and filling about 75% of the width. Photorealistic, catalog quality. Return only the image.`,
+  ].join(' ');
+}
 
 /* ---------- providers ---------- */
 async function viaGemini(env, prompt, photo, products) {
@@ -91,7 +103,7 @@ async function viaGemini(env, prompt, photo, products) {
   const model = env.GEMINI_MODEL || DEFAULTS.GEMINI_MODEL;
   const parts = [
     { text: prompt },
-    { inline_data: { mime_type: photo.mime, data: photo.b64 } },
+    ...(photo ? [{ inline_data: { mime_type: photo.mime, data: photo.b64 } }] : []),
     ...products.map(p => ({ inline_data: { mime_type: p.mime, data: p.b64 } })),
   ];
   const res = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
@@ -118,7 +130,7 @@ async function viaFal(env, prompt, photo, products) {
   const res = await fetchWithTimeout(`https://fal.run/${model}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Key ${env.FAL_KEY}` },
-    body: JSON.stringify({ prompt, image_urls: [`data:${photo.mime};base64,${photo.b64}`, ...products.map(p => `data:${p.mime};base64,${p.b64}`)], num_images: 1, output_format: 'jpeg' }),
+    body: JSON.stringify({ prompt, image_urls: [...(photo ? [`data:${photo.mime};base64,${photo.b64}`] : []), ...products.map(p => `data:${p.mime};base64,${p.b64}`)], num_images: 1, output_format: 'jpeg' }),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(`fal ${res.status}: ${data?.detail || data?.error || 'erro'}`);
