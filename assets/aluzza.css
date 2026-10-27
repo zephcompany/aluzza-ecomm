@@ -83,6 +83,7 @@ h1,h2,h3,.display{font-family:var(--font-display);font-weight:400;line-height:1.
 .section-head h2{font-size:clamp(28px,3.4vw,46px)}
 .section-head p{color:var(--texto-2);max-width:52ch;margin-top:8px}
 .section-head .link{white-space:nowrap;margin-bottom:6px}
+@media (max-width:760px){.section-head{flex-wrap:wrap;align-items:flex-start;gap:10px 24px}.section-head .link{margin-bottom:0;flex:0 0 100%}}
 .grid{display:grid;gap:var(--gap,24px)}
 .grid--2{grid-template-columns:repeat(2,1fr)}
 .grid--3{grid-template-columns:repeat(3,1fr)}
@@ -361,7 +362,7 @@ body.has-preloader.is-ready .page{opacity:1}
 .trust__item b{display:block;font-weight:500;font-size:14.5px}
 .trust__item span{color:var(--texto-2);font-size:13px}
 @media (max-width:980px){.trust__list{grid-template-columns:repeat(2,1fr)}.trust__item{border-left:0;padding:16px 0}.trust__item:nth-child(odd){padding-right:16px}}
-@media (max-width:480px){.trust__list{display:flex;overflow:auto;scrollbar-width:none;gap:20px;scroll-snap-type:x mandatory}.trust__list::-webkit-scrollbar{display:none}.trust__item{flex:0 0 min(78vw,320px);scroll-snap-align:start;padding:16px 0!important}}
+@media (max-width:480px){.trust__list{gap:0 14px}.trust__item{gap:10px;padding:14px 0;align-items:flex-start}.trust__item:nth-child(odd){padding-right:0}.trust__item svg{width:22px;height:22px;margin-top:2px}.trust__item b{font-size:13px}.trust__item span{font-size:12px;line-height:1.35}}
 
 /* --------------------------------------------------------------------------
    Categorias (rail)
@@ -418,7 +419,8 @@ body.has-preloader.is-ready .page{opacity:1}
 .pcard__price{display:flex;align-items:baseline;gap:8px;font-size:15px;flex-wrap:wrap}
 .pcard__inst{font-size:12.5px;color:var(--texto-2)}
 .pcard__rating{font-size:12px}
-@media (hover:none){.pcard__quick{display:none}.pcard__wish{opacity:1;transform:none}.pcard:hover .pcard__media img{transform:none}}
+@media (hover:none){.pcard__quick{display:none}.pcard__wish{opacity:1;transform:none;top:auto;bottom:8px;right:8px;width:32px;height:32px}.pcard__badges{max-width:calc(100% - 20px)}.pcard:hover .pcard__media img{transform:none}}
+@media (max-width:760px){.pcard__badges{top:8px;left:8px}.pcard__badges .badge:nth-child(n+3){display:none}.badge{height:19px;font-size:10px}}
 @media (max-width:760px){.pcard__name{font-size:14px}.pcard__price{font-size:14px}.pcard__inst{font-size:12px}}
 
 /* product rail (horizontal scroll carousel) */
