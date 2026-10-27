@@ -91,7 +91,7 @@ function buildPackshotPrompt(b) {
   return [
     `You are a product photographer for a women's shoe e-commerce. The reference photo(s) show a real shoe model: ${name}${color ? `, color ${color}` : ''}${heel ? `, heel ${heel}` : ''}.`,
     `Create a clean studio packshot of this EXACT pair: both shoes standing side by side, three-quarter front view, the right shoe slightly behind the left, on a seamless matte off-white background (#F7F4EF) that fills the entire frame.`,
-    `Soft diffused daylight from the upper left, a gentle natural contact shadow under each shoe. No feet, no legs, no people, no props, no text, no logo overlays, no reflections, no vignette.`,
+    `The shoes are EMPTY and displayed alone, as in a catalog: absolutely no feet, no toes, no skin, no legs, no person inside or near them. Soft diffused daylight from the upper left, a gentle natural contact shadow under each shoe. No props, no text, no logo overlays, no reflections, no vignette, no dark corners: the background must be perfectly even edge to edge.`,
     `Preserve precisely the design, straps, materials, texture, hardware, heel shape and height, and the color from the references; do not redesign the shoe.`,
     `Vertical 3:4 composition, the pair centered and filling about 75% of the width. Photorealistic, catalog quality. Return only the image.`,
   ].join(' ');
