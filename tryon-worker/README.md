@@ -12,7 +12,7 @@ A chave da API fica só aqui, nunca no site.
 3. **Segredo** — no painel do Worker: Settings → Variables and Secrets → adicione `GEMINI_API_KEY`.
    Ou no terminal: `npx wrangler secret put GEMINI_API_KEY`.
 
-Depois, cole a URL do worker (ex.: `https://aluzza-tryon.SEU-USUARIO.workers.dev`) em:
+Depois, cole a URL do worker (ex.: `https://aluzza-ecomm.SEU-USUARIO.workers.dev`) em:
 - site estático: `assets/js/app.js` → `CFG.TRYON_ENDPOINT`
 - tema Shopify: Personalizar → Configurações do tema → Provador virtual → URL do provador
 

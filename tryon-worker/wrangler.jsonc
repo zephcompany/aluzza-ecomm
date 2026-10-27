@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "aluzza-tryon",
+  "name": "aluzza-ecomm",
   "main": "src/index.js",
   "compatibility_date": "2025-10-01",
   "observability": { "enabled": true },
