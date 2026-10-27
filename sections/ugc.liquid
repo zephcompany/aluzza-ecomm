@@ -12,7 +12,7 @@
 -%}
 <section class="section section--tight"><div class="container">
   <div class="section-head"><div><h2>{{ section.settings.title }}</h2><p>{% if dyn %}Clientes com o <b>{{ product.title | split: ' – ' | first }}</b>. {% endif %}Marque <a class="link" href="{{ section.settings.url }}" target="_blank" rel="noopener">{{ section.settings.handle }}</a> e apareça aqui.</p></div><a class="link hide-mobile" href="{{ section.settings.url }}" target="_blank" rel="noopener">Ver no Instagram</a></div>
-  <div class="ugc rv-stagger">
+  <div class="ugc rv-stagger" {% if dyn %}data-ugc-dyn data-ugc-url="{{ section.settings.url }}"{% endif %}>
     {%- if dyn -%}
       {%- assign shown = 0 -%}
       {%- for im in product.images offset: 1 limit: 3 -%}
