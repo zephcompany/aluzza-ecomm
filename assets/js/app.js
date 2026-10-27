@@ -19,7 +19,7 @@
       SEMANA20:   { type: 'pct', value: 20, min: 300, label: 'Semana Aluzza: 20% off' }
     },
     WHATS: '5562992306476',
-    TRYON_ENDPOINT: '', // URL do worker do provador (tryon-worker/README.md)
+    TRYON_ENDPOINT: 'https://aluzza-ecomm.purple-union-7322.workers.dev', // worker do provador (tryon-worker/README.md)
     WHATS_TXT: 'Oi, Aluzza! Vim pelo site e quero ajuda para escolher um modelo.',
     PROMO_END: Date.now() + 1000 * 60 * 60 * 51 + 1000 * 60 * 22, // contador da Semana Aluzza (demo)
     SIZES: ['34', '35', '36', '37', '38', '39']
